@@ -195,7 +195,4 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 *.nuspec
-pkg/lib/net40/Goldenacre.Core.dll
-pkg/lib/net40/Goldenacre.Web.dll
-push.ps1
-pack.ps1
+[pkg]

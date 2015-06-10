@@ -85,7 +85,13 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>COPY /Y /B "$(TargetPath)" "$(SolutionDir)"pkg\lib\net40</PostBuildEvent>
+    <PostBuildEvent>SET PATH=%25PATH%25;"$(SolutionDir).nuget";
+DEL /F /Q "$(SolutionDir)pkg\$(TargetName)*"
+
+IF "$(ConfigurationName)"=="Release" (
+   NuGet pack "$(ProjectPath)" -OutputDirectory "$(SolutionDir)pkg" -Verbosity detailed -NonInteractive -IncludeReferencedProjects -Prop "Configuration=Release"
+)
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
