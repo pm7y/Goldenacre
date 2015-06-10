@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace mcilreavy.library
+namespace Goldenacre.Web
 {
     /// <summary>
     ///     http://stackoverflow.com/questions/22568065/how-do-i-get-hold-of-the-current-httpcontextbase-in-an-authorizeattribute

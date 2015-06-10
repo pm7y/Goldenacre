@@ -31,16 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CipherUtility.cs" />
@@ -48,11 +41,9 @@
     <Compile Include="extensions\IdentityExtensions.cs" />
     <Compile Include="extensions\AssemblyExtensions.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="HttpContextFactory.cs" />
     <Compile Include="extensions\DateTimeExtensions.cs" />
     <Compile Include="extensions\EnumerableExtensions.cs" />
     <Compile Include="extensions\NumberExtensions.cs" />
-    <Compile Include="extensions\SessionExtensions.cs" />
     <Compile Include="extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

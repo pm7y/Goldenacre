@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
-using System.Security.Principal;
-using System.Threading;
-using mcilreavy.library.extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace mcilreavy.test
@@ -12,7 +7,6 @@ namespace mcilreavy.test
     [TestClass]
     public class AssemblyExtensionsTest
     {
-
         [TestMethod]
         public void TestGetEmbeddedResourceText()
         {
@@ -24,10 +18,9 @@ namespace mcilreavy.test
         [TestMethod]
         public void TestCompilationDateTime()
         {
-            DateTime dt = Assembly.GetExecutingAssembly().GetCompilationDateTime();
+            var dt = Assembly.GetExecutingAssembly().GetCompilationDateTime();
 
             Assert.AreNotEqual(DateTime.MinValue, dt);
         }
-
     }
 }

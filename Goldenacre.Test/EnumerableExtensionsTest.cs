@@ -15,8 +15,6 @@ namespace mcilreavy.test
         public void TestMethod1()
         {
             var sl = CultureInfo.GetCultures(CultureTypes.AllCultures).ToSelectList(ci => ci.DisplayName, ci => ci.LCID);
-
         }
-
     }
 }

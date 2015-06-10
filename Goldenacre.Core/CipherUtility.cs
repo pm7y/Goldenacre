@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace mcilreavy.library.core
+namespace Goldenacre.Core
 {
     public class CipherUtility
     {

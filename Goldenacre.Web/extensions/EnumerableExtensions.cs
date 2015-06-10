@@ -95,5 +95,4 @@ public static class EnumerableExtensions
 
         return nameSelector(memberSelector.Body);
     }
-
 }

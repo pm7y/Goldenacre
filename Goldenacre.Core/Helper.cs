@@ -1,4 +1,4 @@
-﻿namespace mcilreavy.library
+﻿namespace Goldenacre.Core
 {
     public class Helper
     {
