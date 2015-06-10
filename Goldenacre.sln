@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldenacre.Core", "Goldenacre.Core\Goldenacre.Core.csproj", "{4F871F65-750D-46A7-9F4A-7F0D160C5B05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldenacre.Web", "Goldenacre.Web\Goldenacre.Web.csproj", "{A4B853DE-6590-418F-A20C-BEAA22B7DEDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldenacre.Test", "Goldenacre.Test\Goldenacre.Test.csproj", "{9B1C2FB3-DB31-48BA-88AC-AB57335E6F15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F871F65-750D-46A7-9F4A-7F0D160C5B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F871F65-750D-46A7-9F4A-7F0D160C5B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F871F65-750D-46A7-9F4A-7F0D160C5B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F871F65-750D-46A7-9F4A-7F0D160C5B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4B853DE-6590-418F-A20C-BEAA22B7DEDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4B853DE-6590-418F-A20C-BEAA22B7DEDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4B853DE-6590-418F-A20C-BEAA22B7DEDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4B853DE-6590-418F-A20C-BEAA22B7DEDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B1C2FB3-DB31-48BA-88AC-AB57335E6F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B1C2FB3-DB31-48BA-88AC-AB57335E6F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B1C2FB3-DB31-48BA-88AC-AB57335E6F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B1C2FB3-DB31-48BA-88AC-AB57335E6F15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
