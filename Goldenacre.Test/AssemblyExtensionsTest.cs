@@ -12,7 +12,7 @@ namespace mcilreavy.test
         {
             var text = Assembly.GetExecutingAssembly().GetEmbeddedResourceText("This_is_an_embedded_resource.txt");
 
-            Assert.AreEqual("This is an embedded resource!", text);
+            Assert.AreEqual(" This is an embedded resource! ", text);
         }
 
         [TestMethod]
