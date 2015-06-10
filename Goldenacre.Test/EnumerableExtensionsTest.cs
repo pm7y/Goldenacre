@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Security.Principal;
-using System.Threading;
-using mcilreavy.library.extensions;
+﻿using System.Globalization;
+using Goldenacre.Web.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace mcilreavy.test
+namespace Goldenacre.Test
 {
     [TestClass]
     public class EnumerableExtensionsTest

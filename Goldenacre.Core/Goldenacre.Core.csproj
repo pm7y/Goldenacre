@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,19 +34,29 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CipherUtility.cs" />
-    <Compile Include="extensions\EntityFrameworkExtensions.cs" />
-    <Compile Include="extensions\IdentityExtensions.cs" />
-    <Compile Include="extensions\AssemblyExtensions.cs" />
+    <Compile Include="ConvertMatrix.cs" />
+    <Compile Include="DateRange.cs" />
+    <Compile Include="DelayedActionTimer.cs" />
+    <Compile Include="ImgLib.cs" />
+    <Compile Include="PasswordGenerator.cs" />
+    <Compile Include="Extensions\EntityFrameworkExtensions.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
+    <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="extensions\DateTimeExtensions.cs" />
-    <Compile Include="extensions\EnumerableExtensions.cs" />
-    <Compile Include="extensions\NumberExtensions.cs" />
-    <Compile Include="extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\NumberExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticRandom.cs" />
+    <Compile Include="Host.cs" />
+    <Compile Include="TextLogWriter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace mcilreavy.test
+namespace Goldenacre.Test
 {
     [TestClass]
     public class SessionExtensionsTest

@@ -1,9 +1,9 @@
 ﻿using System.Security.Principal;
 using System.Threading;
-using mcilreavy.library.extensions;
+using Goldenacre.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace mcilreavy.test
+namespace Goldenacre.Test
 {
     [TestClass]
     public class IdentityExtensionsTest

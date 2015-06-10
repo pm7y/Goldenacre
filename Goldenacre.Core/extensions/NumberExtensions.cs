@@ -1,3 +1,6 @@
-﻿public static class NumberExtensions
+﻿namespace Goldenacre.Core.Extensions
 {
+    public static class NumberExtensions
+    {
+    }
 }

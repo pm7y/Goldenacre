@@ -2,30 +2,33 @@
 using System.Linq;
 using System.Reflection;
 
-public static class EntityFrameworkExtensions
+namespace Goldenacre.Core.Extensions
 {
-    public static void ConvertDateTimePropertiesToUtc<T>(this object o) where T : class
+    public static class EntityFrameworkExtensions
     {
-        if (o != null)
+        public static void ConvertDateTimePropertiesToUtc<T>(this object o) where T : class
         {
-            var properties =
-                o.GetType()
-                    .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
-                    .Where(
-                        x =>
-                            x.Name.ToLowerInvariant().Contains("utc") &&
-                            (x.PropertyType == typeof (DateTime) || x.PropertyType == typeof (DateTime?)));
-
-            foreach (var property in properties)
+            if (o != null)
             {
-                var dt = property.PropertyType == typeof (DateTime?)
-                    ? (DateTime?) property.GetValue(o, null)
-                    : (DateTime) property.GetValue(o, null);
+                var properties =
+                    o.GetType()
+                        .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
+                        .Where(
+                            x =>
+                                x.Name.ToLowerInvariant().Contains("utc") &&
+                                (x.PropertyType == typeof (DateTime) || x.PropertyType == typeof (DateTime?)));
 
-                if (dt != null)
+                foreach (var property in properties)
                 {
-                    var v = DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc);
-                    property.SetValue(o, v, null);
+                    var dt = property.PropertyType == typeof (DateTime?)
+                        ? (DateTime?) property.GetValue(o, null)
+                        : (DateTime) property.GetValue(o, null);
+
+                    if (dt != null)
+                    {
+                        var v = DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc);
+                        property.SetValue(o, v, null);
+                    }
                 }
             }
         }

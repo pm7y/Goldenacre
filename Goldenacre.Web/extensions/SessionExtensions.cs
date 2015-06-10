@@ -2,39 +2,42 @@ using System;
 using System.Web;
 using System.Web.SessionState;
 
-public static class SessionExtensions
+namespace Goldenacre.Web.Extensions
 {
-    public static T GetData<T>(this HttpSessionState session, string key)
+    public static class SessionExtensions
     {
-        if (session != null && session[key] != null)
+        public static T GetData<T>(this HttpSessionState session, string key)
         {
-            var o = session[key];
-            var value = (T) Convert.ChangeType(o, typeof (T));
+            if (session != null && session[key] != null)
+            {
+                var o = session[key];
+                var value = (T) Convert.ChangeType(o, typeof (T));
 
-            return value;
+                return value;
+            }
+            return default(T);
         }
-        return default(T);
-    }
 
-    public static T GetData<T>(this HttpSessionStateBase session, string key)
-    {
-        if (session != null && session[key] != null)
+        public static T GetData<T>(this HttpSessionStateBase session, string key)
         {
-            var o = session[key];
-            var value = (T) Convert.ChangeType(o, typeof (T));
+            if (session != null && session[key] != null)
+            {
+                var o = session[key];
+                var value = (T) Convert.ChangeType(o, typeof (T));
 
-            return value;
+                return value;
+            }
+            return default(T);
         }
-        return default(T);
-    }
 
-    public static void SetData(this HttpSessionState session, string key, object value)
-    {
-        session[key] = value;
-    }
+        public static void SetData(this HttpSessionState session, string key, object value)
+        {
+            session[key] = value;
+        }
 
-    public static void SetData(this HttpSessionStateBase session, string key, object value)
-    {
-        session[key] = value;
+        public static void SetData(this HttpSessionStateBase session, string key, object value)
+        {
+            session[key] = value;
+        }
     }
 }

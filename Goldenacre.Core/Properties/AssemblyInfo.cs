@@ -6,12 +6,16 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Goldenacre.Core")]
-[assembly: AssemblyDescription("A library of useful stuff, mostly extension methods, that I find myself writing over and over again.")]
+[assembly:
+    AssemblyDescription(
+        "A library of useful stuff, mostly extension methods, that I find myself writing over and over again.")]
 #if DEBUG
+
 [assembly: AssemblyConfiguration("DEBUG")]
 #else
 [assembly: AssemblyConfiguration("RELEASE")]
 #endif
+
 [assembly: AssemblyCompany("Paul Mcilreavy")]
 [assembly: AssemblyProduct("Goldenacre.Core")]
 [assembly: AssemblyCopyright("Copyright © 2015")]
