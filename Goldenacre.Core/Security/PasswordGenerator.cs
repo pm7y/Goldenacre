@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Goldenacre.Core
+namespace Goldenacre.Core.Security
 {
     /// <summary>
     /// </summary>
@@ -12,13 +12,13 @@ namespace Goldenacre.Core
         private const int DefaultMinimum = 6;
         private const int UBoundDigit = 61;
 
-        private readonly char[] pwdCharArray =
+        private readonly char[] _pwdCharArray =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?".
                 ToCharArray();
 
-        private readonly RNGCryptoServiceProvider rng;
-        private int maxSize;
-        private int minSize;
+        private readonly RNGCryptoServiceProvider _rng;
+        private int _maxSize;
+        private int _minSize;
 
         /// <summary>
         ///     Constructor.
@@ -32,7 +32,7 @@ namespace Goldenacre.Core
             ExcludeSymbols = false;
             CharacterExclusions = null;
 
-            rng = new RNGCryptoServiceProvider();
+            _rng = new RNGCryptoServiceProvider();
         }
 
         /// <summary>
@@ -43,14 +43,14 @@ namespace Goldenacre.Core
         /// </summary>
         public int MinimumLength
         {
-            get { return minSize; }
+            get { return _minSize; }
             set
             {
-                minSize = value;
+                _minSize = value;
 
-                if (DefaultMinimum > minSize)
+                if (DefaultMinimum > _minSize)
                 {
-                    minSize = DefaultMinimum;
+                    _minSize = DefaultMinimum;
                 }
             }
         }
@@ -59,14 +59,14 @@ namespace Goldenacre.Core
         /// </summary>
         public int MaximumLength
         {
-            get { return maxSize; }
+            get { return _maxSize; }
             set
             {
-                maxSize = value + 1;
+                _maxSize = value + 1;
 
-                if (minSize >= maxSize)
+                if (_minSize >= _maxSize)
                 {
-                    maxSize = DefaultMaximum;
+                    _maxSize = DefaultMaximum;
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace Goldenacre.Core
 
             do
             {
-                rng.GetBytes(rndnum);
+                _rng.GetBytes(rndnum);
                 urndnum = BitConverter.ToUInt32(rndnum, 0);
             } while (urndnum >= xcludeRndBase);
 
@@ -114,16 +114,16 @@ namespace Goldenacre.Core
         /// <returns></returns>
         private char GetRandomCharacter()
         {
-            var upperBound = pwdCharArray.GetUpperBound(0);
+            var upperBound = _pwdCharArray.GetUpperBound(0);
 
             if (ExcludeSymbols)
             {
                 upperBound = UBoundDigit;
             }
 
-            var randomCharPosition = GetCryptographicRandomNumber(pwdCharArray.GetLowerBound(0), upperBound);
+            var randomCharPosition = GetCryptographicRandomNumber(_pwdCharArray.GetLowerBound(0), upperBound);
 
-            var randomChar = pwdCharArray[randomCharPosition];
+            var randomChar = _pwdCharArray[randomCharPosition];
 
             return randomChar;
         }
@@ -135,15 +135,12 @@ namespace Goldenacre.Core
         {
             var pwdLength = GetCryptographicRandomNumber(MinimumLength, MaximumLength);
 
-            var pwdBuffer = new StringBuilder();
-            pwdBuffer.Capacity = MaximumLength;
-            char lastCharacter, nextCharacter;
-
-            lastCharacter = nextCharacter = '\n';
+            var pwdBuffer = new StringBuilder {Capacity = MaximumLength};
+            var lastCharacter = '\n';
 
             for (var i = 0; i < pwdLength; i++)
             {
-                nextCharacter = GetRandomCharacter();
+                var nextCharacter = GetRandomCharacter();
 
                 if (false == AllowConsecutiveCharacters)
                 {
@@ -176,11 +173,7 @@ namespace Goldenacre.Core
                 lastCharacter = nextCharacter;
             }
 
-            if (null != pwdBuffer)
-            {
-                return pwdBuffer.ToString();
-            }
-            return string.Empty;
+            return pwdBuffer.ToString();
         }
     }
 }

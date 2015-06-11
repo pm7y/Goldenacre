@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
-using Goldenacre.Web.Extensions;
+using Goldenacre.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+// ReSharper disable UnusedVariable
 
 namespace Goldenacre.Test
 {

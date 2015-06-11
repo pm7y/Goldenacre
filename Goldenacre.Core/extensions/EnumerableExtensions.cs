@@ -1,11 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Goldenacre.Core.Extensions
+// ReSharper disable CheckNamespace
+
+namespace Goldenacre.Extensions
 {
     public static class EnumerableExtensions
     {
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> coll)
+        {
+            var c = new ObservableCollection<T>();
+            foreach (var e in coll)
+            {
+                c.Add(e);
+            }
+            return c;
+        }
+
         public static bool IsLastElement<T>(this IEnumerable<T> items, T element)
             where T : class
         {
@@ -46,7 +59,7 @@ namespace Goldenacre.Core.Extensions
             }
         }
 
-        public static T[] ForEach<T>(this T[] source, Func<int, T, T> func)
+        public static T[] ForEachAssign<T>(this T[] source, Func<int, T, T> func)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (func == null) throw new ArgumentNullException("func");
@@ -55,11 +68,10 @@ namespace Goldenacre.Core.Extensions
             {
                 source[i] = func(i, source[i]);
             }
-
             return source;
         }
 
-        public static T[] ForEach<T>(this T[] source, Func<T, T> func)
+        public static T[] ForEachAssign<T>(this T[] source, Func<T, T> func)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (func == null) throw new ArgumentNullException("func");

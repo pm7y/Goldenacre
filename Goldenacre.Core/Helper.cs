@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.DirectoryServices;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -12,6 +15,51 @@ namespace Goldenacre.Core
 {
     public class Helper
     {
+        public static string AppFolder()
+        {
+            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
+
+            var directoryInfo = new FileInfo(new Uri(assembly.GetName().CodeBase).LocalPath).Directory;
+            if (directoryInfo != null)
+            {
+                if (directoryInfo.Parent != null)
+                {
+                    return directoryInfo.Parent.FullName;
+                }
+            }
+
+            return null;
+        }
+
+        public static long Ping(string host, int port = 80, int timeoutInSeconds = 15)
+        {
+            var start = DateTime.UtcNow;
+
+            try
+            {
+                using (var tcp = new TcpClient())
+                {
+                    var result = tcp.BeginConnect(host, port, null, null);
+
+                    using (var wait = result.AsyncWaitHandle)
+                    {
+                        if (!wait.WaitOne(timeoutInSeconds*1000, false))
+                        {
+                            tcp.Close();
+                        }
+
+                        tcp.EndConnect(result);
+                    }
+                }
+            }
+            catch
+            {
+                //
+            }
+
+            return (long) DateTime.UtcNow.Subtract(start).TotalMilliseconds;
+        }
+
         public static Color GenerateRandomColour()
         {
             return Color.FromArgb(StaticRandom.Next(0, 255),
@@ -19,97 +67,90 @@ namespace Goldenacre.Core
                 StaticRandom.Next(0, 255));
         }
 
-        public static string GetHostNameFromIP(string ipAddress)
+        public static string GetHostNameFromIp(string ipAddress)
         {
-            var strHostName = string.Empty;
-            IPHostEntry objIPEntry = null;
-
             if ((ipAddress == null) || (ipAddress.Trim().Length <= 0))
             {
                 throw new ArgumentNullException("ipAddress");
             }
 
-            objIPEntry = Dns.GetHostEntry(ipAddress);
+            var ipEntry = Dns.GetHostEntry(ipAddress);
 
-            strHostName = objIPEntry.HostName.ToString(CultureInfo.InvariantCulture);
+            var strHostName = ipEntry.HostName.ToString(CultureInfo.CurrentCulture);
 
 
             return strHostName;
         }
 
-        public static String PrettyPrint(String XML)
+        public static string PrettyPrint(string xml)
         {
-            String Result = "";
+            var result = "";
 
-            MemoryStream MS = new MemoryStream();
-            XmlTextWriter W = new XmlTextWriter(MS, Encoding.Unicode);
-            XmlDocument D = new XmlDocument();
+            var ms = new MemoryStream();
+            var w = new XmlTextWriter(ms, Encoding.Unicode);
+            var d = new XmlDocument();
 
             try
             {
                 // Load the XmlDocument with the XML.
-                D.LoadXml(XML);
+                d.LoadXml(xml);
 
-                W.Formatting = Formatting.Indented;
+                w.Formatting = Formatting.Indented;
 
                 // Write the XML into a formatting XmlTextWriter
-                D.WriteContentTo(W);
-                W.Flush();
-                MS.Flush();
+                d.WriteContentTo(w);
+                w.Flush();
+                ms.Flush();
 
                 // Have to rewind the MemoryStream in order to read
                 // its contents.
-                MS.Position = 0;
+                ms.Position = 0;
 
                 // Read MemoryStream contents into a StreamReader.
-                StreamReader SR = new StreamReader(MS);
+                var sr = new StreamReader(ms);
 
                 // Extract the text from the StreamReader.
-                String FormattedXML = SR.ReadToEnd();
+                var formattedXml = sr.ReadToEnd();
 
-                Result = FormattedXML;
+                result = formattedXml;
             }
             catch (XmlException)
             {
             }
 
-            MS.Close();
-            W.Close();
+            ms.Close();
+            w.Close();
 
-            return Result;
+            return result;
         }
 
         public static StringCollection GetDomainList()
         {
-            StringCollection domainList = new StringCollection();
+            var domainList = new StringCollection();
 
             try
             {
                 // instantiate the active directory entry object
-                DirectoryEntry en = new DirectoryEntry("WinNT:");
+                var en = new DirectoryEntry("WinNT:");
 
                 // check that there are child objects
-                if (en.Children != null)
+                // loop through the child objects
+                foreach (DirectoryEntry child in en.Children)
                 {
-                    // loop through the child objects
-                    foreach (DirectoryEntry child in en.Children)
+                    // make sure the child object is a domain
+                    if ((child.SchemaClassName != null) && (child.SchemaClassName.ToUpper() == "DOMAIN"))
                     {
-                        // make sure the child object is a domain
-                        if ((child.SchemaClassName != null) && (child.SchemaClassName.ToUpper() == "DOMAIN"))
-                        {
-                            // add the domain to the collection
-                            domainList.Add(child.Name.ToUpper());
-                        }
+                        // add the domain to the collection
+                        domainList.Add(child.Name.ToUpper());
                     }
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Debug.WriteLine(ex);
             }
 
             return domainList;
         }
-
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using Goldenacre.Core.Extensions;
+using Goldenacre.Extensions;
 
 namespace Goldenacre.Core
 {
@@ -9,7 +9,7 @@ namespace Goldenacre.Core
 
         public static DateRange New(DateTime f, DateTime t)
         {
-            return new DateRange { From = f, To = t };
+            return new DateRange {From = f, To = t};
         }
 
         #endregion Methods

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Goldenacre.Web.Extensions
+namespace Goldenacre.Web
 {
     public static class HtmlHelpers
     {

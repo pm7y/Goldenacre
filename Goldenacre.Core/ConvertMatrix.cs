@@ -5,29 +5,29 @@ namespace Goldenacre.Core
     /// <remarks>n/a.</remarks>
     internal sealed class ConvertMatrix
     {
-        internal int intBottomLeft;
-        internal int intBottomMid;
-        internal int intBottomRight;
-        internal int intFactor = 1;
-        internal int intMidLeft;
-        internal int intMidRight;
-        internal int intOffset;
-        internal int intPixel = 1;
-        internal int intTopLeft;
-        internal int intTopMid;
-        internal int intTopRight;
+        internal int IntBottomLeft;
+        internal int IntBottomMid;
+        internal int IntBottomRight;
+        internal int IntFactor = 1;
+        internal int IntMidLeft;
+        internal int IntMidRight;
+        internal int IntOffset;
+        internal int IntPixel = 1;
+        internal int IntTopLeft;
+        internal int IntTopMid;
+        internal int IntTopRight;
 
         internal void SetAll(int nVal)
         {
-            intTopLeft = nVal;
-            intTopMid = nVal;
-            intTopRight = nVal;
-            intMidLeft = nVal;
-            intPixel = nVal;
-            intMidRight = nVal;
-            intBottomLeft = nVal;
-            intBottomMid = nVal;
-            intBottomRight = nVal;
+            IntTopLeft = nVal;
+            IntTopMid = nVal;
+            IntTopRight = nVal;
+            IntMidLeft = nVal;
+            IntPixel = nVal;
+            IntMidRight = nVal;
+            IntBottomLeft = nVal;
+            IntBottomMid = nVal;
+            IntBottomRight = nVal;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Goldenacre.Core;
+﻿using Goldenacre.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable UnusedVariable
@@ -6,14 +6,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Goldenacre.Test
 {
     [TestClass]
-    public class NumberExtensionsTest
+    public class BooleanExtensionsTest
     {
         [TestMethod]
         public void TestMethod1()
         {
-            var t1 = Helper.AppFolder();
-
-            Assert.IsNotNull(t1);
+            var x = "".ConvertTo(-1);
         }
     }
 }

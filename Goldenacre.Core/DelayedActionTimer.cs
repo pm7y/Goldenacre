@@ -5,60 +5,60 @@ namespace Goldenacre.Core
 {
     public sealed class DelayedActionTimer<T>
     {
-        #region Fields
-
-        private static readonly object _lock = new object();
-
-        private Timer t = null;
-        private bool _cancel = false;
-        private T _state = default(T);
-        private Action<T> _toDo = null;
-
-        #endregion Fields
-
         #region Constructors
 
         public DelayedActionTimer()
         {
-            t = new Timer();
-            t.AutoReset = false;
-            t.Elapsed += Elapsed;
+            _t = new Timer {AutoReset = false};
+            _t.Elapsed += Elapsed;
         }
 
         #endregion Constructors
+
+        #region Fields
+
+        // ReSharper disable once StaticMemberInGenericType
+        private static readonly object Lock = new object();
+
+        private readonly Timer _t;
+        private bool _cancel;
+        private T _state;
+        private Action<T> _toDo;
+
+        #endregion Fields
 
         #region Methods
 
         public void CancelAction()
         {
-            lock (_lock)
+            lock (Lock)
             {
                 _cancel = true;
-                if (t != null)
+                if (_t != null)
                 {
-                    t.Stop();
+                    _t.Stop();
                 }
             }
         }
 
         public void StartDelayedAction(Action<T> toDo, T state, int delayMs)
         {
-            lock (_lock)
+            lock (Lock)
             {
                 _cancel = true;
-                if (t != null)
+                if (_t != null)
                 {
-                    t.Stop();
+                    _t.Stop();
                 }
 
                 _toDo = toDo;
                 _state = state;
                 _cancel = false;
 
-                if (t != null)
+                if (_t != null)
                 {
-                    t.Interval = Math.Max(250, delayMs); ;
-                    t.Start();
+                    _t.Interval = Math.Max(250, delayMs);
+                    _t.Start();
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace Goldenacre.Core
         {
             try
             {
-                lock (_lock)
+                lock (Lock)
                 {
                     if (!_cancel)
                     {
@@ -79,7 +79,6 @@ namespace Goldenacre.Core
             {
                 //
             }
-
         }
 
         #endregion Methods

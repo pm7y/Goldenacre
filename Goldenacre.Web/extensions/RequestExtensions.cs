@@ -1,13 +1,14 @@
 using System.Linq;
 using System.Web;
 
-namespace Goldenacre.Web.Extensions
+// ReSharper disable CheckNamespace
+
+namespace Goldenacre.Extensions
 {
     public static class RequestExtensions
     {
         public static string DetermineLanguage(this HttpRequest request)
         {
-
             var languages = request.UserLanguages;
             string culture = null;
 

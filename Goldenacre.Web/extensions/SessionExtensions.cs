@@ -2,7 +2,9 @@ using System;
 using System.Web;
 using System.Web.SessionState;
 
-namespace Goldenacre.Web.Extensions
+// ReSharper disable CheckNamespace
+
+namespace Goldenacre.Extensions
 {
     public static class SessionExtensions
     {

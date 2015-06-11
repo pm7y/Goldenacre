@@ -1,5 +1,7 @@
-﻿using Goldenacre.Core.Extensions;
+﻿using Goldenacre.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+// ReSharper disable UnusedVariable
 
 namespace Goldenacre.Test
 {
@@ -39,7 +41,7 @@ namespace Goldenacre.Test
         }
 
         [TestMethod]
-        public void TestMD5Hash()
+        public void TestMd5Hash()
         {
             Assert.AreEqual("ED076287532E86365E841E92BFC50D8C", "Hello World!".ToHexMd5Hash());
 

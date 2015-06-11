@@ -4,7 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 
-namespace Goldenacre.Web.Extensions
+// ReSharper disable CheckNamespace
+
+namespace Goldenacre.Extensions
 {
     public static class EnumerableExtensions
     {
@@ -26,20 +28,21 @@ namespace Goldenacre.Web.Extensions
             Expression<Func<T, object>> value,
             Expression<Func<T, bool>> selected = null) where T : class
         {
-            var valueName = value.GetMemberName();
-            var captionName = caption.GetMemberName();
+            var valueName = value.MemberNameOf();
+            var captionName = caption.MemberNameOf();
+            var items = collection.ToArray();
 
             if (selected != null)
             {
-                var selectedValue = collection.Where(selected.Compile()).Select(value.Compile()).FirstOrDefault();
+                var selectedValue = items.Where(selected.Compile()).Select(value.Compile()).FirstOrDefault();
 
                 if (selectedValue != null)
                 {
-                    return new SelectList(collection, valueName, captionName, selectedValue);
+                    return new SelectList(items, valueName, captionName, selectedValue);
                 }
             }
 
-            return new SelectList(collection, valueName, captionName);
+            return new SelectList(items, valueName, captionName);
         }
 
         /// <summary>
@@ -57,45 +60,18 @@ namespace Goldenacre.Web.Extensions
             Expression<Func<T, object>> value,
             Expression<Func<T, bool>> selected = null) where T : class
         {
-            var valueName = value.GetMemberName();
-            var captionName = caption.GetMemberName();
+            var valueName = value.MemberNameOf();
+            var captionName = caption.MemberNameOf();
+            var items = collection.ToArray();
 
             if (selected != null)
             {
-                var selectedItems = collection.Where(selected.Compile()).Select(value.Compile());
+                var selectedItems = items.Where(selected.Compile()).Select(value.Compile());
 
-                return new MultiSelectList(collection, valueName, captionName, selectedItems.ToArray());
+                return new MultiSelectList(items, valueName, captionName, selectedItems.ToArray());
             }
 
-            return new MultiSelectList(collection, valueName, captionName);
-        }
-
-        private static string GetMemberName(this LambdaExpression memberSelector)
-        {
-            Func<Expression, string> nameSelector = null;
-            nameSelector = e =>
-            {
-                switch (e.NodeType)
-                {
-                    case ExpressionType.Parameter:
-                        return ((ParameterExpression) e).Name;
-                    case ExpressionType.MemberAccess:
-                        return ((MemberExpression) e).Member.Name;
-                    case ExpressionType.Call:
-                        return ((MethodCallExpression) e).Method.Name;
-                    case ExpressionType.Convert:
-                    case ExpressionType.ConvertChecked:
-                        return nameSelector(((UnaryExpression) e).Operand);
-                    case ExpressionType.Invoke:
-                        return nameSelector(((InvocationExpression) e).Expression);
-                    case ExpressionType.ArrayLength:
-                        return "Length";
-                    default:
-                        throw new Exception("not a proper member selector");
-                }
-            };
-
-            return nameSelector(memberSelector.Body);
+            return new MultiSelectList(items, valueName, captionName);
         }
     }
 }

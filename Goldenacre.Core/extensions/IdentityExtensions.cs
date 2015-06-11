@@ -1,6 +1,8 @@
 ﻿using System.Security.Principal;
 
-namespace Goldenacre.Core.Extensions
+// ReSharper disable CheckNamespace
+
+namespace Goldenacre.Extensions
 {
     public static class IdentityExtensions
     {
@@ -9,7 +11,7 @@ namespace Goldenacre.Core.Extensions
             return (p != null && p.Identity != null && p.Identity.IsAuthenticated);
         }
 
-        public static bool IsAuthenticated(this  IIdentity ii)
+        public static bool IsAuthenticated(this IIdentity ii)
         {
             return (ii != null && ii.IsAuthenticated);
         }

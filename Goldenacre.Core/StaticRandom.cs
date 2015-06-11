@@ -10,8 +10,8 @@ namespace Goldenacre.Core
     /// </summary>
     public static class StaticRandom
     {
-        private static readonly Random random = new Random();
-        private static readonly object myLock = new object();
+        private static readonly Random Random = new Random();
+        private static readonly object MyLock = new object();
 
         /// <summary>
         ///     Returns a nonnegative random number.
@@ -19,9 +19,9 @@ namespace Goldenacre.Core
         /// <returns>A 32-bit signed integer greater than or equal to zero and less than Int32.MaxValue.</returns>
         public static int Next()
         {
-            lock (myLock)
+            lock (MyLock)
             {
-                return random.Next();
+                return Random.Next();
             }
         }
 
@@ -35,9 +35,9 @@ namespace Goldenacre.Core
         /// <exception cref="ArgumentOutOfRangeException">maxValue is less than zero.</exception>
         public static int Next(int max)
         {
-            lock (myLock)
+            lock (MyLock)
             {
-                return random.Next(max);
+                return Random.Next(max);
             }
         }
 
@@ -57,9 +57,9 @@ namespace Goldenacre.Core
         /// <exception cref="ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
         public static int Next(int min, int max)
         {
-            lock (myLock)
+            lock (MyLock)
             {
-                return random.Next(min, max);
+                return Random.Next(min, max);
             }
         }
 
@@ -69,9 +69,9 @@ namespace Goldenacre.Core
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
         public static double NextDouble()
         {
-            lock (myLock)
+            lock (MyLock)
             {
-                return random.NextDouble();
+                return Random.NextDouble();
             }
         }
 
@@ -82,9 +82,9 @@ namespace Goldenacre.Core
         /// <exception cref="ArgumentNullException">buffer is a null reference (Nothing in Visual Basic).</exception>
         public static void NextBytes(byte[] buffer)
         {
-            lock (myLock)
+            lock (MyLock)
             {
-                random.NextBytes(buffer);
+                Random.NextBytes(buffer);
             }
         }
     }

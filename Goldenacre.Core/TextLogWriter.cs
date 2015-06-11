@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Goldenacre.Core
 {
@@ -14,21 +15,11 @@ namespace Goldenacre.Core
         ///     Removes new line breaks for a string so that it is just one line.
         /// </summary>
         /// <param name="textLine">the string to parse</param>
-        /// <returns>a string with no line breaks</returns>
-        private static string RemoveLineBreaks(string textLine)
-        {
-            return RemoveLineBreaks(textLine, false);
-        }
-
-        /// <summary>
-        ///     Removes new line breaks for a string so that it is just one line.
-        /// </summary>
-        /// <param name="textLine">the string to parse</param>
         /// <param name="replaceLineBreaksWithArrows">if True then line breaks will be replaced with "-->"</param>
         /// <returns>a string with no line breaks</returns>
-        private static string RemoveLineBreaks(string textLine, bool replaceLineBreaksWithArrows)
+        private static string RemoveLineBreaks(string textLine, bool replaceLineBreaksWithArrows = true)
         {
-            string retVal = null;
+            string retVal;
 
             if (textLine == null)
             {
@@ -58,44 +49,25 @@ namespace Goldenacre.Core
         /// <param name="message">message to log</param>
         public static void NewDebugLogEntry(string message)
         {
-            const int STACK_FRAME_INDEX = 3;
+            const int stackFrameIndex = 3;
 
-            string logTime = null;
-            string logMessage = null;
-            string debugLogPath = null;
-            var logFound = false;
-            TraceListener tr = null;
+            var logTime = GetLogTimeString();
+            var debugLogPath = Path.Combine(Environment.CurrentDirectory, "debugoutput.txt");
 
-            string callingMethod = null;
-            string logLine = null;
-
-            logTime = GetLogTimeString();
-            logMessage = message.Replace(",", string.Empty);
-            debugLogPath = Path.Combine(Environment.CurrentDirectory, "debugoutput.txt");
-
-            callingMethod = GetRaisingMethodName(STACK_FRAME_INDEX);
-            logLine = string.Format("{0},{1},'{2}'", logTime, callingMethod, RemoveLineBreaks(message, true));
+            var callingMethod = GetRaisingMethodName(stackFrameIndex);
+            var logLine = string.Format("{0},{1},'{2}'", logTime, callingMethod, RemoveLineBreaks(message));
 
             // iterate through the Listeners collection
             // and check if we have already got a trace log
             // for this message type
-            foreach (TraceListener tl in Trace.Listeners)
-            {
-                if (tl.Name == "TextLogWriter")
-                {
-                    // we already have a trace log for this message type
-                    logFound = true;
-                    break;
-                }
-            }
+            var logFound = Trace.Listeners.Cast<TraceListener>().Any(tl => tl.Name == "TextLogWriter");
 
             // a trace log for this message type was not found
             // so create one and add it to the collection
-            tr = new DefaultTraceListener();
+            TraceListener tr;
             if (logFound == false)
             {
-                tr = new TextWriterTraceListener(debugLogPath);
-                tr.Name = "TextLogWriter";
+                tr = new TextWriterTraceListener(debugLogPath) {Name = "TextLogWriter"};
                 Trace.Listeners.Add(tr);
             }
             else
@@ -104,8 +76,11 @@ namespace Goldenacre.Core
             }
 
 
-            tr.WriteLine(logLine);
-            tr.Flush();
+            if (tr != null)
+            {
+                tr.WriteLine(logLine);
+                tr.Flush();
+            }
         }
 
         /// <author>Paul Mcilreavy</author>
@@ -131,12 +106,11 @@ namespace Goldenacre.Core
         /// <returns>string</returns>
         private static string GetRaisingMethodName(int frameIndex)
         {
-            StackTrace objStackTrace = null;
-            var strMethodName = string.Empty;
+            string strMethodName;
 
             try
             {
-                objStackTrace = new StackTrace(true);
+                var objStackTrace = new StackTrace(true);
                 strMethodName = objStackTrace.GetFrame(frameIndex).GetMethod().Name + "()";
             }
             catch (Exception ee)
@@ -144,13 +118,6 @@ namespace Goldenacre.Core
                 // Don't rethrow cos this method is called by catch blocks in other
                 // methods so throw an error here could create an infinite loop.
                 strMethodName = "Unknown: " + ee.Message;
-            }
-            finally
-            {
-                if (objStackTrace != null)
-                {
-                    objStackTrace = null;
-                }
             }
 
             return strMethodName;

@@ -3,7 +3,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
+using Goldenacre.Extensions;
 using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace Goldenacre.Core
@@ -25,37 +27,36 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap Colorize(Bitmap originalBitmap, int redLevel, int greenLevel, int blueLevel)
         {
-            const int MAX_COLOR_LEVEL = 255;
-            const int MIN_COLOR_LEVEL = -255;
+            const int maxColorLevel = 255;
+            const int minColorLevel = 0;
 
-            BitmapData bmData = null;
-            var stride = 0;
-            IntPtr Scan0;
+            redLevel = redLevel.EnsureBetween(minColorLevel, maxColorLevel);
+            greenLevel = greenLevel.EnsureBetween(minColorLevel, maxColorLevel);
+            blueLevel = blueLevel.EnsureBetween(minColorLevel, maxColorLevel);
 
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+            var bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
                 ImageLockMode.ReadWrite,
                 PixelFormat.Format24bppRgb);
 
-            stride = bmData.Stride;
-            Scan0 = bmData.Scan0;
+            var stride = bmData.Stride;
+            var scan0 = bmData.Scan0;
 
             unsafe
             {
-                var p = (byte*) (void*) Scan0;
+                var p = (byte*) (void*) scan0;
 
                 var nOffset = stride - originalBitmap.Width*3;
-                int nPixel;
 
                 for (var y = 0; y < originalBitmap.Height; ++y)
                 {
                     for (var x = 0; x < originalBitmap.Width; ++x)
                     {
-                        nPixel = p[2] + redLevel;
+                        var nPixel = p[2] + redLevel;
                         nPixel = Math.Max(nPixel, 0);
                         p[2] = (byte) Math.Min(255, nPixel);
 
@@ -89,25 +90,21 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap Invert(Bitmap originalBitmap)
         {
-            BitmapData bmData = null;
-            var stride = 0;
-            IntPtr Scan0;
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+            var bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
                 ImageLockMode.ReadWrite,
                 PixelFormat.Format24bppRgb);
 
-            stride = bmData.Stride;
-            Scan0 = bmData.Scan0;
+            var stride = bmData.Stride;
+            var scan0 = bmData.Scan0;
 
             unsafe
             {
-                var p = (byte*) (void*) Scan0;
+                var p = (byte*) (void*) scan0;
 
                 var nOffset = stride - originalBitmap.Width*3;
                 var nWidth = originalBitmap.Width*3;
@@ -124,11 +121,6 @@ namespace Goldenacre.Core
             }
 
             originalBitmap.UnlockBits(bmData);
-
-            if (bmData != null)
-            {
-                bmData = null;
-            }
 
             return originalBitmap;
         }
@@ -147,85 +139,66 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap Resize(Bitmap originalBitmap, int width, int height)
         {
-            Bitmap bTemp = null;
-            double nXFactor = 0;
-            double nYFactor = 0;
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            bTemp = (Bitmap) originalBitmap.Clone();
+            var bTemp = (Bitmap) originalBitmap.Clone();
             originalBitmap = new Bitmap(width, height, bTemp.PixelFormat);
-            nXFactor = bTemp.Width/(double) width;
-            nYFactor = bTemp.Height/(double) height;
-
-            double fraction_x, fraction_y, one_minus_x, one_minus_y;
-            int ceil_x, ceil_y, floor_x, floor_y;
-            var c1 = new Color();
-            var c2 = new Color();
-            var c3 = new Color();
-            var c4 = new Color();
-            byte red, green, blue;
-
-            byte b1, b2;
+            var nXFactor = bTemp.Width/(double) width;
+            var nYFactor = bTemp.Height/(double) height;
 
             for (var x = 0; x < originalBitmap.Width; ++x)
             {
                 for (var y = 0; y < originalBitmap.Height; ++y)
                 {
-                    floor_x = (int) Math.Floor(x*nXFactor);
-                    floor_y = (int) Math.Floor(y*nYFactor);
-                    ceil_x = floor_x + 1;
+                    var floorX = (int) Math.Floor(x*nXFactor);
+                    var floorY = (int) Math.Floor(y*nYFactor);
+                    var ceilX = floorX + 1;
 
-                    if (ceil_x >= bTemp.Width)
+                    if (ceilX >= bTemp.Width)
                     {
-                        ceil_x = floor_x;
+                        ceilX = floorX;
                     }
 
-                    ceil_y = floor_y + 1;
+                    var ceilY = floorY + 1;
 
-                    if (ceil_y >= bTemp.Height)
+                    if (ceilY >= bTemp.Height)
                     {
-                        ceil_y = floor_y;
+                        ceilY = floorY;
                     }
 
-                    fraction_x = x*nXFactor - floor_x;
-                    fraction_y = y*nYFactor - floor_y;
-                    one_minus_x = 1.0 - fraction_x;
-                    one_minus_y = 1.0 - fraction_y;
+                    var fractionX = x*nXFactor - floorX;
+                    var fractionY = y*nYFactor - floorY;
+                    var oneMinusX = 1.0 - fractionX;
+                    var oneMinusY = 1.0 - fractionY;
 
-                    c1 = bTemp.GetPixel(floor_x, floor_y);
-                    c2 = bTemp.GetPixel(ceil_x, floor_y);
-                    c3 = bTemp.GetPixel(floor_x, ceil_y);
-                    c4 = bTemp.GetPixel(ceil_x, ceil_y);
+                    var c1 = bTemp.GetPixel(floorX, floorY);
+                    var c2 = bTemp.GetPixel(ceilX, floorY);
+                    var c3 = bTemp.GetPixel(floorX, ceilY);
+                    var c4 = bTemp.GetPixel(ceilX, ceilY);
 
                     // Blue
-                    b1 = (byte) (one_minus_x*c1.B + fraction_x*c2.B);
-                    b2 = (byte) (one_minus_x*c3.B + fraction_x*c4.B);
-                    blue = (byte) (one_minus_y*(b1) + fraction_y*(b2));
+                    var b1 = (byte) (oneMinusX*c1.B + fractionX*c2.B);
+                    var b2 = (byte) (oneMinusX*c3.B + fractionX*c4.B);
+                    var blue = (byte) (oneMinusY*(b1) + fractionY*(b2));
 
                     // Green
-                    b1 = (byte) (one_minus_x*c1.G + fraction_x*c2.G);
-                    b2 = (byte) (one_minus_x*c3.G + fraction_x*c4.G);
-                    green = (byte) (one_minus_y*(b1) + fraction_y*(b2));
+                    b1 = (byte) (oneMinusX*c1.G + fractionX*c2.G);
+                    b2 = (byte) (oneMinusX*c3.G + fractionX*c4.G);
+                    var green = (byte) (oneMinusY*(b1) + fractionY*(b2));
 
                     // Red
-                    b1 = (byte) (one_minus_x*c1.R + fraction_x*c2.R);
-                    b2 = (byte) (one_minus_x*c3.R + fraction_x*c4.R);
-                    red = (byte) (one_minus_y*(b1) + fraction_y*(b2));
+                    b1 = (byte) (oneMinusX*c1.R + fractionX*c2.R);
+                    b2 = (byte) (oneMinusX*c3.R + fractionX*c4.R);
+                    var red = (byte) (oneMinusY*(b1) + fractionY*(b2));
 
                     originalBitmap.SetPixel(x, y, Color.FromArgb(255, red, green, blue));
                 }
             }
 
-            if (bTemp != null)
-            {
-                bTemp.Dispose();
-                bTemp = null;
-            }
-
+            bTemp.Dispose();
 
             return originalBitmap;
         }
@@ -242,38 +215,30 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap Grayscale(Bitmap originalBitmap)
         {
-            BitmapData bmData = null;
-            var stride = 0;
-            IntPtr Scan0;
-            Stream objStream = null;
-
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+            var bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
                 ImageLockMode.ReadWrite,
                 PixelFormat.Format24bppRgb);
-            stride = bmData.Stride;
-            Scan0 = bmData.Scan0;
+            var stride = bmData.Stride;
+            var scan0 = bmData.Scan0;
 
             unsafe
             {
-                var p = (byte*) (void*) Scan0;
+                var p = (byte*) (void*) scan0;
 
                 var nOffset = stride - originalBitmap.Width*3;
-
-                byte red, green, blue;
 
                 for (var y = 0; y < originalBitmap.Height; ++y)
                 {
                     for (var x = 0; x < originalBitmap.Width; ++x)
                     {
-                        blue = p[0];
-                        green = p[1];
-                        red = p[2];
+                        var blue = p[0];
+                        var green = p[1];
+                        var red = p[2];
 
                         p[0] = p[1] = p[2] = (byte) (.299*red + .587*green + .114*blue);
 
@@ -284,19 +249,10 @@ namespace Goldenacre.Core
             }
 
             originalBitmap.UnlockBits(bmData);
-            //				objStream = new MemoryStream();
-            //				originalBitmap.Save(objStream, originalBitmap.RawFormat);
+            Stream objStream = new MemoryStream();
+            originalBitmap.Save(objStream, originalBitmap.RawFormat);
 
-            if (objStream != null)
-            {
-                objStream.Close();
-                objStream = null;
-            }
-            if (bmData != null)
-            {
-                bmData = null;
-            }
-
+            objStream.Close();
 
             return originalBitmap;
         }
@@ -314,12 +270,6 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap Brightness(Bitmap originalBitmap, int brightnessFactor)
         {
-            BitmapData bmData = null;
-            var stride = 0;
-            IntPtr Scan0;
-            var nVal = 0;
-
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
@@ -327,17 +277,16 @@ namespace Goldenacre.Core
 
             if ((brightnessFactor > -255) || (brightnessFactor < 255))
             {
-                bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+                var bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
                     ImageLockMode.ReadWrite,
                     PixelFormat.Format24bppRgb);
 
-                stride = bmData.Stride;
-                Scan0 = bmData.Scan0;
-                nVal = 0;
+                var stride = bmData.Stride;
+                var scan0 = bmData.Scan0;
 
                 unsafe
                 {
-                    var p = (byte*) (void*) Scan0;
+                    var p = (byte*) (void*) scan0;
 
                     var nOffset = stride - originalBitmap.Width*3;
                     var nWidth = originalBitmap.Width*3;
@@ -346,7 +295,7 @@ namespace Goldenacre.Core
                     {
                         for (var x = 0; x < nWidth; ++x)
                         {
-                            nVal = (p[0] + brightnessFactor);
+                            var nVal = (p[0] + brightnessFactor);
 
                             if (nVal < 0)
                             {
@@ -368,12 +317,6 @@ namespace Goldenacre.Core
                 originalBitmap.UnlockBits(bmData);
             }
 
-            if (bmData != null)
-            {
-                bmData = null;
-            }
-
-
             return originalBitmap;
         }
 
@@ -384,17 +327,11 @@ namespace Goldenacre.Core
         /// <summary>
         ///     Applies JPEG compression to the specified Image object.
         /// </summary>
-        /// <param name="originalImage">Image object to compress.</param>
+        /// <param name="originalBitmap">Image object to compress.</param>
         /// <param name="compressionFactor">The amount of compression (0 = low quality...100 = high quality).</param>
         /// <returns>Returns an Image object.</returns>
         public static Image Compress(Bitmap originalBitmap, long compressionFactor)
         {
-            ImageCodecInfo objCodecInfo = null;
-            EncoderParameters objEncoderParams = null;
-            EncoderParameter objCompressionRatio = null;
-            Stream objStream = null;
-
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
@@ -408,13 +345,13 @@ namespace Goldenacre.Core
             {
                 compressionFactor = 100;
             }
-            objCodecInfo = GetImageCodecInfo("image/jpeg");
+            var objCodecInfo = GetImageCodecInfo("image/jpeg");
 
-            objCompressionRatio = new EncoderParameter(Encoder.Quality, compressionFactor);
-            objEncoderParams = new EncoderParameters(1);
+            var objCompressionRatio = new EncoderParameter(Encoder.Quality, compressionFactor);
+            var objEncoderParams = new EncoderParameters(1);
             objEncoderParams.Param[0] = objCompressionRatio;
 
-            objStream = new MemoryStream();
+            Stream objStream = new MemoryStream();
             originalBitmap.Save(objStream, objCodecInfo, objEncoderParams);
 
 
@@ -457,7 +394,7 @@ namespace Goldenacre.Core
         /// </summary>
         /// <param name="originalBitmap">Bitmap object to add text to.</param>
         /// <param name="text">Text string to add.</param>
-        /// <param name="textBGColour">The background colour of the text.</param>
+        /// <param name="textBgColour">The background colour of the text.</param>
         /// <param name="textColour">The colour of the text.</param>
         /// <param name="addDateTime">Indicates whether a time stamp should be added.</param>
         /// <param name="placeTop">Indicates whether the text should be a header (true) or a footer (false).</param>
@@ -465,22 +402,15 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Image AddTextToImage(Bitmap originalBitmap,
             string text,
-            Color textBGColour,
+            Color textBgColour,
             Brush textColour,
             bool addDateTime,
             bool placeTop)
         {
-            Graphics objGraphics = null;
-            Size objOriginalSize;
-            Font objFont = null;
             Rectangle objRectangle;
             var intX = 0;
-            var intY = 0;
-            var intFontHeight = 0;
-            var intWidth = 0;
-            var intHeight = 0;
-            Stream objStream = null;
-            StringBuilder objSB = null;
+            int intY;
+            int intHeight;
 
 
             if (originalBitmap == null)
@@ -488,15 +418,15 @@ namespace Goldenacre.Core
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            objSB = new StringBuilder();
-            objSB.Append(text);
+            var objSb = new StringBuilder();
+            objSb.Append(text);
 
-            objGraphics = Graphics.FromImage(originalBitmap);
-            objOriginalSize = originalBitmap.Size;
+            var objGraphics = Graphics.FromImage(originalBitmap);
+            var objOriginalSize = originalBitmap.Size;
 
-            objFont = new Font("Courier New", 12, FontStyle.Regular, GraphicsUnit.Pixel);
-            intFontHeight = Convert.ToInt32(objFont.GetHeight(objGraphics));
-            intWidth = objOriginalSize.Width;
+            var objFont = new Font("Courier New", 12, FontStyle.Regular, GraphicsUnit.Pixel);
+            var intFontHeight = Convert.ToInt32(objFont.GetHeight(objGraphics));
+            var intWidth = objOriginalSize.Width;
 
             if (placeTop)
             {
@@ -513,48 +443,27 @@ namespace Goldenacre.Core
 
             if (addDateTime)
             {
-                objSB.Append(DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                objSb.Append(DateTime.Now.ToString(CultureInfo.CurrentCulture));
             }
 
-            objGraphics.DrawRectangle(new Pen(textBGColour), objRectangle);
-            objGraphics.FillRectangle(new SolidBrush(textBGColour), objRectangle);
+            objGraphics.DrawRectangle(new Pen(textBgColour), objRectangle);
+            objGraphics.FillRectangle(new SolidBrush(textBgColour), objRectangle);
 
-            if (placeTop)
-            {
-                objGraphics.DrawString(objSB.ToString(), objFont, textColour, new PointF(2, 0));
-            }
-            else
-            {
-                objGraphics.DrawString(objSB.ToString(),
-                    objFont,
-                    textColour,
-                    new PointF(2, (objOriginalSize.Height - intHeight)));
-            }
+            objGraphics.DrawString(objSb.ToString(), objFont, textColour,
+                placeTop ? new PointF(2, 0) : new PointF(2, (objOriginalSize.Height - intHeight)));
 
             objGraphics.Save();
-            //objStream = new MemoryStream();
-            //originalBitmap.Save(objStream, originalImage.RawFormat);
+            Stream objStream = new MemoryStream();
+            originalBitmap.Save(objStream, originalBitmap.RawFormat);
 
-            if (objStream != null)
-            {
-                objStream.Close();
-                objStream = null;
-            }
-            if (objGraphics != null)
-            {
-                objGraphics.Dispose();
-                objGraphics = null;
-            }
-            if (objFont != null)
-            {
-                objFont.Dispose();
-                objFont = null;
-            }
-            if (objSB != null)
-            {
-                objSB = null;
-            }
 
+            objStream.Close();
+
+
+            objGraphics.Dispose();
+
+
+            objFont.Dispose();
 
             return originalBitmap;
         }
@@ -586,20 +495,14 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         private static Bitmap Flip(Bitmap originalBitmap, bool flipHorizontal, bool flipVertical)
         {
-            Point[,] ptFlip = null;
-            var nWidth = 0;
-            var nHeight = 0;
-            Bitmap objReturn = null;
-
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            nWidth = originalBitmap.Width;
-            nHeight = originalBitmap.Height;
-            ptFlip = new Point[originalBitmap.Width, originalBitmap.Height];
+            var nWidth = originalBitmap.Width;
+            var nHeight = originalBitmap.Height;
+            var ptFlip = new Point[originalBitmap.Width, originalBitmap.Height];
 
             for (var intX = 0; intX < nWidth; ++intX)
             {
@@ -610,7 +513,7 @@ namespace Goldenacre.Core
                 }
             }
 
-            objReturn = OffsetFilterAbs(originalBitmap, ptFlip);
+            var objReturn = OffsetFilterAbs(originalBitmap, ptFlip);
 
 
             return objReturn;
@@ -624,31 +527,12 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         private static ImageCodecInfo GetImageCodecInfo(string mimeType)
         {
-            ImageCodecInfo[] objEncoders = null;
-            ImageCodecInfo objReturn = null;
-
-
-            objEncoders = ImageCodecInfo.GetImageEncoders();
-
-            for (var intCount = 0; intCount < objEncoders.Length; intCount++)
-            {
-                if (
-                    objEncoders[intCount].MimeType.ToUpper(CultureInfo.InvariantCulture).Equals(
-                        mimeType.ToUpper(CultureInfo.InvariantCulture)))
-                {
-                    objReturn = objEncoders[intCount];
-                    break;
-                }
-                objReturn = null;
-            }
-
-            if (objEncoders != null)
-            {
-                objEncoders = null;
-            }
-
-
-            return objReturn;
+            return
+                ImageCodecInfo.GetImageEncoders()
+                    .FirstOrDefault(
+                        t =>
+                            t.MimeType.ToUpper(CultureInfo.CurrentCulture)
+                                .Equals(mimeType.ToUpper(CultureInfo.CurrentCulture)));
         }
 
 
@@ -659,48 +543,39 @@ namespace Goldenacre.Core
         /// <returns></returns>
         private static Bitmap OffsetFilterAbs(Bitmap originalBitmap, Point[,] offset)
         {
-            Bitmap bSrc = null;
-            BitmapData bmData = null;
-            BitmapData bmSrc = null;
-            var scanline = 0;
-            IntPtr Scan0;
-            IntPtr SrcScan0;
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            bSrc = (Bitmap) originalBitmap.Clone();
+            var bSrc = (Bitmap) originalBitmap.Clone();
 
-            bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+            var bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
                 ImageLockMode.ReadWrite,
                 PixelFormat.Format24bppRgb);
-            bmSrc = bSrc.LockBits(new Rectangle(0, 0, bSrc.Width, bSrc.Height),
+            var bmSrc = bSrc.LockBits(new Rectangle(0, 0, bSrc.Width, bSrc.Height),
                 ImageLockMode.ReadWrite,
                 PixelFormat.Format24bppRgb);
 
-            scanline = bmData.Stride;
-            Scan0 = bmData.Scan0;
-            SrcScan0 = bmSrc.Scan0;
+            var scanline = bmData.Stride;
+            var scan0 = bmData.Scan0;
+            var srcScan0 = bmSrc.Scan0;
 
             unsafe
             {
-                var p = (byte*) (void*) Scan0;
-                var pSrc = (byte*) (void*) SrcScan0;
+                var p = (byte*) (void*) scan0;
+                var pSrc = (byte*) (void*) srcScan0;
 
                 var nOffset = bmData.Stride - originalBitmap.Width*3;
                 var nWidth = originalBitmap.Width;
                 var nHeight = originalBitmap.Height;
 
-                int xOffset, yOffset;
-
                 for (var y = 0; y < nHeight; ++y)
                 {
                     for (var x = 0; x < nWidth; ++x)
                     {
-                        xOffset = offset[x, y].X;
-                        yOffset = offset[x, y].Y;
+                        var xOffset = offset[x, y].X;
+                        var yOffset = offset[x, y].Y;
 
                         if (yOffset >= 0 && yOffset < nHeight && xOffset >= 0 && xOffset < nWidth)
                         {
@@ -718,20 +593,7 @@ namespace Goldenacre.Core
             originalBitmap.UnlockBits(bmData);
             bSrc.UnlockBits(bmSrc);
 
-            if (bSrc != null)
-            {
-                bSrc.Dispose();
-                bSrc = null;
-            }
-            if (bmData != null)
-            {
-                bmData = null;
-            }
-            if (bmSrc != null)
-            {
-                bmSrc = null;
-            }
-
+            bSrc.Dispose();
 
             return originalBitmap;
         }
@@ -746,54 +608,46 @@ namespace Goldenacre.Core
         private static Bitmap ConvertThreeByThree(Bitmap originalBitmap, ConvertMatrix matrix)
         {
             Bitmap bSrc = null;
-            BitmapData bmData = null;
-            BitmapData bmSrc = null;
-            var stride = 0;
-            var stride2 = 0;
-            IntPtr Scan0;
-            IntPtr SrcScan0;
 
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            if (matrix.intFactor != 0)
+            if (matrix.IntFactor != 0)
             {
                 bSrc = (Bitmap) originalBitmap.Clone();
-                bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
+                var bmData = originalBitmap.LockBits(new Rectangle(0, 0, originalBitmap.Width, originalBitmap.Height),
                     ImageLockMode.ReadWrite,
                     PixelFormat.Format24bppRgb);
-                bmSrc = bSrc.LockBits(new Rectangle(0, 0, bSrc.Width, bSrc.Height),
+                var bmSrc = bSrc.LockBits(new Rectangle(0, 0, bSrc.Width, bSrc.Height),
                     ImageLockMode.ReadWrite,
                     PixelFormat.Format24bppRgb);
-                stride = bmData.Stride;
-                stride2 = stride*2;
-                Scan0 = bmData.Scan0;
-                SrcScan0 = bmSrc.Scan0;
+                var stride = bmData.Stride;
+                var stride2 = stride*2;
+                var scan0 = bmData.Scan0;
+                var srcScan0 = bmSrc.Scan0;
 
                 unsafe
                 {
-                    var p = (byte*) (void*) Scan0;
-                    var pSrc = (byte*) (void*) SrcScan0;
+                    var p = (byte*) (void*) scan0;
+                    var pSrc = (byte*) (void*) srcScan0;
 
                     var nOffset = stride - originalBitmap.Width*3;
                     var nWidth = originalBitmap.Width - 2;
                     var nHeight = originalBitmap.Height - 2;
 
-                    int nPixel;
-
                     for (var y = 0; y < nHeight; ++y)
                     {
                         for (var x = 0; x < nWidth; ++x)
                         {
-                            nPixel = ((((pSrc[2]*matrix.intTopLeft) + (pSrc[5]*matrix.intTopMid) +
-                                        (pSrc[8]*matrix.intTopRight) + (pSrc[2 + stride]*matrix.intMidLeft) +
-                                        (pSrc[5 + stride]*matrix.intPixel) + (pSrc[8 + stride]*matrix.intMidRight) +
-                                        (pSrc[2 + stride2]*matrix.intBottomLeft) +
-                                        (pSrc[5 + stride2]*matrix.intBottomMid) +
-                                        (pSrc[8 + stride2]*matrix.intBottomRight))/matrix.intFactor) +
-                                      matrix.intOffset);
+                            var nPixel = ((((pSrc[2]*matrix.IntTopLeft) + (pSrc[5]*matrix.IntTopMid) +
+                                            (pSrc[8]*matrix.IntTopRight) + (pSrc[2 + stride]*matrix.IntMidLeft) +
+                                            (pSrc[5 + stride]*matrix.IntPixel) + (pSrc[8 + stride]*matrix.IntMidRight) +
+                                            (pSrc[2 + stride2]*matrix.IntBottomLeft) +
+                                            (pSrc[5 + stride2]*matrix.IntBottomMid) +
+                                            (pSrc[8 + stride2]*matrix.IntBottomRight))/matrix.IntFactor) +
+                                          matrix.IntOffset);
 
                             if (nPixel < 0)
                             {
@@ -806,13 +660,13 @@ namespace Goldenacre.Core
 
                             p[5 + stride] = (byte) nPixel;
 
-                            nPixel = ((((pSrc[1]*matrix.intTopLeft) + (pSrc[4]*matrix.intTopMid) +
-                                        (pSrc[7]*matrix.intTopRight) + (pSrc[1 + stride]*matrix.intMidLeft) +
-                                        (pSrc[4 + stride]*matrix.intPixel) + (pSrc[7 + stride]*matrix.intMidRight) +
-                                        (pSrc[1 + stride2]*matrix.intBottomLeft) +
-                                        (pSrc[4 + stride2]*matrix.intBottomMid) +
-                                        (pSrc[7 + stride2]*matrix.intBottomRight))/matrix.intFactor) +
-                                      matrix.intOffset);
+                            nPixel = ((((pSrc[1]*matrix.IntTopLeft) + (pSrc[4]*matrix.IntTopMid) +
+                                        (pSrc[7]*matrix.IntTopRight) + (pSrc[1 + stride]*matrix.IntMidLeft) +
+                                        (pSrc[4 + stride]*matrix.IntPixel) + (pSrc[7 + stride]*matrix.IntMidRight) +
+                                        (pSrc[1 + stride2]*matrix.IntBottomLeft) +
+                                        (pSrc[4 + stride2]*matrix.IntBottomMid) +
+                                        (pSrc[7 + stride2]*matrix.IntBottomRight))/matrix.IntFactor) +
+                                      matrix.IntOffset);
 
                             if (nPixel < 0)
                             {
@@ -825,13 +679,13 @@ namespace Goldenacre.Core
 
                             p[4 + stride] = (byte) nPixel;
 
-                            nPixel = ((((pSrc[0]*matrix.intTopLeft) + (pSrc[3]*matrix.intTopMid) +
-                                        (pSrc[6]*matrix.intTopRight) + (pSrc[0 + stride]*matrix.intMidLeft) +
-                                        (pSrc[3 + stride]*matrix.intPixel) + (pSrc[6 + stride]*matrix.intMidRight) +
-                                        (pSrc[0 + stride2]*matrix.intBottomLeft) +
-                                        (pSrc[3 + stride2]*matrix.intBottomMid) +
-                                        (pSrc[6 + stride2]*matrix.intBottomRight))/matrix.intFactor) +
-                                      matrix.intOffset);
+                            nPixel = ((((pSrc[0]*matrix.IntTopLeft) + (pSrc[3]*matrix.IntTopMid) +
+                                        (pSrc[6]*matrix.IntTopRight) + (pSrc[0 + stride]*matrix.IntMidLeft) +
+                                        (pSrc[3 + stride]*matrix.IntPixel) + (pSrc[6 + stride]*matrix.IntMidRight) +
+                                        (pSrc[0 + stride2]*matrix.IntBottomLeft) +
+                                        (pSrc[3 + stride2]*matrix.IntBottomMid) +
+                                        (pSrc[6 + stride2]*matrix.IntBottomRight))/matrix.IntFactor) +
+                                      matrix.IntOffset);
 
                             if (nPixel < 0)
                             {
@@ -859,17 +713,7 @@ namespace Goldenacre.Core
             if (bSrc != null)
             {
                 bSrc.Dispose();
-                bSrc = null;
             }
-            if (bmData != null)
-            {
-                bmData = null;
-            }
-            if (bmSrc != null)
-            {
-                bmSrc = null;
-            }
-
 
             return originalBitmap;
         }
@@ -887,8 +731,6 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap Sharpen(Bitmap originalBitmap, int sharpenFactor)
         {
-            ConvertMatrix matrix = null;
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
@@ -904,12 +746,12 @@ namespace Goldenacre.Core
                 sharpenFactor = 10;
             }
 
-            matrix = new ConvertMatrix();
+            var matrix = new ConvertMatrix();
 
             matrix.SetAll(0);
-            matrix.intPixel = sharpenFactor;
-            matrix.intTopMid = matrix.intMidLeft = matrix.intMidRight = matrix.intBottomMid = -2;
-            matrix.intFactor = sharpenFactor - 8;
+            matrix.IntPixel = sharpenFactor;
+            matrix.IntTopMid = matrix.IntMidLeft = matrix.IntMidRight = matrix.IntBottomMid = -2;
+            matrix.IntFactor = sharpenFactor - 8;
 
 
             return ConvertThreeByThree(originalBitmap, matrix);
@@ -925,9 +767,6 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap Smooth(Bitmap originalBitmap, int smoothFactor)
         {
-            ConvertMatrix matrix = null;
-
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
@@ -943,11 +782,11 @@ namespace Goldenacre.Core
                 smoothFactor = 10;
             }
 
-            matrix = new ConvertMatrix();
+            var matrix = new ConvertMatrix();
 
             matrix.SetAll(1);
-            matrix.intPixel = smoothFactor;
-            matrix.intFactor = smoothFactor + 8;
+            matrix.IntPixel = smoothFactor;
+            matrix.IntFactor = smoothFactor + 8;
 
             return ConvertThreeByThree(originalBitmap, matrix);
         }
@@ -962,9 +801,6 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap GaussianBlur(Bitmap originalBitmap, int blurFactor)
         {
-            ConvertMatrix matrix = null;
-
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
@@ -980,15 +816,15 @@ namespace Goldenacre.Core
                 blurFactor = 10;
             }
 
-            matrix = new ConvertMatrix();
+            var matrix = new ConvertMatrix();
 
             matrix.SetAll(1);
-            matrix.intPixel = blurFactor;
-            matrix.intTopMid = 2;
-            matrix.intMidLeft = 2;
-            matrix.intMidRight = 2;
-            matrix.intBottomMid = 2;
-            matrix.intFactor = blurFactor + 12;
+            matrix.IntPixel = blurFactor;
+            matrix.IntTopMid = 2;
+            matrix.IntMidLeft = 2;
+            matrix.IntMidRight = 2;
+            matrix.IntBottomMid = 2;
+            matrix.IntFactor = blurFactor + 12;
 
 
             return ConvertThreeByThree(originalBitmap, matrix);
@@ -1003,23 +839,20 @@ namespace Goldenacre.Core
         /// <remarks>n/a.</remarks>
         public static Bitmap Emboss(Bitmap originalBitmap)
         {
-            ConvertMatrix matrix = null;
-
-
             if (originalBitmap == null)
             {
                 throw new ArgumentNullException("originalBitmap");
             }
 
-            matrix = new ConvertMatrix();
+            var matrix = new ConvertMatrix();
 
             matrix.SetAll(-1);
-            matrix.intTopMid = 0;
-            matrix.intMidLeft = 0;
-            matrix.intMidRight = 0;
-            matrix.intBottomMid = 0;
-            matrix.intPixel = 4;
-            matrix.intOffset = 100;
+            matrix.IntTopMid = 0;
+            matrix.IntMidLeft = 0;
+            matrix.IntMidRight = 0;
+            matrix.IntBottomMid = 0;
+            matrix.IntPixel = 4;
+            matrix.IntOffset = 100;
 
 
             return ConvertThreeByThree(originalBitmap, matrix);
