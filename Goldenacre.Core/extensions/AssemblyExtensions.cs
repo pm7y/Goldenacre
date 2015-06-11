@@ -55,23 +55,22 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="assembly">The assemebly to inspect.</param>
         /// <returns>The datetime the assembly was compiled.</returns>
-        public static DateTime GetCompilationDateTime(this Assembly assembly)
+        public static DateTime GetCompilationDateTimeUtc(this Assembly assembly)
         {
-            var filePath = assembly.Location;
             const int peHeaderOffset = 60;
             const int linkerTimestampOffset = 8;
-            var b = new byte[2048];
+            const int bufferSize = 2048;
+            var buffer = new byte[bufferSize];
 
-            using (var s = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(assembly.Location, FileMode.Open, FileAccess.Read))
             {
-                s.Read(b, 0, 2048);
+                fs.Read(buffer, 0, bufferSize);
             }
 
-            var i = BitConverter.ToInt32(b, peHeaderOffset);
-            var secondsSince1970 = BitConverter.ToInt32(b, i + linkerTimestampOffset);
-            var dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            dt = dt.AddSeconds(secondsSince1970);
-            dt = dt.ToLocalTime();
+            var i = BitConverter.ToInt32(buffer, peHeaderOffset);
+            var secondsSince1970 = BitConverter.ToInt32(buffer, i + linkerTimestampOffset);
+            var dt = secondsSince1970.FromUnixTimestamp().EnsureUtc();
+
             return dt;
         }
     }

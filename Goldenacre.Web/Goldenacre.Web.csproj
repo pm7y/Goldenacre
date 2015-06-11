@@ -64,7 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AntiForgeryTokenFilterProvider.cs" />
+    <Compile Include="Filters\AntiForgeryTokenFilterProvider.cs" />
     <Compile Include="HtmlHelpers.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\RequestExtensions.cs" />

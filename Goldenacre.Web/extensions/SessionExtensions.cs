@@ -8,7 +8,28 @@ namespace Goldenacre.Extensions
 {
     public static class SessionExtensions
     {
-        public static T GetData<T>(this HttpSessionState session, string key)
+        public static void Kill(this HttpSessionState session)
+        {
+            if (session != null)
+            {
+                session.Clear();
+                session.Abandon();
+            }
+        }
+
+        public static void Kill(this HttpSessionStateBase session)
+        {
+            if (session != null)
+            {
+                session.Clear();
+                session.Abandon();
+            }
+        }
+
+        /// <summary>
+        /// Type friendly way to get session value.
+        /// </summary>
+        public static T Get<T>(this HttpSessionState session, string key)
         {
             if (session != null && session[key] != null)
             {
@@ -20,7 +41,10 @@ namespace Goldenacre.Extensions
             return default(T);
         }
 
-        public static T GetData<T>(this HttpSessionStateBase session, string key)
+        /// <summary>
+        /// Type friendly way to get session value.
+        /// </summary>
+        public static T Get<T>(this HttpSessionStateBase session, string key)
         {
             if (session != null && session[key] != null)
             {
@@ -32,14 +56,30 @@ namespace Goldenacre.Extensions
             return default(T);
         }
 
-        public static void SetData(this HttpSessionState session, string key, object value)
+        /// <summary>
+        /// Type friendly way to set session value.
+        /// </summary>
+        public static bool Set(this HttpSessionState session, string key, object value)
         {
-            session[key] = value;
+            if (session != null)
+            {
+                session[key] = value;
+                return true;
+            }
+            return false;
         }
 
-        public static void SetData(this HttpSessionStateBase session, string key, object value)
+        /// <summary>
+        /// Type friendly way to set session value.
+        /// </summary>
+        public static bool Set(this HttpSessionStateBase session, string key, object value)
         {
-            session[key] = value;
+            if (session != null)
+            {
+                session[key] = value;
+                return true;
+            }
+            return false;
         }
     }
 }

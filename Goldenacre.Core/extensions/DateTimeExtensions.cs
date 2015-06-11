@@ -7,7 +7,7 @@ namespace Goldenacre.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0);
+        public static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static int YearsOfAge(this DateTime dateOfBirth)
         {
@@ -35,7 +35,12 @@ namespace Goldenacre.Extensions
             return (long) (dateTime - Epoch).TotalSeconds;
         }
 
-        public static DateTime ToDateTime(this long unixDateTime)
+        public static DateTime FromUnixTimestamp(this long unixDateTime) 
+        {
+            return Epoch.AddSeconds(unixDateTime);
+        }
+
+        public static DateTime FromUnixTimestamp(this int unixDateTime)
         {
             return Epoch.AddSeconds(unixDateTime);
         }

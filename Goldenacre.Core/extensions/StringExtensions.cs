@@ -16,15 +16,47 @@ namespace Goldenacre.Extensions
         private const string SingleSpace = " ";
         private const string DoubleSpace = "  ";
 
-        public static bool EqualsAny(this string value, params string[] input)
+        public static bool IsNullOrWhiteSpace(this string value)
+        {
+            return string.IsNullOrWhiteSpace(value);
+        }
+
+        // ReSharper disable once InconsistentNaming
+        public static bool EqualsAnyCS(this string value, params string[] input)
+        {
+            return input.Any(s => s.Equals(value, StringComparison.CurrentCulture));
+        }
+
+        // ReSharper disable once InconsistentNaming
+        public static bool EqualsAnyCS(this string value, IEnumerable<string> input)
+        {
+            return input.Any(s => s.Equals(value, StringComparison.CurrentCulture));
+        }
+
+        // ReSharper disable once InconsistentNaming
+        public static bool EqualsAnyCI(this string value, params string[] input)
         {
             return input.Any(s => s.Equals(value, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public static bool EqualsAny(this string value, IEnumerable<string> input)
+        // ReSharper disable once InconsistentNaming
+        public static bool EqualsCI(this string value, IEnumerable<string> input)
         {
             return input.Any(s => s.Equals(value, StringComparison.InvariantCultureIgnoreCase));
         }
+
+        // ReSharper disable once InconsistentNaming
+        public static bool EqualsCI(this string value, string value2)
+        {
+            return value.Equals(value2, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        // ReSharper disable once InconsistentNaming
+        public static bool EqualsCS(this string value, string value2)
+        {
+            return value.Equals(value2, StringComparison.CurrentCulture);
+        }
+
 
         public static string TrimIfNotNullAndToLowerInvariant(this string s)
         {

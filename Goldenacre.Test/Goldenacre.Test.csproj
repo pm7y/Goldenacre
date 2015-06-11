@@ -78,15 +78,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BooleanExtensionsTest.cs" />
-    <Compile Include="StringExtensionsTest.cs" />
-    <Compile Include="SessionExtensionsTest.cs" />
-    <Compile Include="NumberExtensionsTest.cs" />
-    <Compile Include="IdentityExtensionsTest.cs" />
-    <Compile Include="EnumerableExtensionsTest.cs" />
-    <Compile Include="EntityFrameworkExtensionsTest.cs" />
-    <Compile Include="DateTimeExtensionsTest.cs" />
-    <Compile Include="AssemblyExtensionsTest.cs" />
+    <Compile Include="Goldenacre.Core\BooleanExtensionsTest.cs" />
+    <Compile Include="Goldenacre.Core\StringExtensionsTest.cs" />
+    <Compile Include="Goldenacre.Core\SessionExtensionsTest.cs" />
+    <Compile Include="Goldenacre.Core\IdentityExtensionsTest.cs" />
+    <Compile Include="Goldenacre.Core\EnumerableExtensionsTest.cs" />
+    <Compile Include="Goldenacre.Core\EntityFrameworkExtensionsTest.cs" />
+    <Compile Include="Goldenacre.Core\DateTimeExtensionsTest.cs" />
+    <Compile Include="Goldenacre.Core\AssemblyExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +102,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\This_is_an_embedded_resource.txt" />
+    <EmbeddedResource Include="Test Resources\This is an embedded resource.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

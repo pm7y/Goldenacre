@@ -12,6 +12,16 @@ namespace Goldenacre.Extensions
 {
     public static class ObjectExtensions
     {
+        public static string ToUpperInvariant<T>(this T o)
+        {
+            return o.ToString().ToUpperInvariant();
+        }
+
+        public static string ToLowerInvariant<T>(this T o)
+        {
+            return o.ToString().ToLowerInvariant();
+        }
+
         public static T EnsureBetween<T>(this T o, T min, T max) where T : IComparable<T>, IComparable
         {
             if (o.CompareTo(min) < 0)
@@ -43,7 +53,7 @@ namespace Goldenacre.Extensions
 
             if (!string.IsNullOrWhiteSpace(asString))
             {
-                return asString.EqualsAny("true", "1", "y", "yes", "ok");
+                return asString.EqualsAnyCI("true", "1", "y", "yes", "ok");
             }
 
             return false;

@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Extensions\ApplicationExtensions.cs" />
     <Compile Include="Extensions\ControlExtensions.cs" />
-    <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
