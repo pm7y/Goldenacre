@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.DirectoryServices;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Security.Principal;
 using System.Text;
 using System.Xml;
 
@@ -15,6 +18,36 @@ namespace Goldenacre.Core
 {
     public class Helper
     {
+
+
+        public static bool CurrentUserIsAdmin()
+        {
+            var currentIdentity = WindowsIdentity.GetCurrent();
+            return currentIdentity != null && new WindowsPrincipal(currentIdentity).IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        public static void RestartProcessElevated(string[] args = null)
+        {
+            var newArgs = new List<string>();
+
+            newArgs.AddRange(args);
+            newArgs.AddRange(Environment.GetCommandLineArgs());
+
+            var info = new ProcessStartInfo(Assembly.GetEntryAssembly().Location, string.Join(" ", newArgs))
+            {
+                Verb = "runas"
+            };
+
+            var process = new Process
+            {
+                EnableRaisingEvents = true,
+                StartInfo = info
+            };
+
+            process.Start();
+            process.WaitForExit();
+        }
+
         public static string AppFolder()
         {
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
@@ -43,7 +76,7 @@ namespace Goldenacre.Core
 
                     using (var wait = result.AsyncWaitHandle)
                     {
-                        if (!wait.WaitOne(timeoutInSeconds*1000, false))
+                        if (!wait.WaitOne(timeoutInSeconds * 1000, false))
                         {
                             tcp.Close();
                         }
@@ -57,7 +90,7 @@ namespace Goldenacre.Core
                 //
             }
 
-            return (long) DateTime.UtcNow.Subtract(start).TotalMilliseconds;
+            return (long)DateTime.UtcNow.Subtract(start).TotalMilliseconds;
         }
 
         public static Color GenerateRandomColour()

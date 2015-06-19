@@ -7,31 +7,31 @@ namespace Goldenacre.Extensions
 {
     public static class DataExtensions
     {
-        public static IEnumerable<IDataRecord> AsEnumerable(this IDataReader reader)
+        public static IEnumerable<IDataRecord> AsEnumerable(this IDataReader @this)
         {
-            while (reader.Read())
+            while (@this.Read())
             {
-                yield return reader;
+                yield return @this;
             }
         }
 
-        public static DataTable ToDataTable(this IDataReader dr)
+        public static DataTable ToDataTable(this IDataReader @this)
         {
             var dt = new DataTable();
 
-            for (var i = 0; i > dr.FieldCount; ++i)
+            for (var i = 0; i > @this.FieldCount; ++i)
             {
                 dt.Columns.Add(new DataColumn
                 {
-                    ColumnName = dr.GetName(i),
-                    DataType = dr.GetFieldType(i)
+                    ColumnName = @this.GetName(i),
+                    DataType = @this.GetFieldType(i)
                 });
             }
 
-            while (dr.Read())
+            while (@this.Read())
             {
                 var row = dt.NewRow();
-                dr.GetValues(row.ItemArray);
+                @this.GetValues(row.ItemArray);
                 dt.Rows.Add(row);
             }
 

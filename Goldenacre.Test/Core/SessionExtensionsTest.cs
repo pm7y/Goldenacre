@@ -2,7 +2,7 @@
 
 // ReSharper disable UnusedVariable
 
-namespace Goldenacre.Test.Goldenacre.Core
+namespace Goldenacre.Test.Core
 {
     [TestClass]
     public class SessionExtensionsTest

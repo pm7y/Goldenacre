@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.SessionState;
 
 // ReSharper disable CheckNamespace
@@ -8,32 +9,50 @@ namespace Goldenacre.Extensions
 {
     public static class SessionExtensions
     {
-        public static void Kill(this HttpSessionState session)
+        public static void Kill(this HttpSessionState @this)
         {
-            if (session != null)
+            if (@this != null)
             {
-                session.Clear();
-                session.Abandon();
+                @this.Clear();
+                @this.Abandon();
             }
         }
 
-        public static void Kill(this HttpSessionStateBase session)
+        public static void Kill(this HttpSessionStateBase @this)
         {
-            if (session != null)
+            if (@this != null)
             {
-                session.Clear();
-                session.Abandon();
+                @this.Clear();
+                @this.Abandon();
             }
+        }
+
+        public static T GetData<T>(this TempDataDictionary @this, string key)
+        {
+            if (@this.ContainsKey(key))
+            {
+                return (T)@this[key];
+            }
+            return default(T);
+        }
+
+        public static void SetData(this TempDataDictionary @this, string key, object value)
+        {
+            if (!@this.ContainsKey(key))
+            {
+                @this.Add(key, null);
+            }
+            @this[key] = value;
         }
 
         /// <summary>
         /// Type friendly way to get session value.
         /// </summary>
-        public static T Get<T>(this HttpSessionState session, string key)
+        public static T Get<T>(this HttpSessionState @this, string key)
         {
-            if (session != null && session[key] != null)
+            if (@this != null && @this[key] != null)
             {
-                var o = session[key];
+                var o = @this[key];
                 var value = (T) Convert.ChangeType(o, typeof (T));
 
                 return value;
@@ -44,11 +63,11 @@ namespace Goldenacre.Extensions
         /// <summary>
         /// Type friendly way to get session value.
         /// </summary>
-        public static T Get<T>(this HttpSessionStateBase session, string key)
+        public static T Get<T>(this HttpSessionStateBase @this, string key)
         {
-            if (session != null && session[key] != null)
+            if (@this != null && @this[key] != null)
             {
-                var o = session[key];
+                var o = @this[key];
                 var value = (T) Convert.ChangeType(o, typeof (T));
 
                 return value;
@@ -59,11 +78,11 @@ namespace Goldenacre.Extensions
         /// <summary>
         /// Type friendly way to set session value.
         /// </summary>
-        public static bool Set(this HttpSessionState session, string key, object value)
+        public static bool Set(this HttpSessionState @this, string key, object value)
         {
-            if (session != null)
+            if (@this != null)
             {
-                session[key] = value;
+                @this[key] = value;
                 return true;
             }
             return false;
@@ -72,11 +91,11 @@ namespace Goldenacre.Extensions
         /// <summary>
         /// Type friendly way to set session value.
         /// </summary>
-        public static bool Set(this HttpSessionStateBase session, string key, object value)
+        public static bool Set(this HttpSessionStateBase @this, string key, object value)
         {
-            if (session != null)
+            if (@this != null)
             {
-                session[key] = value;
+                @this[key] = value;
                 return true;
             }
             return false;

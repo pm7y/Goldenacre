@@ -6,20 +6,20 @@ namespace Goldenacre.Extensions
 {
     public static class CollectionExtensions
     {
-        public static ICollection<T> AddElement<T>(this ICollection<T> list, T item)
+        public static ICollection<T> AddElement<T>(this ICollection<T> @this, T item)
         {
-            list.Add(item);
-            return list;
+            @this.Add(item);
+            return @this;
         }
 
-        public static ICollection<T> AddElementIf<T>(this ICollection<T> list, bool condition, T item)
+        public static ICollection<T> AddElementIf<T>(this ICollection<T> @this, bool condition, T item)
         {
             if (condition)
             {
-                list.Add(item);
+                @this.Add(item);
             }
 
-            return list;
+            return @this;
         }
     }
 }

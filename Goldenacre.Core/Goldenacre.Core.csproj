@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Goldenacre.Core</RootNamespace>
     <AssemblyName>Goldenacre.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,16 +45,18 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\AppDomainExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DataExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtentions.cs" />
     <Compile Include="Extensions\BooleanExtensions.cs" />
     <Compile Include="Extensions\MemoryStreamExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Security\Aes.cs" />
     <Compile Include="ConvertMatrix.cs" />
     <Compile Include="DateRange.cs" />
-    <Compile Include="DelayedActionTimer.cs" />
     <Compile Include="ImgLib.cs" />
     <Compile Include="Security\PasswordGenerator.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
@@ -71,12 +75,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET PATH=%25PATH%25;"$(SolutionDir).nuget";
-DEL /F /Q "$(SolutionDir)pkg\$(TargetName)*"
+    <PostBuildEvent>rem SET PATH=%25PATH%25;"$(SolutionDir).nuget";
+rem DEL /F /Q "$(SolutionDir)pkg\$(TargetName)*"
 
-IF "$(ConfigurationName)"=="Release" (
-   NuGet pack "$(ProjectPath)" -OutputDirectory "$(SolutionDir)pkg" -Verbosity detailed -NonInteractive -IncludeReferencedProjects -Prop "Configuration=Release"
-)
+rem IF "$(ConfigurationName)"=="Release" (
+rem    NuGet pack "$(ProjectPath)" -OutputDirectory "$(SolutionDir)pkg" -Verbosity detailed -rem NonInteractive -IncludeReferencedProjects -Prop "Configuration=Release"
+rem )
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

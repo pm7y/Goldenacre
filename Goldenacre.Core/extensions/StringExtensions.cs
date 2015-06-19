@@ -16,118 +16,118 @@ namespace Goldenacre.Extensions
         private const string SingleSpace = " ";
         private const string DoubleSpace = "  ";
 
-        public static bool IsNullOrWhiteSpace(this string value)
+        public static bool IsNullOrWhiteSpace(this string @this)
         {
-            return string.IsNullOrWhiteSpace(value);
+            return string.IsNullOrWhiteSpace(@this);
         }
 
         // ReSharper disable once InconsistentNaming
-        public static bool EqualsAnyCS(this string value, params string[] input)
+        public static bool EqualsAnyCS(this string @this, params string[] input)
         {
-            return input.Any(s => s.Equals(value, StringComparison.CurrentCulture));
+            return input.Any(s => s.Equals(@this, StringComparison.CurrentCulture));
         }
 
         // ReSharper disable once InconsistentNaming
-        public static bool EqualsAnyCS(this string value, IEnumerable<string> input)
+        public static bool EqualsAnyCS(this string @this, IEnumerable<string> input)
         {
-            return input.Any(s => s.Equals(value, StringComparison.CurrentCulture));
+            return input.Any(s => s.Equals(@this, StringComparison.CurrentCulture));
         }
 
         // ReSharper disable once InconsistentNaming
-        public static bool EqualsAnyCI(this string value, params string[] input)
+        public static bool EqualsAnyCI(this string @this, params string[] input)
         {
-            return input.Any(s => s.Equals(value, StringComparison.InvariantCultureIgnoreCase));
+            return input.Any(s => s.Equals(@this, StringComparison.InvariantCultureIgnoreCase));
         }
 
         // ReSharper disable once InconsistentNaming
-        public static bool EqualsCI(this string value, IEnumerable<string> input)
+        public static bool EqualsCI(this string @this, IEnumerable<string> input)
         {
-            return input.Any(s => s.Equals(value, StringComparison.InvariantCultureIgnoreCase));
+            return input.Any(s => s.Equals(@this, StringComparison.InvariantCultureIgnoreCase));
         }
 
         // ReSharper disable once InconsistentNaming
-        public static bool EqualsCI(this string value, string value2)
+        public static bool EqualsCI(this string @this, string value2)
         {
-            return value.Equals(value2, StringComparison.InvariantCultureIgnoreCase);
+            return @this.Equals(value2, StringComparison.InvariantCultureIgnoreCase);
         }
 
         // ReSharper disable once InconsistentNaming
-        public static bool EqualsCS(this string value, string value2)
+        public static bool EqualsCS(this string @this, string value2)
         {
-            return value.Equals(value2, StringComparison.CurrentCulture);
+            return @this.Equals(value2, StringComparison.CurrentCulture);
         }
 
 
-        public static string TrimIfNotNullAndToLowerInvariant(this string s)
+        public static string TrimIfNotNullAndToLowerInvariant(this string @this)
         {
-            if (!string.IsNullOrEmpty(s))
+            if (!string.IsNullOrEmpty(@this))
             {
-                return s.Trim().ToLowerInvariant();
+                return @this.Trim().ToLowerInvariant();
             }
-            return s;
+            return @this;
         }
 
-        public static string TrimIfNotNull(this string s)
+        public static string TrimIfNotNull(this string @this)
         {
-            if (!string.IsNullOrEmpty(s))
+            if (!string.IsNullOrEmpty(@this))
             {
-                return s.Trim();
+                return @this.Trim();
             }
-            return s;
+            return @this;
         }
 
-        public static bool ContainsAll(this string value, params string[] values)
+        public static bool ContainsAll(this string @this, params string[] values)
         {
-            return values.All(one => value.ToLowerInvariant().Contains(one.ToLowerInvariant()));
+            return values.All(one => @this.ToLowerInvariant().Contains(one.ToLowerInvariant()));
         }
 
-        public static bool IsStrongPassword(this string s)
+        public static bool IsStrongPassword(this string @this)
         {
-            var isStrong = Regex.IsMatch(s, @"[\d]");
-            if (isStrong) isStrong = Regex.IsMatch(s, @"[a-z]");
-            if (isStrong) isStrong = Regex.IsMatch(s, @"[A-Z]");
-            if (isStrong) isStrong = Regex.IsMatch(s, @"[\s~!@#\$%\^&\*\(\)\{\}\|\[\]\\:;'?,.`+=<>\/]");
-            if (isStrong) isStrong = s.Length > 7;
+            var isStrong = Regex.IsMatch(@this, @"[\d]");
+            if (isStrong) isStrong = Regex.IsMatch(@this, @"[a-z]");
+            if (isStrong) isStrong = Regex.IsMatch(@this, @"[A-Z]");
+            if (isStrong) isStrong = Regex.IsMatch(@this, @"[\s~!@#\$%\^&\*\(\)\{\}\|\[\]\\:;'?,.`+=<>\/]");
+            if (isStrong) isStrong = @this.Length > 7;
             return isStrong;
         }
 
-        public static string ToPlural(this string input, int count = 0)
+        public static string ToPlural(this string @this, int count = 0)
         {
-            return count == 1 ? input : PluralizationService.CreateService(CultureInfo.CurrentCulture).Pluralize(input);
+            return count == 1 ? @this : PluralizationService.CreateService(CultureInfo.CurrentCulture).Pluralize(@this);
         }
 
-        public static bool IsDate(this string input)
+        public static bool IsDate(this string @this)
         {
-            if (!string.IsNullOrEmpty(input))
+            if (!string.IsNullOrEmpty(@this))
             {
                 DateTime dt;
-                return (DateTime.TryParse(input, out dt));
+                return (DateTime.TryParse(@this, out dt));
             }
             return false;
         }
 
-        public static bool IsGuid(this string s)
+        public static bool IsGuid(this string @this)
         {
-            if (s == null)
+            if (@this == null)
                 throw new ArgumentNullException("s");
 
             var format = new Regex(
                 "^[A-Fa-f0-9]{32}$|" +
                 "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
                 "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$");
-            var match = format.Match(s);
+            var match = format.Match(@this);
 
             return match.Success;
         }
 
-        public static string SubstringToIndexOf(this string input, string value,
+        public static string SubstringToIndexOf(this string @this, string value,
             StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            var idx = input.IndexOf(value, StringComparison.InvariantCultureIgnoreCase);
+            var idx = @this.IndexOf(value, StringComparison.InvariantCultureIgnoreCase);
 
             if (idx > 0)
             {
-                return input.Substring(0, idx);
+                return @this.Substring(0, idx);
             }
 
             if (idx == 0)
@@ -135,7 +135,7 @@ namespace Goldenacre.Extensions
                 return string.Empty;
             }
 
-            return input;
+            return @this;
         }
 
         /// <summary>
@@ -144,9 +144,9 @@ namespace Goldenacre.Extensions
         /// <typeparam name="T">The type of the Enum</typeparam>
         /// <param name="input">String value to parse</param>
         /// <returns>The Enum corresponding to the stringExtensions</returns>
-        public static T ToEnum<T>(this string input)
+        public static T ToEnum<T>(this string @this)
         {
-            return ToEnum<T>(input, false);
+            return ToEnum<T>(@this, false);
         }
 
         /// <summary>
@@ -156,14 +156,14 @@ namespace Goldenacre.Extensions
         /// <param name="input">String value to parse</param>
         /// <param name="ignorecase">Ignore the case of the string being parsed</param>
         /// <returns>The Enum corresponding to the stringExtensions</returns>
-        public static T ToEnum<T>(this string input, bool ignorecase)
+        public static T ToEnum<T>(this string @this, bool ignorecase)
         {
-            if (string.IsNullOrWhiteSpace(input))
+            if (string.IsNullOrWhiteSpace(@this))
             {
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException("@this");
             }
 
-            input = input.Trim();
+            @this = @this.Trim();
 
             var t = typeof (T);
 
@@ -172,35 +172,35 @@ namespace Goldenacre.Extensions
                 throw new ArgumentException("Not an enum value!");
             }
 
-            return (T) Enum.Parse(t, input, ignorecase);
+            return (T)Enum.Parse(t, @this, ignorecase);
         }
 
-        public static string DapiEncrypt(this string text)
+        public static string DapiEncrypt(this string @this)
         {
             return
-                Convert.ToBase64String(ProtectedData.Protect(Encoding.Unicode.GetBytes(text), null,
+                Convert.ToBase64String(ProtectedData.Protect(Encoding.Unicode.GetBytes(@this), null,
                     DataProtectionScope.LocalMachine));
         }
 
-        public static string DapiDecrypt(this string text)
+        public static string DapiDecrypt(this string @this)
         {
             return
-                Encoding.Unicode.GetString(ProtectedData.Unprotect(Convert.FromBase64String(text), null,
+                Encoding.Unicode.GetString(ProtectedData.Unprotect(Convert.FromBase64String(@this), null,
                     DataProtectionScope.LocalMachine));
         }
 
-        public static string Format(this string intput, params object[] args)
+        public static string Frmat(this string @this, params object[] args)
         {
-            return string.Format(intput, args);
+            return string.Format(@this, args);
         }
 
-        public static int NthIndexOf(this string input, string match, int occurrence)
+        public static int NthIndexOf(this string @this, string match, int occurrence)
         {
             var i = 1;
             var index = 0;
 
             while (i <= occurrence &&
-                   (index = input.IndexOf(match, index + 1, StringComparison.InvariantCultureIgnoreCase)) != -1)
+                   (index = @this.IndexOf(match, index + 1, StringComparison.InvariantCultureIgnoreCase)) != -1)
             {
                 if (i == occurrence)
                 {
@@ -219,9 +219,9 @@ namespace Goldenacre.Extensions
         /// <typeparam name="T">Type the string will be converted to. The type must implement IConvertable.</typeparam>
         /// <param name="original">The original string.</param>
         /// <returns>The converted value.</returns>
-        public static T ConvertTo<T>(this string original)
+        public static T ConvertTo<T>(this string @this)
         {
-            return ConvertTo(original, CultureInfo.CurrentCulture, default(T));
+            return ConvertTo(@this, CultureInfo.CurrentCulture, default(T));
         }
 
         /// <summary>
@@ -234,9 +234,9 @@ namespace Goldenacre.Extensions
         ///     converted.
         /// </param>
         /// <returns>The converted value.</returns>
-        public static T ConvertTo<T>(this string original, T defaultValue)
+        public static T ConvertTo<T>(this string @this, T defaultValue)
         {
-            return ConvertTo(original, CultureInfo.CurrentCulture, defaultValue);
+            return ConvertTo(@this, CultureInfo.CurrentCulture, defaultValue);
         }
 
         /// <summary>
@@ -246,9 +246,9 @@ namespace Goldenacre.Extensions
         /// <param name="original">The original string.</param>
         /// <param name="provider">Format provider used during the type conversion.</param>
         /// <returns>The converted value.</returns>
-        public static T ConvertTo<T>(this string original, IFormatProvider provider)
+        public static T ConvertTo<T>(this string @this, IFormatProvider provider)
         {
-            return ConvertTo(original, provider, default(T));
+            return ConvertTo(@this, provider, default(T));
         }
 
         /// <summary>
@@ -269,13 +269,13 @@ namespace Goldenacre.Extensions
         ///     This method is intended to be used to convert string values to primatives, not for parsing, converting, or
         ///     deserializing complex types.
         /// </remarks>
-        public static T ConvertTo<T>(this string original, IFormatProvider provider,
+        public static T ConvertTo<T>(this string @this, IFormatProvider provider,
             T defaultValue)
         {
             T result;
             var type = typeof (T);
 
-            if (string.IsNullOrEmpty(original)) result = defaultValue;
+            if (string.IsNullOrEmpty(@this)) result = defaultValue;
             else
             {
                 // need to get the underlying type if T is Nullable<>.
@@ -289,8 +289,8 @@ namespace Goldenacre.Extensions
                 {
                     // ChangeType doesn't work properly on Enums
                     result = type.IsEnum
-                        ? (T) Enum.Parse(type, original, true)
-                        : (T) Convert.ChangeType(original, type, provider);
+                        ? (T)Enum.Parse(type, @this, true)
+                        : (T)Convert.ChangeType(@this, type, provider);
                 }
                 catch
                     // HACK: what can we do to minimize or avoid raising exceptions as part of normal operation? custom string parsing (regex?) for well-known types? it would be best to know if you can convert to the desired type before you attempt to do so.
@@ -318,9 +318,9 @@ namespace Goldenacre.Extensions
         ///     "joe".IsLike("?at"); // false
         ///     "joe".IsLike("[A-Z][a-z][a-z]"); // false
         /// </remarks>
-        public static bool IsLike(this string s, string wildcardPattern)
+        public static bool IsLike(this string @this, string wildcardPattern)
         {
-            if (s == null || string.IsNullOrEmpty(wildcardPattern)) return false;
+            if (@this == null || string.IsNullOrEmpty(wildcardPattern)) return false;
             // turn into regex pattern, and match the whole string with ^$
             var regexPattern = "^" + Regex.Escape(wildcardPattern) + "$";
 
@@ -335,7 +335,7 @@ namespace Goldenacre.Extensions
             bool result;
             try
             {
-                result = Regex.IsMatch(s, regexPattern);
+                result = Regex.IsMatch(@this, regexPattern);
             }
             catch (ArgumentException ex)
             {
@@ -344,58 +344,58 @@ namespace Goldenacre.Extensions
             return result;
         }
 
-        public static string RemoveAllWhitespace(this string text)
+        public static string RemoveAllWhitespace(this string @this)
         {
-            if (text == null) throw new ArgumentNullException("text");
+            if (@this == null) throw new ArgumentNullException("@this");
 
-            text = text.Replace("\t", string.Empty);
+            @this = @this.Replace("\t", string.Empty);
 
-            while (text.Contains(SingleSpace))
+            while (@this.Contains(SingleSpace))
             {
-                text = text.Replace(SingleSpace, string.Empty);
+                @this = @this.Replace(SingleSpace, string.Empty);
             }
 
-            return text;
+            return @this;
         }
 
-        public static string TrimAndRemoveConsecutiveWhitespace(this string text)
+        public static string TrimAndRemoveConsecutiveWhitespace(this string @this)
         {
-            if (text == null) throw new ArgumentNullException("text");
+            if (@this == null) throw new ArgumentNullException("text");
 
-            text = text.Replace("\t", SingleSpace).Trim();
+            @this = @this.Replace("\t", SingleSpace).Trim();
 
-            while (text.Contains(DoubleSpace))
+            while (@this.Contains(DoubleSpace))
             {
-                text = text.Replace(DoubleSpace, SingleSpace);
+                @this = @this.Replace(DoubleSpace, SingleSpace);
             }
 
-            return text;
+            return @this;
         }
 
-        public static string SplitOnCapitals(string text)
+        public static string SplitOnCapitals(string @this)
         {
-            var result = new StringBuilder(text.Length);
+            var result = new StringBuilder(@this.Length);
             var countSinceLastSpace = 0;
-            for (var i = 0; i < text.Length - 1; i++)
+            for (var i = 0; i < @this.Length - 1; i++)
             {
-                result.Append(text[i]);
-                if (countSinceLastSpace > 2 && text[i] != ' ' && text[i] != '-' &&
-                    (char.IsUpper(text[i + 1]) || !char.IsDigit(text[i]) && char.IsDigit(text[i + 1])))
+                result.Append(@this[i]);
+                if (countSinceLastSpace > 2 && @this[i] != ' ' && @this[i] != '-' &&
+                    (char.IsUpper(@this[i + 1]) || !char.IsDigit(@this[i]) && char.IsDigit(@this[i + 1])))
                 {
                     result.Append(' ');
                     countSinceLastSpace = 0;
                 }
                 countSinceLastSpace++;
             }
-            result.Append(text[text.Length - 1]);
+            result.Append(@this[@this.Length - 1]);
 
             return result.ToString();
         }
 
-        public static string ToTitleCase(this string input)
+        public static string ToTitleCase(this string @this)
         {
             var textInfo = CultureInfo.CurrentCulture.TextInfo;
-            return textInfo.ToTitleCase(input);
+            return textInfo.ToTitleCase(@this);
         }
 
         /// <summary>
@@ -406,21 +406,21 @@ namespace Goldenacre.Extensions
         /// <param name="input">The sentence to convert.</param>
         /// <param name="ignore">A list of words to ignore. Useful for abbreviations etc.</param>
         /// <returns>Pascal cased sentence.</returns>
-        public static string ToPascalCase(this string input, params string[] ignore)
+        public static string ToPascalCase(this string @this, params string[] ignore)
         {
-            if (input == null)
+            if (@this == null)
             {
                 throw new ArgumentNullException();
             }
 
             var strReturn = string.Empty;
 
-            if (input.Trim().Length > 0)
+            if (@this.Trim().Length > 0)
             {
                 var objSb = new StringBuilder();
-                var leftSpace = new string(input.TakeWhile(c => c == ' ').ToArray());
-                var rightSpace = new string(input.Reverse().TakeWhile(c => c == ' ').ToArray());
-                var arrWords = input.Trim().Split(new[] {' '}, StringSplitOptions.None);
+                var leftSpace = new string(@this.TakeWhile(c => c == ' ').ToArray());
+                var rightSpace = new string(@this.Reverse().TakeWhile(c => c == ' ').ToArray());
+                var arrWords = @this.Trim().Split(new[] { ' ' }, StringSplitOptions.None);
 
                 foreach (var word in arrWords)
                 {
@@ -457,9 +457,9 @@ namespace Goldenacre.Extensions
             return strReturn;
         }
 
-        public static string ToAlphaNumeric(this string input)
+        public static string ToAlphaNumeric(this string @this)
         {
-            return new string(input.Where(char.IsLetterOrDigit).ToArray());
+            return new string(@this.Where(char.IsLetterOrDigit).ToArray());
         }
 
         /// <summary>
@@ -467,15 +467,15 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="input">The string to encode.</param>
         /// <returns>The encoded string.</returns>
-        public static string ToHexMd5Hash(this string input)
+        public static string ToHexMd5Hash(this string @this)
         {
-            if (input == null)
+            if (@this == null)
             {
                 throw new ArgumentNullException();
             }
 
             var md5Hasher = new MD5CryptoServiceProvider();
-            var hashedDataBytes = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+            var hashedDataBytes = md5Hasher.ComputeHash(Encoding.Default.GetBytes(@this));
 
             // step 2, convert byte array to hex string
             var sb = new StringBuilder();
@@ -491,30 +491,30 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="input">The string to encode.</param>
         /// <returns>The encoded string.</returns>
-        public static string ToBase64Md5Hash(this string input)
+        public static string ToBase64Md5Hash(this string @this)
         {
-            if (input == null)
+            if (@this == null)
             {
                 throw new ArgumentNullException();
             }
 
             var md5Hasher = new MD5CryptoServiceProvider();
-            var hashedDataBytes = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+            var hashedDataBytes = md5Hasher.ComputeHash(Encoding.Default.GetBytes(@this));
 
             return Convert.ToBase64String(hashedDataBytes);
         }
 
-        public static string ToAspNetPasswordHash(string password)
+        public static string ToAspNetPasswordHash(string @this)
         {
-            if (password == null)
+            if (@this == null)
             {
-                throw new ArgumentNullException("password");
+                throw new ArgumentNullException("@this");
             }
 
             byte[] salt;
             byte[] bytes;
 
-            using (var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, 16, 1000))
+            using (var rfc2898DeriveBytes = new Rfc2898DeriveBytes(@this, 16, 1000))
             {
                 salt = rfc2898DeriveBytes.Salt;
                 bytes = rfc2898DeriveBytes.GetBytes(32);

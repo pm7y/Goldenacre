@@ -8,10 +8,15 @@ namespace Goldenacre.Web.Filters
     {
         public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
         {
-            var incomingVerb = controllerContext.HttpContext.Request.HttpMethod;
+            var incomingVerb = controllerContext.HttpContext.Request.HttpMethod.ToUpperInvariant();
 
-            return new List<Filter>().AddElementIf(incomingVerb.EqualsCI(HttpVerbs.Post.ToString()),
-                new Filter(new ValidateAntiForgeryTokenAttribute(), FilterScope.Global, null));
+            var filters = new List<Filter>();
+            if (incomingVerb == HttpVerbs.Post.ToString().ToString().ToUpperInvariant())
+            {
+                filters.Add(new Filter(new ValidateAntiForgeryTokenAttribute(), FilterScope.Global, null));
+            }
+
+            return filters;
         }
     }
 }

@@ -12,44 +12,44 @@ namespace Goldenacre.Extensions
 {
     public static class ObjectExtensions
     {
-        public static string ToUpperInvariant<T>(this T o)
+        public static string ToUpperInvariant<T>(this T @this)
         {
-            return o.ToString().ToUpperInvariant();
+            return @this.ToString().ToUpperInvariant();
         }
 
-        public static string ToLowerInvariant<T>(this T o)
+        public static string ToLowerInvariant<T>(this T @this)
         {
-            return o.ToString().ToLowerInvariant();
+            return @this.ToString().ToLowerInvariant();
         }
 
-        public static T EnsureBetween<T>(this T o, T min, T max) where T : IComparable<T>, IComparable
+        public static T EnsureBetween<T>(this T @this, T min, T max) where T : IComparable<T>, IComparable
         {
-            if (o.CompareTo(min) < 0)
+            if (@this.CompareTo(min) < 0)
             {
                 return min;
             }
 
-            if (o.CompareTo(max) > 0)
+            if (@this.CompareTo(max) > 0)
             {
                 return max;
             }
 
-            return o;
+            return @this;
         }
 
-        public static bool Truthy<T>(this T input)
+        public static bool Truthy<T>(this T @this)
         {
-            if (input == null)
+            if (@this == null)
             {
                 return false;
             }
 
             if (typeof (T) == typeof (bool))
             {
-                return Convert.ToBoolean(Convert.ChangeType(input, typeof (bool)));
+                return Convert.ToBoolean(Convert.ChangeType(@this, typeof(bool)));
             }
 
-            var asString = Convert.ToString(input);
+            var asString = Convert.ToString(@this);
 
             if (!string.IsNullOrWhiteSpace(asString))
             {
@@ -59,49 +59,49 @@ namespace Goldenacre.Extensions
             return false;
         }
 
-        public static bool IsSet(this Enum input, Enum matchTo)
+        public static bool IsSet(this Enum @this, Enum matchTo)
         {
-            return (Convert.ToUInt32(input) & Convert.ToUInt32(matchTo)) != 0;
+            return (Convert.ToUInt32(@this) & Convert.ToUInt32(matchTo)) != 0;
         }
 
-        public static T DeepClone<T>(this T input) where T : ISerializable
+        public static T DeepClone<T>(this T @this) where T : ISerializable
         {
             using (var stream = new MemoryStream())
             {
                 var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, input);
+                formatter.Serialize(stream, @this);
                 stream.Position = 0;
                 return (T) formatter.Deserialize(stream);
             }
         }
 
-        public static bool In<T>(this T value, params T[] list)
+        public static bool In<T>(this T @this, params T[] list)
         {
-            return list.Contains(value);
+            return list.Contains(@this);
         }
 
-        public static bool Between<T>(this T value, T from, T to) where T : IComparable<T>, IComparable
+        public static bool Between<T>(this T @this, T from, T to) where T : IComparable<T>, IComparable
         {
-            return value.CompareTo(from) >= 0 && value.CompareTo(to) <= 0;
+            return @this.CompareTo(from) >= 0 && @this.CompareTo(to) <= 0;
         }
 
-        public static bool IsNullable<T>(this T obj)
+        public static bool IsNullable<T>(this T @this)
         {
-            if (obj == null) return true; // obvious
+            if (@this == null) return true; // obvious
             var type = typeof (T);
             if (!type.IsValueType) return true; // ref-type
             if (Nullable.GetUnderlyingType(type) != null) return true; // Nullable<T>
             return false; // value-type
         }
 
-        public static bool IsType<T>(this object item) where T : class
+        public static bool IsType<T>(this object @this) where T : class
         {
-            return item is T;
+            return @this is T;
         }
 
-        public static bool IsNotType<T>(this object item) where T : class
+        public static bool IsNotType<T>(this object @this) where T : class
         {
-            return !(item.IsType<T>());
+            return !(@this.IsType<T>());
         }
 
         /// <summary>
@@ -111,13 +111,13 @@ namespace Goldenacre.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="o"></param>
         /// <param name="criteria"></param>
-        public static void ConvertDateTimePropertiesToUtc<T>(this T o,
+        public static void ConvertDateTimePropertiesToUtc<T>(this T @this,
             Expression<Func<PropertyInfo, bool>> criteria = null) where T : class
         {
-            if (o != null)
+            if (@this != null)
             {
                 var properties =
-                    o.GetType()
+                    @this.GetType()
                         .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
                         .Where(
                             x =>
@@ -131,13 +131,13 @@ namespace Goldenacre.Extensions
                 foreach (var property in properties)
                 {
                     var dt = property.PropertyType == typeof (DateTime?)
-                        ? (DateTime?) property.GetValue(o, null)
-                        : (DateTime) property.GetValue(o, null);
+                        ? (DateTime?)property.GetValue(@this, null)
+                        : (DateTime)property.GetValue(@this, null);
 
                     if (dt != null && dt.Value.Kind != DateTimeKind.Utc)
                     {
                         var v = DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc);
-                        property.SetValue(o, v, null);
+                        property.SetValue(@this, v, null);
                     }
                 }
             }

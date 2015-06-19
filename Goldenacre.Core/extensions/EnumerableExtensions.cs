@@ -9,37 +9,37 @@ namespace Goldenacre.Extensions
 {
     public static class EnumerableExtensions
     {
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> coll)
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> @this)
         {
             var c = new ObservableCollection<T>();
-            foreach (var e in coll)
+            foreach (var e in @this)
             {
                 c.Add(e);
             }
             return c;
         }
 
-        public static bool IsLastElement<T>(this IEnumerable<T> items, T element)
+        public static bool IsLastElement<T>(this IEnumerable<T> @this, T element)
             where T : class
         {
-            var last = items.LastOrDefault();
+            var last = @this.LastOrDefault();
 
             return last != null && last.Equals(element);
         }
 
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> @this,
             Func<TSource, TKey> keySelector)
         {
             var seenKeys = new HashSet<TKey>();
-            return source.Where(element => seenKeys.Add(keySelector(element)));
+            return @this.Where(element => seenKeys.Add(keySelector(element)));
         }
 
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        public static void ForEach<T>(this IEnumerable<T> @this, Action<T> action)
         {
-            if (source == null) throw new ArgumentNullException("source");
+            if (@this == null) throw new ArgumentNullException("source");
             if (action == null) throw new ArgumentNullException("action");
 
-            foreach (var element in source)
+            foreach (var element in @this)
             {
                 action(element);
             }

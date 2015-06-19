@@ -17,65 +17,58 @@ namespace Goldenacre.Extensions
         /// <param name="ex">The exception to create the string from.</param>
         /// <param name="additionalMessage">Additional message to place at the top of the string, maybe be empty or null.</param>
         /// <returns></returns>
-        public static string ToLogString(this Exception ex, string additionalMessage)
+        public static string ToLogString(this Exception @this, string additionalMessage = null)
         {
             var msg = new StringBuilder();
 
-            if (!string.IsNullOrEmpty(additionalMessage))
-            {
-                msg.Append(additionalMessage);
-                msg.Append(Environment.NewLine);
-            }
+            msg.AppendLine(@this.GetType().FullName);
+            msg.AppendLine("");
 
-            if (ex != null)
-            {
-                var orgEx = ex;
+            msg.AppendLineIfIsNotNullOrWhiteSpace(additionalMessage.Trim() + Environment.NewLine);
 
-                msg.Append("Exception:");
-                msg.Append(Environment.NewLine);
+            if (@this != null)
+            {
+                var orgEx = @this;
+
                 while (orgEx != null)
                 {
-                    msg.Append(orgEx.Message);
-                    msg.Append(Environment.NewLine);
+                    msg.AppendLine(orgEx.Message);
+                    msg.AppendLineIfIsNotNullOrWhiteSpace(orgEx.HelpLink);
                     orgEx = orgEx.InnerException;
                 }
 
-                foreach (var i in ex.Data)
+                foreach (var i in @this.Data)
                 {
-                    msg.Append("Data :");
-                    msg.Append(i);
-                    msg.Append(Environment.NewLine);
+                    msg.AppendLine("Data :");
+                    msg.AppendLine(i.ToString());
                 }
 
-                if (ex.StackTrace != null)
+                if (!string.IsNullOrWhiteSpace(@this.StackTrace))
                 {
-                    msg.Append("StackTrace:");
-                    msg.Append(Environment.NewLine);
-                    msg.Append(ex.StackTrace);
-                    msg.Append(Environment.NewLine);
+                    msg.AppendLine("");
+                    msg.AppendLine(@this.StackTrace.Trim());
                 }
 
-                if (ex.Source != null)
+                //if (!string.IsNullOrWhiteSpace(ex.Source))
+                //{
+                //    msg.AppendLine("Source:");
+                //    msg.AppendLine(ex.Source);
+                //}
+
+                if (@this.TargetSite != null)
                 {
-                    msg.Append("Source:");
-                    msg.Append(Environment.NewLine);
-                    msg.Append(ex.Source);
-                    msg.Append(Environment.NewLine);
+                    msg.AppendLine("");
+                    if (@this.TargetSite.DeclaringType != null)
+                    {
+                        msg.Append(@this.TargetSite.DeclaringType.FullName);
+                    }
+                    msg.Append(@this.TargetSite.Name);
+                    msg.AppendLine("");
                 }
 
-                if (ex.TargetSite != null)
-                {
-                    msg.Append("TargetSite:");
-                    msg.Append(Environment.NewLine);
-                    msg.Append(ex.TargetSite);
-                    msg.Append(Environment.NewLine);
-                }
 
-                msg.Append("BaseException:");
-                msg.Append(Environment.NewLine);
-                msg.Append(ex.GetBaseException());
             }
-            return msg.ToString();
+            return msg.ToString().Trim();
         }
     }
 }

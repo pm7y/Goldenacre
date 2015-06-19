@@ -6,23 +6,23 @@ namespace Goldenacre.Extensions
 {
     public static class IdentityExtensions
     {
-        public static bool IsAuthenticated(this IPrincipal p)
+        public static bool IsAuthenticated(this IPrincipal @this)
         {
-            return (p != null && p.Identity != null && p.Identity.IsAuthenticated);
+            return (@this != null && @this.Identity != null && @this.Identity.IsAuthenticated);
         }
 
-        public static bool IsAuthenticated(this IIdentity ii)
+        public static bool IsAuthenticated(this IIdentity @this)
         {
-            return (ii != null && ii.IsAuthenticated);
+            return (@this != null && @this.IsAuthenticated);
         }
 
-        public static string NameWithoutDomain(this IIdentity ii)
+        public static string NameWithoutDomain(this IIdentity @this)
         {
             var name = string.Empty;
 
-            if (ii != null)
+            if (@this != null)
             {
-                name = ii.Name;
+                name = @this.Name;
 
                 if (name.Contains(@"\"))
                 {

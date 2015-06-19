@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Windows.Forms;
-using Goldenacre.Extensions;
 
-namespace Goldenacre.Winforms.Extensions
+// ReSharper disable CheckNamespace
+
+namespace Goldenacre.Extensions
 {
     public static class ControlExtensions
     {
@@ -86,6 +87,34 @@ namespace Goldenacre.Winforms.Extensions
         {
             return control.DataBindings.Add(controlProperty.MemberNameOf(), dataSource,
                 dataSourceProperty.MemberNameOf(), formattingEnabled, updateMode, nullValue, formatString, formatInfo);
+        }
+
+        private static string MemberNameOf(this LambdaExpression memberSelector)
+        {
+            Func<Expression, string> nameSelector = null;
+            nameSelector = e =>
+            {
+                switch (e.NodeType)
+                {
+                    case ExpressionType.Parameter:
+                        return ((ParameterExpression)e).Name;
+                    case ExpressionType.MemberAccess:
+                        return ((MemberExpression)e).Member.Name;
+                    case ExpressionType.Call:
+                        return ((MethodCallExpression)e).Method.Name;
+                    case ExpressionType.Convert:
+                    case ExpressionType.ConvertChecked:
+                        return nameSelector(((UnaryExpression)e).Operand);
+                    case ExpressionType.Invoke:
+                        return nameSelector(((InvocationExpression)e).Expression);
+                    case ExpressionType.ArrayLength:
+                        return "Length";
+                    default:
+                        throw new Exception("not a proper member selector");
+                }
+            };
+
+            return nameSelector(memberSelector.Body);
         }
     }
 }

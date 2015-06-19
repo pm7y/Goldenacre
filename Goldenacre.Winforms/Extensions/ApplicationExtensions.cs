@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using System.Windows.Forms;
 
-namespace Goldenacre.Winforms.Extensions
+// ReSharper disable CheckNamespace
+
+namespace Goldenacre.Extensions
 {
     public static class ApplicationExtensions
     {

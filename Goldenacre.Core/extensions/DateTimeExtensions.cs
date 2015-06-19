@@ -7,42 +7,55 @@ namespace Goldenacre.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        public static readonly DateTime EpochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public static int YearsOfAge(this DateTime dateOfBirth)
+        /// <summary>
+        /// The years of age of a person given their DoB.
+        /// </summary>
+        public static int YearsOfAge(this DateTime @this)
         {
-            if (DateTime.Today.Month < dateOfBirth.Month ||
-                DateTime.Today.Month == dateOfBirth.Month && DateTime.Today.Day < dateOfBirth.Day)
+            if (DateTime.Today.Month < @this.Month ||
+                DateTime.Today.Month == @this.Month && DateTime.Today.Day < @this.Day)
             {
-                return DateTime.Today.Year - dateOfBirth.Year - 1;
+                return DateTime.Today.Year - @this.Year - 1;
             }
 
-            return DateTime.Today.Year - dateOfBirth.Year;
+            return DateTime.Today.Year - @this.Year;
         }
 
         /// <summary>
-        ///     Elapsed time.
+        /// The elapsed timespan since the given datetime.
         /// </summary>
-        /// <param name="datetime">The datetime.</param>
-        /// <returns>TimeSpan</returns>
-        public static TimeSpan Elapsed(this DateTime datetime)
+        public static TimeSpan Elapsed(this DateTime @this)
         {
-            return DateTime.UtcNow - datetime.EnsureUtc();
+            return DateTime.UtcNow - @this.EnsureUtc();
         }
 
-        public static long ToUnixTimestamp(this DateTime dateTime)
+        /// <summary>
+        /// Converts a DateTime into a unix timestamp.
+        /// i.e. the number of seconds since 1970-01-01.
+        /// </summary>
+        public static long ToUnixTimestamp(this DateTime @this)
         {
-            return (long) (dateTime - Epoch).TotalSeconds;
+            return (long)(@this.EnsureUtc() - EpochUtc).TotalSeconds;
         }
 
-        public static DateTime FromUnixTimestamp(this long unixDateTime) 
+        /// <summary>
+        /// Converts a unix timestamp into a datetime.
+        /// i.e. the number of seconds since 1970-01-01.
+        /// </summary>
+        public static DateTime FromUnixTimestamp(this long @this)
         {
-            return Epoch.AddSeconds(unixDateTime);
+            return EpochUtc.AddSeconds(@this);
         }
 
-        public static DateTime FromUnixTimestamp(this int unixDateTime)
+        /// <summary>
+        /// Converts a unix timestamp into a datetime.
+        /// i.e. the number of seconds since 1970-01-01.
+        /// </summary>
+        public static DateTime FromUnixTimestamp(this int @this)
         {
-            return Epoch.AddSeconds(unixDateTime);
+            return EpochUtc.AddSeconds(@this);
         }
 
         /// <summary>
@@ -51,18 +64,18 @@ namespace Goldenacre.Extensions
         /// <param name="dt">The DateTime to convert.</param>
         /// <param name="targetTimeZone">The target time zone to convert to. If null then the machine time zone is used.</param>
         /// <returns>A local DateTime.</returns>
-        public static DateTime EnsureLocal(this DateTime dt, TimeZoneInfo targetTimeZone = null)
+        public static DateTime EnsureLocal(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            if (dt.Kind == DateTimeKind.Unspecified)
+            if (@this.Kind == DateTimeKind.Unspecified)
             {
-                dt = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+                @this = DateTime.SpecifyKind(@this, DateTimeKind.Utc);
             }
             if (targetTimeZone == null)
             {
                 targetTimeZone = TimeZoneInfo.Local;
             }
 
-            return TimeZoneInfo.ConvertTimeFromUtc(dt.ToUniversalTime(), targetTimeZone);
+            return TimeZoneInfo.ConvertTimeFromUtc(@this.ToUniversalTime(), targetTimeZone);
         }
 
         /// <summary>
@@ -71,11 +84,11 @@ namespace Goldenacre.Extensions
         /// <param name="dt">The DateTime to convert. If null then returns null.</param>
         /// <param name="targetTimeZone">The target time zone to convert to. If null then the machine time zone is used.</param>
         /// <returns>A local DateTime or null if specified DateTime is null.</returns>
-        public static DateTime? EnsureLocal(this DateTime? dt, TimeZoneInfo targetTimeZone = null)
+        public static DateTime? EnsureLocal(this DateTime? @this, TimeZoneInfo targetTimeZone = null)
         {
-            if (dt.HasValue)
+            if (@this.HasValue)
             {
-                return dt.Value.EnsureLocal();
+                return @this.Value.EnsureLocal();
             }
             return null;
         }
@@ -85,14 +98,14 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="dt">The DateTime to convert.</param>
         /// <returns>A UTC DateTime.</returns>
-        public static DateTime EnsureUtc(this DateTime dt)
+        public static DateTime EnsureUtc(this DateTime @this)
         {
-            if (dt.Kind == DateTimeKind.Unspecified)
+            if (@this.Kind == DateTimeKind.Unspecified)
             {
-                return DateTime.SpecifyKind(dt, DateTimeKind.Utc);
+                return DateTime.SpecifyKind(@this, DateTimeKind.Utc);
             }
 
-            return dt.ToUniversalTime();
+            return @this.ToUniversalTime();
         }
 
         /// <summary>
@@ -100,11 +113,11 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="dt">The DateTime to convert.</param>
         /// <returns>A UTC DateTime or null if specified DateTime is null.</returns>
-        public static DateTime? EnsureUtc(this DateTime? dt)
+        public static DateTime? EnsureUtc(this DateTime? @this)
         {
-            if (dt.HasValue)
+            if (@this.HasValue)
             {
-                return dt.Value.EnsureUtc();
+                return @this.Value.EnsureUtc();
             }
             return null;
         }
@@ -114,9 +127,19 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="date">The DateTime to check.</param>
         /// <returns>True if DateTime is weekend.</returns>
-        public static bool IsWeekend(this DateTime date)
+        public static bool IsWeekend(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            return ((date.DayOfWeek == DayOfWeek.Saturday) | (date.DayOfWeek == DayOfWeek.Sunday));
+            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday) | (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday));
+        }
+
+        /// <summary>
+        ///     Indicates whether or not the specified DateTime is a weekend or not.
+        /// </summary>
+        /// <param name="date">The DateTime to check.</param>
+        /// <returns>True if DateTime is weekend.</returns>
+        public static bool IsWeekday(this DateTime @this, TimeZoneInfo targetTimeZone = null)
+        {
+            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Saturday) && (@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Sunday));
         }
 
         /// <summary>
@@ -126,30 +149,21 @@ namespace Goldenacre.Extensions
         /// <param name="weekrule">The weekrule.</param>
         /// <param name="firstDayOfWeek">The first day of week.</param>
         /// <returns></returns>
-        public static int WeekOfYear(this DateTime datetime, CalendarWeekRule weekrule = CalendarWeekRule.FirstDay,
-            DayOfWeek firstDayOfWeek = DayOfWeek.Monday)
+        public static int WeekOfYear(this DateTime @this, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, CalendarWeekRule weekrule = CalendarWeekRule.FirstDay)
         {
-            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(datetime, weekrule, firstDayOfWeek);
+            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(@this, weekrule, firstDayOfWeek);
         }
 
-        /// <summary>
-        ///     Indicates whether or not the specified DateTime is a weekend or not.
-        /// </summary>
-        /// <param name="date">The DateTime to check.</param>
-        /// <returns>True if DateTime is weekend.</returns>
-        public static bool IsWeekday(this DateTime date)
-        {
-            return ((date.DayOfWeek != DayOfWeek.Saturday) && (date.DayOfWeek != DayOfWeek.Sunday));
-        }
+
 
         /// <summary>
         ///     Convert a DateTime to SQL Server formatted string with milliseconds: yyyy-MM-dd HH:mm:ss.fff
         /// </summary>
         /// <param name="dateTime">The DateTime to convert.</param>
         /// <returns>A DateTime formatted as SQL Server string with milliseconds.</returns>
-        public static string ToSqlString(this DateTime dateTime)
+        public static string ToSqlString(this DateTime @this)
         {
-            return dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            return @this.ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
 
         /// <summary>
@@ -157,9 +171,9 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="dateTime">The DateTime to convert.</param>
         /// <returns>A DateTime formatted as SQL Server string without milliseconds.</returns>
-        public static string ToSqlDateTimeString(this DateTime dateTime)
+        public static string ToSqlDateTimeString(this DateTime @this)
         {
-            return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            return @this.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         /// <summary>
@@ -167,9 +181,9 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="dateTime">The DateTime to convert.</param>
         /// <returns>A DateTime formatted as SQL Server date string.</returns>
-        public static string ToSqlDateString(this DateTime dateTime)
+        public static string ToSqlDateString(this DateTime @this)
         {
-            return dateTime.ToString("yyyy-MM-dd");
+            return @this.ToString("yyyy-MM-dd");
         }
 
         /// <summary>
@@ -177,17 +191,17 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="dateTime">The DateTime to convert.</param>
         /// <returns>A DateTime formatted as a culture invariant date string.</returns>
-        public static string ToNiceDate(this DateTime dateTime)
+        public static string ToNiceDateString(this DateTime @this)
         {
-            var suff = (dateTime.Day%10 == 1 && dateTime.Day != 11)
+            var suff = (@this.Day % 10 == 1 && @this.Day != 11)
                 ? "st"
-                : (dateTime.Day%10 == 2 && dateTime.Day != 12)
+                : (@this.Day % 10 == 2 && @this.Day != 12)
                     ? "nd"
-                    : (dateTime.Day%10 == 3 && dateTime.Day != 13)
+                    : (@this.Day % 10 == 3 && @this.Day != 13)
                         ? "rd"
                         : "th";
 
-            return string.Format("{0:ddd dateTime}{1} {0:MMM yyyy}", dateTime, suff);
+            return string.Format("{0:ddd d}{1} {0:MMM yyyy}", @this, suff);
         }
     }
 }

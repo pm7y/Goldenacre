@@ -6,24 +6,24 @@ namespace Goldenacre.Extensions
 {
     public static class BooleanExtensions
     {
-        public static TResult WhenTrue<TResult>(this bool value, Func<TResult> expression)
+        public static TResult WhenTrue<TResult>(this bool @this, Func<TResult> expression)
         {
-            return value ? expression() : default(TResult);
+            return @this ? expression() : default(TResult);
         }
 
-        public static TResult WhenTrue<TResult>(this bool value, TResult content)
+        public static TResult WhenTrue<TResult>(this bool @this, TResult content)
         {
-            return value ? content : default(TResult);
+            return @this ? content : default(TResult);
         }
 
-        public static TResult WhenFalse<TResult>(this bool value, Func<TResult> expression)
+        public static TResult WhenFalse<TResult>(this bool @this, Func<TResult> expression)
         {
-            return !value ? expression() : default(TResult);
+            return !@this ? expression() : default(TResult);
         }
 
-        public static TResult WhenFalse<TResult>(this bool value, TResult content)
+        public static TResult WhenFalse<TResult>(this bool @this, TResult content)
         {
-            return !value ? content : default(TResult);
+            return !@this ? content : default(TResult);
         }
     }
 }

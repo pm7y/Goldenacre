@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable UnusedVariable
 
-namespace Goldenacre.Test.Goldenacre.Core
+namespace Goldenacre.Test.Core
 {
     [TestClass]
     public class AssemblyExtensionsTest
@@ -22,7 +22,13 @@ namespace Goldenacre.Test.Goldenacre.Core
         [ExpectedException(typeof(InvalidOperationException))]
         public void Test_Assembly_InvalidOperationException_when_embedded_resource_filename_is_invalid()
         {
-            var text = Assembly.GetExecutingAssembly().GetEmbeddedResourceText("Does not exist.txt");
+            var text = Assembly.GetExecutingAssembly().GetEmbeddedResourceText("Does not exist.txt", true);
+        }
+
+        [TestMethod]
+        public void Test_Assembly_null_when_embedded_resource_filename_is_invalid()
+        {
+            var text = Assembly.GetExecutingAssembly().GetEmbeddedResourceText("Does not exist.txt", false);
         }
 
         [TestMethod]
@@ -32,7 +38,7 @@ namespace Goldenacre.Test.Goldenacre.Core
 
             Assert.AreNotEqual(DateTime.MinValue, dt);
 
-            Assert.IsTrue(dt > DateTime.UtcNow.AddMinutes(-5));
+            Assert.IsTrue(dt > DateTime.UtcNow.AddDays(-7));
 
             Assert.AreEqual(DateTimeKind.Utc, dt.Kind);
         }

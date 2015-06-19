@@ -12,10 +12,10 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Gets the text from the specified assembly resource filename.
         /// </summary>
-        /// <param name="assembly">The assembly to retrieve the resource from.</param>
+        /// <param name="@this">The assembly to retrieve the resource from.</param>
         /// <param name="filename">The filename of the resource.</param>
         /// <returns>The text contents of the resource file.</returns>
-        public static string GetEmbeddedResourceText(this Assembly assembly, string filename)
+        public static string GetEmbeddedResourceText(this Assembly @this, string filename, bool throwError = false)
         {
             string resourceText = null;
 
@@ -24,14 +24,18 @@ namespace Goldenacre.Extensions
                 filename = filename.Trim().ToLowerInvariant();
 
                 var resourceName =
-                    assembly.GetManifestResourceNames().FirstOrDefault(n => n.ToLowerInvariant().Contains(filename));
+                    @this.GetManifestResourceNames().FirstOrDefault(n => n.ToLowerInvariant().Contains(filename));
 
                 if (resourceName == null)
                 {
-                    throw new InvalidOperationException("The specified file resource was not found!");
+                    if (throwError)
+                    {
+                        throw new InvalidOperationException("The specified file resource was not found!");
+                    }
+                    return null;
                 }
 
-                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                using (var stream = @this.GetManifestResourceStream(resourceName))
                 {
                     if (stream != null)
                     {
@@ -42,7 +46,7 @@ namespace Goldenacre.Extensions
                     }
                 }
             }
-            else
+            else if (throwError)
             {
                 throw new ArgumentException("The specified filename was not valid!");
             }
@@ -55,14 +59,14 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="assembly">The assemebly to inspect.</param>
         /// <returns>The datetime the assembly was compiled.</returns>
-        public static DateTime GetCompilationDateTimeUtc(this Assembly assembly)
+        public static DateTime GetCompilationDateTimeUtc(this Assembly @this)
         {
             const int peHeaderOffset = 60;
             const int linkerTimestampOffset = 8;
             const int bufferSize = 2048;
             var buffer = new byte[bufferSize];
 
-            using (var fs = new FileStream(assembly.Location, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(@this.Location, FileMode.Open, FileAccess.Read))
             {
                 fs.Read(buffer, 0, bufferSize);
             }

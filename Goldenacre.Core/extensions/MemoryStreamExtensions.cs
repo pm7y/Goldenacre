@@ -6,9 +6,9 @@ namespace Goldenacre.Extensions
 {
     public static class MemoryStreamExtensions
     {
-        public static MemoryStream ToMemoryStream(this byte[] buffer)
+        public static MemoryStream ToMemoryStream(this byte[] @this)
         {
-            var ms = new MemoryStream(buffer) {Position = 0};
+            var ms = new MemoryStream(@this) { Position = 0 };
             return ms;
         }
     }

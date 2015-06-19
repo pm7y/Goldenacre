@@ -10,6 +10,34 @@ namespace Goldenacre.Extensions
 {
     public static class EnumerableExtensions
     {
+        internal static string MemberNameOf(this LambdaExpression @this)
+        {
+            Func<Expression, string> nameSelector = null;
+            nameSelector = e =>
+            {
+                switch (e.NodeType)
+                {
+                    case ExpressionType.Parameter:
+                        return ((ParameterExpression)e).Name;
+                    case ExpressionType.MemberAccess:
+                        return ((MemberExpression)e).Member.Name;
+                    case ExpressionType.Call:
+                        return ((MethodCallExpression)e).Method.Name;
+                    case ExpressionType.Convert:
+                    case ExpressionType.ConvertChecked:
+                        return nameSelector(((UnaryExpression)e).Operand);
+                    case ExpressionType.Invoke:
+                        return nameSelector(((InvocationExpression)e).Expression);
+                    case ExpressionType.ArrayLength:
+                        return "Length";
+                    default:
+                        throw new Exception("not a proper member selector");
+                }
+            };
+
+            return nameSelector(@this.Body);
+        }
+
         /// <summary>
         ///     Create a select list from a collection of objects.
         /// </summary>
@@ -23,14 +51,14 @@ namespace Goldenacre.Extensions
         /// </param>
         /// <returns>A SelectList.</returns>
         public static SelectList ToSelectList<T>(
-            this IEnumerable<T> collection,
+            this IEnumerable<T> @this,
             Expression<Func<T, object>> caption,
             Expression<Func<T, object>> value,
             Expression<Func<T, bool>> selected = null) where T : class
         {
             var valueName = value.MemberNameOf();
             var captionName = caption.MemberNameOf();
-            var items = collection.ToArray();
+            var items = @this.ToArray();
 
             if (selected != null)
             {
@@ -55,14 +83,14 @@ namespace Goldenacre.Extensions
         /// <param name="selected">An expression which determines which items will be selected.</param>
         /// <returns>A MultiSelectList.</returns>
         public static MultiSelectList ToMultiSelectList<T>(
-            this IEnumerable<T> collection,
+            this IEnumerable<T> @this,
             Expression<Func<T, object>> caption,
             Expression<Func<T, object>> value,
             Expression<Func<T, bool>> selected = null) where T : class
         {
             var valueName = value.MemberNameOf();
             var captionName = caption.MemberNameOf();
-            var items = collection.ToArray();
+            var items = @this.ToArray();
 
             if (selected != null)
             {
