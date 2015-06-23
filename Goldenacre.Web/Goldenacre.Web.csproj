@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
-    <Compile Include="Extensions\LabelExtensions.cs" />
+    <Compile Include="Extensions\SpanExtensions.cs" />
     <Compile Include="Filters\AntiForgeryTokenFilterProvider.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\RequestExtensions.cs" />
