@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 
+// ReSharper disable CheckNamespace
+
 namespace Goldenacre.Extensions
 {
     public static class AppDomainExtensions
     {
-        public static bool AssemblyIsLoaded(this AppDomain @this, string assemblyName)
+        public static bool IsAssemblyLoaded(this AppDomain @this, string assemblyName)
         {
             var loadedAssemblies = @this.GetAssemblies();
 

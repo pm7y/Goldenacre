@@ -47,5 +47,14 @@ namespace Goldenacre.Test.Core
 
             Assert.AreEqual("7Qdih1MuhjZehB6Sv8UNjA==", "Hello World!".ToBase64Md5Hash());
         }
+
+        [TestMethod]
+        public void TestIsNumeric()
+        {
+            Assert.AreEqual(true, "1".IsNumeric());
+            Assert.AreEqual(true, " 1 ".IsNumeric());
+            Assert.AreEqual(true, "1.1".IsNumeric());
+            Assert.AreEqual(true, "-1.1".IsNumeric());
+        }
     }
 }

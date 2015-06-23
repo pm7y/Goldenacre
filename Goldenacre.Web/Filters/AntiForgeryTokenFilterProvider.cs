@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using Goldenacre.Extensions;
 
 namespace Goldenacre.Web.Filters
 {
@@ -11,7 +10,7 @@ namespace Goldenacre.Web.Filters
             var incomingVerb = controllerContext.HttpContext.Request.HttpMethod.ToUpperInvariant();
 
             var filters = new List<Filter>();
-            if (incomingVerb == HttpVerbs.Post.ToString().ToString().ToUpperInvariant())
+            if (incomingVerb == HttpVerbs.Post.ToString().ToUpperInvariant())
             {
                 filters.Add(new Filter(new ValidateAntiForgeryTokenAttribute(), FilterScope.Global, null));
             }

@@ -1,11 +1,13 @@
 using System;
 using System.Text;
 
+// ReSharper disable CheckNamespace
+
 namespace Goldenacre.Extensions
 {
     public static class StringBuilderExtensions
     {
-        public static StringBuilder AppendIfIsNotNullOrWhiteSpace(this StringBuilder @this, string text)
+        public static StringBuilder AppendIfNotNullOrWhiteSpace(this StringBuilder @this, string text)
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
@@ -15,7 +17,7 @@ namespace Goldenacre.Extensions
             return @this;
         }
 
-        public static StringBuilder AppendLineIfIsNotNullOrWhiteSpace(this StringBuilder @this, string text)
+        public static StringBuilder AppendLineIfNotNullOrWhiteSpace(this StringBuilder @this, string text)
         {
             if (!string.IsNullOrWhiteSpace(text))
             {

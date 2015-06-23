@@ -6,7 +6,6 @@ using System.DirectoryServices;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -18,12 +17,11 @@ namespace Goldenacre.Core
 {
     public class Helper
     {
-
-
         public static bool CurrentUserIsAdmin()
         {
             var currentIdentity = WindowsIdentity.GetCurrent();
-            return currentIdentity != null && new WindowsPrincipal(currentIdentity).IsInRole(WindowsBuiltInRole.Administrator);
+            return currentIdentity != null &&
+                   new WindowsPrincipal(currentIdentity).IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         public static void RestartProcessElevated(string[] args = null)
@@ -76,7 +74,7 @@ namespace Goldenacre.Core
 
                     using (var wait = result.AsyncWaitHandle)
                     {
-                        if (!wait.WaitOne(timeoutInSeconds * 1000, false))
+                        if (!wait.WaitOne(timeoutInSeconds*1000, false))
                         {
                             tcp.Close();
                         }
@@ -90,7 +88,7 @@ namespace Goldenacre.Core
                 //
             }
 
-            return (long)DateTime.UtcNow.Subtract(start).TotalMilliseconds;
+            return (long) DateTime.UtcNow.Subtract(start).TotalMilliseconds;
         }
 
         public static Color GenerateRandomColour()

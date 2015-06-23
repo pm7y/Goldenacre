@@ -8,7 +8,7 @@ namespace Goldenacre.Core
     public static class Host
     {
         [DllImport("kernel32")]
-        public static extern ulong GetTickCount64();
+        private static extern ulong GetTickCount64();
 
         public static TimeSpan GetUpTime()
         {

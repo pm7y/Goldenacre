@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.SessionState;
 
 // ReSharper disable CheckNamespace
 
@@ -21,24 +19,29 @@ namespace Goldenacre.Extensions
             return @this.Raw("<span style=\"white-space: nowrap;\">" + value + "</span>");
         }
 
-        public static IHtmlString RenderEmailLink(this HtmlHelper @this, string email, string text = "e-mail", bool showIcon = true, string iconClass = "fa fa-envelope-o")
+        public static IHtmlString RenderEmailLink(this HtmlHelper @this, string email, string text = "e-mail",
+            bool showIcon = true, string iconClass = "fa fa-envelope-o")
         {
-            string icon = "";
+            var icon = "";
             if (showIcon)
             {
-                icon = string.Format("<i class=\"{0}\" style=\"padding-right: 5px;\"></i>", iconClass ?? "fa fa-envelope-o");
+                icon = string.Format("<i class=\"{0}\" style=\"padding-right: 5px;\"></i>",
+                    iconClass ?? "fa fa-envelope-o");
             }
-            string html = string.Format("<a href=\"mailto:{0}\">{1}{2}</a>", email, icon, text ?? "e-mail");
+            var html = string.Format("<a href=\"mailto:{0}\">{1}{2}</a>", email, icon, text ?? "e-mail");
 
             return @this.Raw(html);
         }
 
-        public static IHtmlString RenderExternalLink(this HtmlHelper @this, string url, string text, bool blankTarget = false, bool showIcon = true, bool iconAfterLink = false, string iconClass = "fa fa-external-link")
+        public static IHtmlString RenderExternalLink(this HtmlHelper @this, string url, string text,
+            bool blankTarget = false, bool showIcon = true, bool iconAfterLink = false,
+            string iconClass = "fa fa-external-link")
         {
-            string icon = "";
+            var icon = "";
             if (showIcon)
             {
-                icon = string.Format("<i class=\"{0}\" style=\"padding-right: 5px;\"></i>", iconClass ?? "fa fa-envelope-o");
+                icon = string.Format("<i class=\"{0}\" style=\"padding-right: 5px;\"></i>",
+                    iconClass ?? "fa fa-envelope-o");
             }
             var target = (blankTarget ? "_blank" : null);
             string html;
@@ -56,7 +59,8 @@ namespace Goldenacre.Extensions
 
         public static IHtmlString UlFor(this HtmlHelper @this, IEnumerable<string> input)
         {
-            string html = input.Aggregate("<ul class=\"list-unstyled\">", (current, item) => current + string.Format("<li>{0}</li>", item), s => s + "</ul>");
+            var html = input.Aggregate("<ul class=\"list-unstyled\">",
+                (current, item) => current + string.Format("<li>{0}</li>", item), s => s + "</ul>");
 
             return @this.Raw(html);
         }

@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Goldenacre.Core.Security
 {
-    /// <summary>
-    /// </summary>
+
     public sealed class PasswordGenerator
     {
         private const int DefaultMaximum = 10;
@@ -35,12 +34,8 @@ namespace Goldenacre.Core.Security
             _rng = new RNGCryptoServiceProvider();
         }
 
-        /// <summary>
-        /// </summary>
         public string CharacterExclusions { get; set; }
 
-        /// <summary>
-        /// </summary>
         public int MinimumLength
         {
             get { return _minSize; }
@@ -55,8 +50,6 @@ namespace Goldenacre.Core.Security
             }
         }
 
-        /// <summary>
-        /// </summary>
         public int MaximumLength
         {
             get { return _maxSize; }
@@ -71,23 +64,10 @@ namespace Goldenacre.Core.Security
             }
         }
 
-        /// <summary>
-        /// </summary>
         public bool ExcludeSymbols { get; set; }
-
-        /// <summary>
-        /// </summary>
         public bool AllowRepeatCharacters { get; set; }
-
-        /// <summary>
-        /// </summary>
         public bool AllowConsecutiveCharacters { get; set; }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="lBound"></param>
-        /// <param name="uBound"></param>
-        /// <returns></returns>
         private int GetCryptographicRandomNumber(int lBound, int uBound)
         {
             uint urndnum;
@@ -109,9 +89,6 @@ namespace Goldenacre.Core.Security
             return (int) (urndnum%(uBound - lBound)) + lBound;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
         private char GetRandomCharacter()
         {
             var upperBound = _pwdCharArray.GetUpperBound(0);
@@ -128,9 +105,6 @@ namespace Goldenacre.Core.Security
             return randomChar;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
         public string Generate()
         {
             var pwdLength = GetCryptographicRandomNumber(MinimumLength, MaximumLength);

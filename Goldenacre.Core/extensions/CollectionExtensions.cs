@@ -8,7 +8,10 @@ namespace Goldenacre.Extensions
     {
         public static ICollection<T> AddElement<T>(this ICollection<T> @this, T item)
         {
-            @this.Add(item);
+            if (!@this.Contains(item))
+            {
+                @this.Add(item);
+            }
             return @this;
         }
 

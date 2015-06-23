@@ -61,7 +61,7 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Converts the specified DateTime to Local if it isn't already.
         /// </summary>
-        /// <param name="dt">The DateTime to convert.</param>
+        /// <param name="@this">The DateTime to convert.</param>
         /// <param name="targetTimeZone">The target time zone to convert to. If null then the machine time zone is used.</param>
         /// <returns>A local DateTime.</returns>
         public static DateTime EnsureLocal(this DateTime @this, TimeZoneInfo targetTimeZone = null)
@@ -129,7 +129,7 @@ namespace Goldenacre.Extensions
         /// <returns>True if DateTime is weekend.</returns>
         public static bool IsWeekend(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday) | (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday));
+            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday) || (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday));
         }
 
         /// <summary>
@@ -202,6 +202,24 @@ namespace Goldenacre.Extensions
                         : "th";
 
             return string.Format("{0:ddd d}{1} {0:MMM yyyy}", @this, suff);
+        }
+
+        /// <summary>
+        ///     Convert a DateTime to a culture invariant date string: Thu 1st Jan 2015
+        /// </summary>
+        /// <param name="dateTime">The DateTime to convert.</param>
+        /// <returns>A DateTime formatted as a culture invariant date string.</returns>
+        public static string ToNiceDateTimeString(this DateTime @this)
+        {
+            var suff = (@this.Day % 10 == 1 && @this.Day != 11)
+                ? "st"
+                : (@this.Day % 10 == 2 && @this.Day != 12)
+                    ? "nd"
+                    : (@this.Day % 10 == 3 && @this.Day != 13)
+                        ? "rd"
+                        : "th";
+
+            return string.Format("{0:ddd d}{1} {0:MMM yyyy} {0:HH:mm}", @this, suff);
         }
     }
 }

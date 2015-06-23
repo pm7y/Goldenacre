@@ -89,7 +89,7 @@ namespace Goldenacre.Extensions
                 dataSourceProperty.MemberNameOf(), formattingEnabled, updateMode, nullValue, formatString, formatInfo);
         }
 
-        private static string MemberNameOf(this LambdaExpression memberSelector)
+        internal static string MemberNameOf(this LambdaExpression @this)
         {
             Func<Expression, string> nameSelector = null;
             nameSelector = e =>
@@ -114,7 +114,7 @@ namespace Goldenacre.Extensions
                 }
             };
 
-            return nameSelector(memberSelector.Body);
+            return nameSelector(@this.Body);
         }
     }
 }

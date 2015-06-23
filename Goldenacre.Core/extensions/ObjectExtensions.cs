@@ -12,17 +12,17 @@ namespace Goldenacre.Extensions
 {
     public static class ObjectExtensions
     {
-        public static string ToUpperInvariant<T>(this T @this)
+        public static string ToUpperInvariant<T>(this T @this) where T : class
         {
             return @this.ToString().ToUpperInvariant();
         }
 
-        public static string ToLowerInvariant<T>(this T @this)
+        public static string ToLowerInvariant<T>(this T @this) where T : class
         {
             return @this.ToString().ToLowerInvariant();
         }
 
-        public static T EnsureBetween<T>(this T @this, T min, T max) where T : IComparable<T>, IComparable
+        public static T EnsureBetween<T>(this T @this, T min, T max) where T : IComparable<T>
         {
             if (@this.CompareTo(min) < 0)
             {
@@ -37,7 +37,7 @@ namespace Goldenacre.Extensions
             return @this;
         }
 
-        public static bool Truthy<T>(this T @this)
+        public static bool IsTruthy<T>(this T @this)
         {
             if (@this == null)
             {
@@ -46,14 +46,19 @@ namespace Goldenacre.Extensions
 
             if (typeof (T) == typeof (bool))
             {
-                return Convert.ToBoolean(Convert.ChangeType(@this, typeof(bool)));
+                return Convert.ToBoolean(Convert.ChangeType(@this, typeof (bool)));
             }
 
-            var asString = Convert.ToString(@this);
+            var s = Convert.ToString(@this);
 
-            if (!string.IsNullOrWhiteSpace(asString))
+            if (s.IsNumeric())
             {
-                return asString.EqualsAnyCI("true", "1", "y", "yes", "ok");
+                return true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                return s.EqualsAnyCI("true", "1", "y", "yes", "ok", "+");
             }
 
             return false;
@@ -75,12 +80,12 @@ namespace Goldenacre.Extensions
             }
         }
 
-        public static bool In<T>(this T @this, params T[] list)
+        public static bool IsIn<T>(this T @this, params T[] list)
         {
             return list.Contains(@this);
         }
 
-        public static bool Between<T>(this T @this, T from, T to) where T : IComparable<T>, IComparable
+        public static bool Between<T>(this T @this, T from, T to) where T : IComparable<T>
         {
             return @this.CompareTo(from) >= 0 && @this.CompareTo(to) <= 0;
         }
@@ -92,16 +97,6 @@ namespace Goldenacre.Extensions
             if (!type.IsValueType) return true; // ref-type
             if (Nullable.GetUnderlyingType(type) != null) return true; // Nullable<T>
             return false; // value-type
-        }
-
-        public static bool IsType<T>(this object @this) where T : class
-        {
-            return @this is T;
-        }
-
-        public static bool IsNotType<T>(this object @this) where T : class
-        {
-            return !(@this.IsType<T>());
         }
 
         /// <summary>
@@ -131,8 +126,8 @@ namespace Goldenacre.Extensions
                 foreach (var property in properties)
                 {
                     var dt = property.PropertyType == typeof (DateTime?)
-                        ? (DateTime?)property.GetValue(@this, null)
-                        : (DateTime)property.GetValue(@this, null);
+                        ? (DateTime?) property.GetValue(@this, null)
+                        : (DateTime) property.GetValue(@this, null);
 
                     if (dt != null && dt.Value.Kind != DateTimeKind.Utc)
                     {

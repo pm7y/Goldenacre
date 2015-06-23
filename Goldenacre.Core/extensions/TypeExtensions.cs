@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 // ReSharper disable CheckNamespace
 
@@ -22,7 +17,7 @@ namespace Goldenacre.Extensions
 
         public static object[] GetPublicModelValues<TModel>(this TModel @this)
         {
-            var t = typeof(TModel);
+            var t = typeof (TModel);
             var pi = t.GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
             return pi.Select(p => p.GetValue(@this, null)).ToArray();
@@ -43,6 +38,4 @@ namespace Goldenacre.Extensions
             return d;
         }
     }
-
-
 }

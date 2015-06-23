@@ -96,6 +96,16 @@ namespace Goldenacre.Extensions
             return count == 1 ? @this : PluralizationService.CreateService(CultureInfo.CurrentCulture).Pluralize(@this);
         }
 
+        public static bool IsNumeric(this string @this)
+        {
+            if (!string.IsNullOrEmpty(@this))
+            {
+                decimal num;
+                return (decimal.TryParse(@this, NumberStyles.Any, CultureInfo.CurrentCulture, out num));
+            }
+            return false;
+        }
+
         public static bool IsDate(this string @this)
         {
             if (!string.IsNullOrEmpty(@this))
@@ -165,7 +175,7 @@ namespace Goldenacre.Extensions
 
             @this = @this.Trim();
 
-            var t = typeof (T);
+            var t = typeof(T);
 
             if (!t.IsEnum)
             {
@@ -273,7 +283,7 @@ namespace Goldenacre.Extensions
             T defaultValue)
         {
             T result;
-            var type = typeof (T);
+            var type = typeof(T);
 
             if (string.IsNullOrEmpty(@this)) result = defaultValue;
             else
@@ -293,7 +303,7 @@ namespace Goldenacre.Extensions
                         : (T)Convert.ChangeType(@this, type, provider);
                 }
                 catch
-                    // HACK: what can we do to minimize or avoid raising exceptions as part of normal operation? custom string parsing (regex?) for well-known types? it would be best to know if you can convert to the desired type before you attempt to do so.
+                // HACK: what can we do to minimize or avoid raising exceptions as part of normal operation? custom string parsing (regex?) for well-known types? it would be best to know if you can convert to the desired type before you attempt to do so.
                 {
                     result = defaultValue;
                 }

@@ -49,8 +49,7 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DataExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtentions.cs" />
-    <Compile Include="Extensions\BooleanExtensions.cs" />
-    <Compile Include="Extensions\MemoryStreamExtensions.cs" />
+    <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />

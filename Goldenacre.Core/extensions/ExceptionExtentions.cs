@@ -22,51 +22,41 @@ namespace Goldenacre.Extensions
             var msg = new StringBuilder();
 
             msg.AppendLine(@this.GetType().FullName);
+            msg.AppendLine(DateTime.Now.ToSqlString());
             msg.AppendLine("");
 
-            msg.AppendLineIfIsNotNullOrWhiteSpace(additionalMessage.Trim() + Environment.NewLine);
+            msg.AppendLineIfNotNullOrWhiteSpace(additionalMessage.Trim() + Environment.NewLine);
 
-            if (@this != null)
+            var orgEx = @this;
+
+            while (orgEx != null)
             {
-                var orgEx = @this;
+                msg.AppendLine(orgEx.Message);
+                msg.AppendLineIfNotNullOrWhiteSpace(orgEx.HelpLink);
+                orgEx = orgEx.InnerException;
+            }
 
-                while (orgEx != null)
+            foreach (var i in @this.Data)
+            {
+                msg.AppendLine("Data :");
+                msg.AppendLine(i.ToString());
+            }
+
+            if (!string.IsNullOrWhiteSpace(@this.StackTrace))
+            {
+                msg.AppendLine("");
+                msg.AppendLine(@this.StackTrace.Trim());
+            }
+
+            if (@this.TargetSite != null)
+            {
+                msg.AppendLine("");
+                if (@this.TargetSite.DeclaringType != null)
                 {
-                    msg.AppendLine(orgEx.Message);
-                    msg.AppendLineIfIsNotNullOrWhiteSpace(orgEx.HelpLink);
-                    orgEx = orgEx.InnerException;
+                    msg.Append(@this.TargetSite.DeclaringType.FullName);
                 }
-
-                foreach (var i in @this.Data)
-                {
-                    msg.AppendLine("Data :");
-                    msg.AppendLine(i.ToString());
-                }
-
-                if (!string.IsNullOrWhiteSpace(@this.StackTrace))
-                {
-                    msg.AppendLine("");
-                    msg.AppendLine(@this.StackTrace.Trim());
-                }
-
-                //if (!string.IsNullOrWhiteSpace(ex.Source))
-                //{
-                //    msg.AppendLine("Source:");
-                //    msg.AppendLine(ex.Source);
-                //}
-
-                if (@this.TargetSite != null)
-                {
-                    msg.AppendLine("");
-                    if (@this.TargetSite.DeclaringType != null)
-                    {
-                        msg.Append(@this.TargetSite.DeclaringType.FullName);
-                    }
-                    msg.Append(@this.TargetSite.Name);
-                    msg.AppendLine("");
-                }
-
-
+                msg.Append(@this.TargetSite.Name);
+                msg.AppendLine("");
             }
             return msg.ToString().Trim();
         }
