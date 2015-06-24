@@ -10,7 +10,7 @@ namespace Goldenacre.Extensions
         public static readonly DateTime EpochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
-        /// The years of age of a person given their DoB.
+        ///     The years of age of a person given their DoB.
         /// </summary>
         public static int YearsOfAge(this DateTime @this)
         {
@@ -24,7 +24,7 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        /// The elapsed timespan since the given datetime.
+        ///     The elapsed timespan since the given datetime.
         /// </summary>
         public static TimeSpan Elapsed(this DateTime @this)
         {
@@ -32,17 +32,17 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        /// Converts a DateTime into a unix timestamp.
-        /// i.e. the number of seconds since 1970-01-01.
+        ///     Converts a DateTime into a unix timestamp.
+        ///     i.e. the number of seconds since 1970-01-01.
         /// </summary>
         public static long ToUnixTimestamp(this DateTime @this)
         {
-            return (long)(@this.EnsureUtc() - EpochUtc).TotalSeconds;
+            return (long) (@this.EnsureUtc() - EpochUtc).TotalSeconds;
         }
 
         /// <summary>
-        /// Converts a unix timestamp into a datetime.
-        /// i.e. the number of seconds since 1970-01-01.
+        ///     Converts a unix timestamp into a datetime.
+        ///     i.e. the number of seconds since 1970-01-01.
         /// </summary>
         public static DateTime FromUnixTimestamp(this long @this)
         {
@@ -50,8 +50,8 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        /// Converts a unix timestamp into a datetime.
-        /// i.e. the number of seconds since 1970-01-01.
+        ///     Converts a unix timestamp into a datetime.
+        ///     i.e. the number of seconds since 1970-01-01.
         /// </summary>
         public static DateTime FromUnixTimestamp(this int @this)
         {
@@ -129,7 +129,8 @@ namespace Goldenacre.Extensions
         /// <returns>True if DateTime is weekend.</returns>
         public static bool IsWeekend(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday) || (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday));
+            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday) ||
+                    (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday));
         }
 
         /// <summary>
@@ -139,7 +140,8 @@ namespace Goldenacre.Extensions
         /// <returns>True if DateTime is weekend.</returns>
         public static bool IsWeekday(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Saturday) && (@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Sunday));
+            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Saturday) &&
+                    (@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Sunday));
         }
 
         /// <summary>
@@ -149,12 +151,11 @@ namespace Goldenacre.Extensions
         /// <param name="weekrule">The weekrule.</param>
         /// <param name="firstDayOfWeek">The first day of week.</param>
         /// <returns></returns>
-        public static int WeekOfYear(this DateTime @this, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday, CalendarWeekRule weekrule = CalendarWeekRule.FirstDay)
+        public static int WeekOfYear(this DateTime @this, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday,
+            CalendarWeekRule weekrule = CalendarWeekRule.FirstDay)
         {
             return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(@this, weekrule, firstDayOfWeek);
         }
-
-
 
         /// <summary>
         ///     Convert a DateTime to SQL Server formatted string with milliseconds: yyyy-MM-dd HH:mm:ss.fff
@@ -193,11 +194,11 @@ namespace Goldenacre.Extensions
         /// <returns>A DateTime formatted as a culture invariant date string.</returns>
         public static string ToNiceDateString(this DateTime @this)
         {
-            var suff = (@this.Day % 10 == 1 && @this.Day != 11)
+            var suff = (@this.Day%10 == 1 && @this.Day != 11)
                 ? "st"
-                : (@this.Day % 10 == 2 && @this.Day != 12)
+                : (@this.Day%10 == 2 && @this.Day != 12)
                     ? "nd"
-                    : (@this.Day % 10 == 3 && @this.Day != 13)
+                    : (@this.Day%10 == 3 && @this.Day != 13)
                         ? "rd"
                         : "th";
 
@@ -211,11 +212,11 @@ namespace Goldenacre.Extensions
         /// <returns>A DateTime formatted as a culture invariant date string.</returns>
         public static string ToNiceDateTimeString(this DateTime @this)
         {
-            var suff = (@this.Day % 10 == 1 && @this.Day != 11)
+            var suff = (@this.Day%10 == 1 && @this.Day != 11)
                 ? "st"
-                : (@this.Day % 10 == 2 && @this.Day != 12)
+                : (@this.Day%10 == 2 && @this.Day != 12)
                     ? "nd"
-                    : (@this.Day % 10 == 3 && @this.Day != 13)
+                    : (@this.Day%10 == 3 && @this.Day != 13)
                         ? "rd"
                         : "th";
 

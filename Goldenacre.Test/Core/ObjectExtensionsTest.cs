@@ -9,20 +9,6 @@ namespace Goldenacre.Test.Core
     [TestClass]
     public class ObjectExtensionsTest
     {
-        private class Parent
-        {
-            public DateTime Prop1 { get; set; }
-            public DateTime? Prop2 { get; set; }
-            public DateTime? Prop3 { get; set; }
-        }
-
-        private class Child : Parent
-        {
-            public DateTime PropA { get; set; }
-            public DateTime? PropB { get; set; }
-            public DateTime? PropC { get; set; }
-        }
-        
         [TestMethod]
         public void TestConvertDateTimePropertiesToUtc()
         {
@@ -35,16 +21,30 @@ namespace Goldenacre.Test.Core
             o.Prop1 = DateTime.Now;
             o.Prop2 = null;
             o.Prop3 = DateTime.Now;
-            
+
             o.ConvertDateTimePropertiesToUtc();
 
             Assert.AreEqual(DateTimeKind.Utc, o.PropA.Kind);
-            Assert.AreEqual(false, o.PropB .HasValue);
+            Assert.AreEqual(false, o.PropB.HasValue);
             Assert.AreEqual(DateTimeKind.Utc, o.PropC.Value.Kind);
 
             Assert.AreEqual(DateTimeKind.Utc, o.Prop1.Kind);
             Assert.AreEqual(false, o.Prop2.HasValue);
             Assert.AreEqual(DateTimeKind.Utc, o.Prop3.Value.Kind);
+        }
+
+        private class Parent
+        {
+            public DateTime Prop1 { get; set; }
+            public DateTime? Prop2 { get; set; }
+            public DateTime? Prop3 { get; set; }
+        }
+
+        private class Child : Parent
+        {
+            public DateTime PropA { get; set; }
+            public DateTime? PropB { get; set; }
+            public DateTime? PropC { get; set; }
         }
     }
 }

@@ -8,10 +8,9 @@ namespace Goldenacre.Extensions
 {
     public static class RequestExtensions
     {
-
         /// <summary>
-        /// Get the user preferred culture from the request.
-        /// If not available then it returns the CurrentUICulture.
+        ///     Get the user preferred culture from the request.
+        ///     If not available then it returns the CurrentUICulture.
         /// </summary>
         public static CultureInfo PreferredCulture(this HttpRequest @this)
         {
@@ -29,7 +28,9 @@ namespace Goldenacre.Extensions
             }
 
             // ReSharper disable once AssignNullToNotNullAttribute
-            return string.IsNullOrWhiteSpace(culture) ? CultureInfo.CurrentUICulture : new CultureInfo(culture.Trim().TrimEnd(';'));
+            return string.IsNullOrWhiteSpace(culture)
+                ? CultureInfo.CurrentUICulture
+                : new CultureInfo(culture.Trim().TrimEnd(';'));
         }
     }
 }

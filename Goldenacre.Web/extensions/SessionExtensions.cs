@@ -31,7 +31,7 @@ namespace Goldenacre.Extensions
         {
             if (@this.ContainsKey(key))
             {
-                return (T)@this[key];
+                return (T) @this[key];
             }
             return default(T);
         }
@@ -46,7 +46,7 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        /// Type friendly way to get session value.
+        ///     Type friendly way to get session value.
         /// </summary>
         public static T Get<T>(this HttpSessionState @this, string key)
         {
@@ -61,7 +61,7 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        /// Type friendly way to get session value.
+        ///     Type friendly way to get session value.
         /// </summary>
         public static T Get<T>(this HttpSessionStateBase @this, string key)
         {
@@ -76,7 +76,7 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        /// Type friendly way to set session value.
+        ///     Type friendly way to set session value.
         /// </summary>
         public static bool Set(this HttpSessionState @this, string key, object value)
         {
@@ -89,7 +89,7 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        /// Type friendly way to set session value.
+        ///     Type friendly way to set session value.
         /// </summary>
         public static bool Set(this HttpSessionStateBase @this, string key, object value)
         {

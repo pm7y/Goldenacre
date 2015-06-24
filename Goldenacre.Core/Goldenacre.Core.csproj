@@ -53,6 +53,7 @@
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Security\Aes.cs" />
     <Compile Include="ConvertMatrix.cs" />
     <Compile Include="DateRange.cs" />

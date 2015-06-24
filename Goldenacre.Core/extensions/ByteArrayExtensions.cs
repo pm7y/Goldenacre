@@ -8,7 +8,7 @@ namespace Goldenacre.Extensions
     {
         public static MemoryStream ToMemoryStream(this byte[] @this)
         {
-            return new MemoryStream(@this) { Position = 0 };
+            return new MemoryStream(@this) {Position = 0};
         }
     }
 }

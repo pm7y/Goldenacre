@@ -4,7 +4,6 @@ using System.Text;
 
 namespace Goldenacre.Core.Security
 {
-
     public sealed class PasswordGenerator
     {
         private const int DefaultMaximum = 10;

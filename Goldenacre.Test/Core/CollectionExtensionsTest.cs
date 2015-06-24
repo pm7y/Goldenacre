@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Goldenacre.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,11 +6,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Goldenacre.Test.Core
 {
-
     [TestClass]
     public class CollectionExtensionsTest
     {
-
         [TestMethod]
         public void Test_add_element()
         {
@@ -23,7 +20,7 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_add_element_if()
         {
-            var items = new List<string>().AddElementIf(true,"xxx");
+            var items = new List<string>().AddElementIf(true, "xxx");
 
             Assert.IsTrue(items.Count == 1);
 
@@ -31,7 +28,5 @@ namespace Goldenacre.Test.Core
 
             Assert.IsTrue(items.Count == 0);
         }
-
     }
-
 }

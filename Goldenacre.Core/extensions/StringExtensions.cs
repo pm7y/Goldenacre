@@ -57,7 +57,6 @@ namespace Goldenacre.Extensions
             return @this.Equals(value2, StringComparison.CurrentCulture);
         }
 
-
         public static string TrimIfNotNullAndToLowerInvariant(this string @this)
         {
             if (!string.IsNullOrEmpty(@this))
@@ -175,14 +174,14 @@ namespace Goldenacre.Extensions
 
             @this = @this.Trim();
 
-            var t = typeof(T);
+            var t = typeof (T);
 
             if (!t.IsEnum)
             {
                 throw new ArgumentException("Not an enum value!");
             }
 
-            return (T)Enum.Parse(t, @this, ignorecase);
+            return (T) Enum.Parse(t, @this, ignorecase);
         }
 
         public static string DapiEncrypt(this string @this)
@@ -283,7 +282,7 @@ namespace Goldenacre.Extensions
             T defaultValue)
         {
             T result;
-            var type = typeof(T);
+            var type = typeof (T);
 
             if (string.IsNullOrEmpty(@this)) result = defaultValue;
             else
@@ -299,11 +298,11 @@ namespace Goldenacre.Extensions
                 {
                     // ChangeType doesn't work properly on Enums
                     result = type.IsEnum
-                        ? (T)Enum.Parse(type, @this, true)
-                        : (T)Convert.ChangeType(@this, type, provider);
+                        ? (T) Enum.Parse(type, @this, true)
+                        : (T) Convert.ChangeType(@this, type, provider);
                 }
                 catch
-                // HACK: what can we do to minimize or avoid raising exceptions as part of normal operation? custom string parsing (regex?) for well-known types? it would be best to know if you can convert to the desired type before you attempt to do so.
+                    // HACK: what can we do to minimize or avoid raising exceptions as part of normal operation? custom string parsing (regex?) for well-known types? it would be best to know if you can convert to the desired type before you attempt to do so.
                 {
                     result = defaultValue;
                 }
@@ -430,7 +429,7 @@ namespace Goldenacre.Extensions
                 var objSb = new StringBuilder();
                 var leftSpace = new string(@this.TakeWhile(c => c == ' ').ToArray());
                 var rightSpace = new string(@this.Reverse().TakeWhile(c => c == ' ').ToArray());
-                var arrWords = @this.Trim().Split(new[] { ' ' }, StringSplitOptions.None);
+                var arrWords = @this.Trim().Split(new[] {' '}, StringSplitOptions.None);
 
                 foreach (var word in arrWords)
                 {

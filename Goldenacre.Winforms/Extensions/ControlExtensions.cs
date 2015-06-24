@@ -8,9 +8,8 @@ namespace Goldenacre.Extensions
 {
     public static class ControlExtensions
     {
-
         /// <summary>
-        /// Invokes the action on the control using the same thread as the UI thread.
+        ///     Invokes the action on the control using the same thread as the UI thread.
         /// </summary>
         /// <param name="control">The control to invoke from.</param>
         /// <param name="handler">The code to execute.</param>
@@ -97,16 +96,16 @@ namespace Goldenacre.Extensions
                 switch (e.NodeType)
                 {
                     case ExpressionType.Parameter:
-                        return ((ParameterExpression)e).Name;
+                        return ((ParameterExpression) e).Name;
                     case ExpressionType.MemberAccess:
-                        return ((MemberExpression)e).Member.Name;
+                        return ((MemberExpression) e).Member.Name;
                     case ExpressionType.Call:
-                        return ((MethodCallExpression)e).Method.Name;
+                        return ((MethodCallExpression) e).Method.Name;
                     case ExpressionType.Convert:
                     case ExpressionType.ConvertChecked:
-                        return nameSelector(((UnaryExpression)e).Operand);
+                        return nameSelector(((UnaryExpression) e).Operand);
                     case ExpressionType.Invoke:
-                        return nameSelector(((InvocationExpression)e).Expression);
+                        return nameSelector(((InvocationExpression) e).Expression);
                     case ExpressionType.ArrayLength:
                         return "Length";
                     default:

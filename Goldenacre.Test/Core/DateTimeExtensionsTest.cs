@@ -11,8 +11,8 @@ namespace Goldenacre.Test.Core
     [TestClass]
     public class DateTimeExtensionsTest
     {
-        private static TestContext Context { get; set; }
         private const int TimeoutInMilliseconds = 100;
+        private static TestContext Context { get; set; }
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext ctx)
@@ -38,7 +38,6 @@ namespace Goldenacre.Test.Core
             Assert.AreEqual(37, dob.YearsOfAge());
         }
 
-
         [TestMethod]
         public void Test_datetime_years_of_age_leap_year()
         {
@@ -46,7 +45,6 @@ namespace Goldenacre.Test.Core
 
             Assert.AreEqual(63, dob.YearsOfAge());
         }
-
 
         [TestMethod]
         public void Test_elapsed_timespan_since_datetime()
@@ -58,10 +56,9 @@ namespace Goldenacre.Test.Core
             var thenElapsed = then.Elapsed();
 
             Assert.IsTrue(nowElapsed.TotalSeconds < 1);
-            Assert.IsTrue(thenElapsed.TotalHours % 24 == 0);
-            Assert.IsTrue(((int)thenElapsed.TotalHours) == 24);
+            Assert.IsTrue(thenElapsed.TotalHours%24 == 0);
+            Assert.IsTrue(((int) thenElapsed.TotalHours) == 24);
         }
-
 
         [TestMethod]
         public void Test_datetime_to_unix_timestamp()
@@ -72,18 +69,16 @@ namespace Goldenacre.Test.Core
             Assert.AreEqual(expected, date.ToUnixTimestamp());
         }
 
-
         [TestMethod]
         public void Test_datetime_from_unix_timestamp()
         {
             var expected = new DateTime(1978, 02, 15).EnsureUtc();
-            int unixTimestampInt = 256348800;
+            var unixTimestampInt = 256348800;
             long unixTimestampLong = 256348800;
 
             Assert.AreEqual(expected, unixTimestampInt.FromUnixTimestamp());
             Assert.AreEqual(expected, unixTimestampLong.FromUnixTimestamp());
         }
-
 
         [TestMethod]
         public void Test_datetime_ensure_local()

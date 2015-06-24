@@ -5,11 +5,6 @@ namespace Goldenacre.Core
 {
     public struct DateRange
     {
-        public static DateRange New(DateTime f, DateTime t)
-        {
-            return new DateRange {From = f, To = t};
-        }
-
         public DateTime From;
         public DateTime To;
 
@@ -21,6 +16,11 @@ namespace Goldenacre.Core
         public DateTime ToUtc
         {
             get { return To.EnsureUtc(); }
+        }
+
+        public static DateRange New(DateTime f, DateTime t)
+        {
+            return new DateRange {From = f, To = t};
         }
     }
 }

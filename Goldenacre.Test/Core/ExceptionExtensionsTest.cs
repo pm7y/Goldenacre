@@ -14,16 +14,14 @@ namespace Goldenacre.Test.Core
         {
             try
             {
-                int x = 0;
+                var x = 0;
 
-                int asd = 110/x;
-
+                var asd = 110/x;
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 var t = ex.ToLogString("It's fucked!");
             }
         }
-
     }
 }

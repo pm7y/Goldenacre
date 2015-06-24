@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using Goldenacre.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable UnusedVariable
@@ -14,8 +10,8 @@ namespace Goldenacre.Test
     [Ignore]
     public class EmptyTestClass
     {
-        private static TestContext Context { get; set; }
         private const int TimeoutInMilliseconds = 100;
+        private static TestContext Context { get; set; }
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext ctx)
@@ -42,7 +38,7 @@ namespace Goldenacre.Test
         }
 
         [TestMethod]
-        [TimeoutAttribute(TimeoutInMilliseconds)]
+        [Timeout(TimeoutInMilliseconds)]
         public void TestMethodExample()
         {
             //var ctx = TestContext;
@@ -50,13 +46,11 @@ namespace Goldenacre.Test
         }
 
         [TestMethod]
-        [TimeoutAttribute(TimeoutInMilliseconds)]
-        [ExpectedException(typeof(Exception))]
+        [Timeout(TimeoutInMilliseconds)]
+        [ExpectedException(typeof (Exception))]
         public void TestExceptionExample()
         {
             throw new Exception("doh!");
         }
-
     }
-
 }

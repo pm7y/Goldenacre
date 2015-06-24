@@ -10,10 +10,12 @@ using System.Runtime.InteropServices;
     AssemblyDescription(
         "A library of useful stuff, mostly extension methods, that I find myself writing over and over again.")]
 #if DEBUG
+
 [assembly: AssemblyConfiguration("DEBUG")]
 #else
 [assembly: AssemblyConfiguration("RELEASE")]
 #endif
+
 [assembly: AssemblyCompany("Paul Mcilreavy")]
 [assembly: AssemblyProduct("Goldenacre.Winforms")]
 [assembly: AssemblyCopyright("Copyright © 2015")]
