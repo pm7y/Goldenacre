@@ -129,9 +129,14 @@ namespace Goldenacre.Extensions
                         ? (DateTime?) property.GetValue(@this, null)
                         : (DateTime) property.GetValue(@this, null);
 
-                    if (dt != null && dt.Value.Kind != DateTimeKind.Utc)
+                    if (dt != null && dt.Value.Kind == DateTimeKind.Unspecified)
                     {
                         var v = DateTime.SpecifyKind(dt.Value, DateTimeKind.Utc);
+                        property.SetValue(@this, v, null);
+                    }
+                    else if (dt != null && dt.Value.Kind == DateTimeKind.Local)
+                    {
+                        var v = dt.Value.ToUniversalTime();
                         property.SetValue(@this, v, null);
                     }
                 }
