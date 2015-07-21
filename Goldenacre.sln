@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldenacre.Core", "Goldenacre.Core\Goldenacre.Core.csproj", "{4F871F65-750D-46A7-9F4A-7F0D160C5B05}"
 EndProject
@@ -9,16 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldenacre.Web", "Goldenacr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldenacre.Test", "Goldenacre.Test\Goldenacre.Test.csproj", "{9B1C2FB3-DB31-48BA-88AC-AB57335E6F15}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{783F7C61-BD72-47B8-B242-A6DEAA918EAD}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C7FA4AC2-2795-4F26-8525-EAF7184039D9}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
 		Goldenacre.Core.nuspec = Goldenacre.Core.nuspec
 		Goldenacre.Web.nuspec = Goldenacre.Web.nuspec
 		Goldenacre.Winforms.nuspec = Goldenacre.Winforms.nuspec
