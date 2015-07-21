@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Goldenacre.Web.Filters
+namespace Goldenacre.Web.Filters.Mvc
 {
     public class AntiForgeryTokenFilterProvider : IFilterProvider
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Goldenacre.Core;
 using Goldenacre.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,10 +13,9 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_IsAssemblyLoaded_when_valid()
         {
-           var list = Host.Domains();
+            var list = Host.Domains();
 
-           list.ForEach(s => Debug.WriteLine(s));
+            list.ForEach(s => Debug.WriteLine(s));
         }
-
     }
 }

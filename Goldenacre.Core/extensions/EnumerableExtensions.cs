@@ -36,8 +36,8 @@ namespace Goldenacre.Extensions
 
         public static void ForEach<T>(this IEnumerable<T> @this, Action<T> action)
         {
-            if (@this == null) throw new ArgumentNullException("source");
-            if (action == null) throw new ArgumentNullException("action");
+            if (@this == null) throw new ArgumentNullException();
+            if (action == null) throw new ArgumentNullException();
 
             foreach (var element in @this)
             {
@@ -47,8 +47,8 @@ namespace Goldenacre.Extensions
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<int, T> action)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (action == null) throw new ArgumentNullException("action");
+            if (source == null) throw new ArgumentNullException();
+            if (action == null) throw new ArgumentNullException();
 
             var index = 0;
             foreach (var element in source)
@@ -61,8 +61,8 @@ namespace Goldenacre.Extensions
 
         public static T[] ForEachAssign<T>(this T[] source, Func<int, T, T> func)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (func == null) throw new ArgumentNullException("func");
+            if (source == null) throw new ArgumentNullException();
+            if (func == null) throw new ArgumentNullException();
 
             for (var i = 0; i < source.Length; i++)
             {
@@ -73,8 +73,8 @@ namespace Goldenacre.Extensions
 
         public static T[] ForEachAssign<T>(this T[] source, Func<T, T> func)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (func == null) throw new ArgumentNullException("func");
+            if (source == null) throw new ArgumentNullException();
+            if (func == null) throw new ArgumentNullException();
 
             for (var i = 0; i < source.Length; i++)
             {

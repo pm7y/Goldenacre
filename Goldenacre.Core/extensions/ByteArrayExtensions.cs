@@ -9,7 +9,7 @@ namespace Goldenacre.Extensions
     {
         public static MemoryStream ToMemoryStream(this byte[] @this)
         {
-            if (@this == null) throw new ArgumentNullException("Byte array cannot be null!");
+            if (@this == null) throw new ArgumentNullException();
 
             return new MemoryStream(@this) {Position = 0};
         }

@@ -12,7 +12,7 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_Object_ToUpperInvariant_when_valid()
         {
-            object x = "x" as object;
+            object x = "x";
 
             var xs = x.ToUpperInvariant();
 
@@ -22,7 +22,7 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_Object_ToLowerInvariant_when_valid()
         {
-            object y = "Y" as object;
+            object y = "Y";
 
             var ys = y.ToLowerInvariant();
 
@@ -32,9 +32,9 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_EnsureBetween_when_valid()
         {
-            int min = 1;
-            int max = 10;
-            int val = 5;
+            var min = 1;
+            var max = 10;
+            var val = 5;
 
             var result = val.EnsureBetween(min, max);
 
@@ -44,9 +44,9 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_EnsureBetween_when_too_low()
         {
-            int min = 1;
-            int max = 10;
-            int val = 0;
+            var min = 1;
+            var max = 10;
+            var val = 0;
 
             var result = val.EnsureBetween(min, max);
 
@@ -56,9 +56,9 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_EnsureBetween_when_too_high()
         {
-            int min = 1;
-            int max = 10;
-            int val = 11;
+            var min = 1;
+            var max = 10;
+            var val = 11;
 
             var result = val.EnsureBetween(min, max);
 

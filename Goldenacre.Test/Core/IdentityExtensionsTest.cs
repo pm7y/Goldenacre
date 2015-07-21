@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Deployment.Internal;
-using System.Net;
 using System.Security.Principal;
-using System.Text;
 using Goldenacre.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -44,7 +41,7 @@ namespace Goldenacre.Test.Core
         }
     }
 
-    class DummyIIdentity : IIdentity
+    internal class DummyIIdentity : IIdentity
     {
         public string AuthenticationType
         {
@@ -62,7 +59,7 @@ namespace Goldenacre.Test.Core
         }
     }
 
-    class DummyIIdentityNullName : IIdentity
+    internal class DummyIIdentityNullName : IIdentity
     {
         public string AuthenticationType
         {
@@ -80,7 +77,7 @@ namespace Goldenacre.Test.Core
         }
     }
 
-    class DummyIIdentityEmptyName : IIdentity
+    internal class DummyIIdentityEmptyName : IIdentity
     {
         public string AuthenticationType
         {

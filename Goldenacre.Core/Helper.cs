@@ -1,49 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Security.Principal;
 using System.Text;
 using System.Xml;
-using Goldenacre.Extensions;
 
 namespace Goldenacre.Core
 {
     public class Helper
     {
-        //public static void RestartCurrentProcessElevated(string[] args = null)
-        //{
-        //    var newArgs = new List<string>();
-
-        //    newArgs.AddRange(args);
-        //    newArgs.AddRange(Environment.GetCommandLineArgs());
-
-        //    var exe = Assembly.GetEntryAssembly().Location;
-
-        //    if (exe.ToLowerInvariant().EndsWith(".exe"))
-        //    {
-        //        var info = new ProcessStartInfo(exe, string.Join(" ", newArgs))
-        //        {
-        //            Verb = "runas"
-        //        };
-
-        //        var process = new Process
-        //        {
-        //            EnableRaisingEvents = true,
-        //            StartInfo = info
-        //        };
-
-        //        process.Start();
-        //        process.WaitForExit();
-        //    }
-        //}
-
         public static string AppFolder()
         {
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
@@ -72,7 +40,7 @@ namespace Goldenacre.Core
 
                     using (var wait = result.AsyncWaitHandle)
                     {
-                        if (!wait.WaitOne(timeoutInSeconds * 1000, false))
+                        if (!wait.WaitOne(timeoutInSeconds*1000, false))
                         {
                             tcp.Close();
                         }
@@ -86,7 +54,7 @@ namespace Goldenacre.Core
                 //
             }
 
-            return (long)DateTime.UtcNow.Subtract(start).TotalMilliseconds;
+            return (long) DateTime.UtcNow.Subtract(start).TotalMilliseconds;
         }
 
         public static Color GenerateRandomColour()
@@ -147,7 +115,5 @@ namespace Goldenacre.Core
 
             return result;
         }
-
-
     }
 }

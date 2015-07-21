@@ -11,14 +11,9 @@ namespace Goldenacre.Test.Core
     [TestClass]
     public class DateTimeExtensionsTest
     {
-        private const int TimeoutInMilliseconds = 100;
-        private static TestContext Context { get; set; }
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext ctx)
         {
-            Context = ctx;
-
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
         }
@@ -56,8 +51,8 @@ namespace Goldenacre.Test.Core
             var thenElapsed = then.Elapsed();
 
             Assert.IsTrue(nowElapsed.TotalSeconds < 1);
-            Assert.IsTrue(thenElapsed.TotalHours % 24 < 1);
-            Assert.IsTrue(((int)thenElapsed.TotalHours) == 24);
+            Assert.IsTrue(thenElapsed.TotalHours%24 < 1);
+            Assert.IsTrue(((int) thenElapsed.TotalHours) == 24);
         }
 
         [TestMethod]

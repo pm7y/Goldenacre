@@ -24,7 +24,7 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_ByteArray_ToMemoryStream_when_empty()
         {
-            byte[] bytes = new byte[0];
+            var bytes = new byte[0];
             using (var memoryStream = bytes.ToMemoryStream())
             {
                 Assert.IsNotNull(memoryStream);
@@ -32,7 +32,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof (ArgumentNullException))]
         public void Test_ByteArray_ToMemoryStream_when_null()
         {
             byte[] bytes = null;
@@ -41,6 +41,5 @@ namespace Goldenacre.Test.Core
                 //
             }
         }
-
     }
 }

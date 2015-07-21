@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using Encoder = System.Drawing.Imaging.Encoder;
 
+// ReSharper disable CheckNamespace
 namespace Goldenacre.Extensions
+    // ReSharper restore CheckNamespace
 {
     /// <summary>
     ///     This class contains static methods which can be used to manipulate images.
