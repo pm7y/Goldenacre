@@ -9,7 +9,7 @@ namespace Goldenacre.Extensions
     public static class RequestExtensions
     {
         /// <summary>
-        ///     Get the user preferred culture from the request.
+        ///     Get the users preferred culture from the request.
         ///     If not available then it returns the CurrentUICulture.
         /// </summary>
         public static CultureInfo PreferredCulture(this HttpRequest @this)

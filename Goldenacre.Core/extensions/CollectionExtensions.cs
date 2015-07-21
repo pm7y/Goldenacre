@@ -6,7 +6,7 @@ namespace Goldenacre.Extensions
 {
     public static class CollectionExtensions
     {
-        public static ICollection<T> AddElement<T>(this ICollection<T> @this, T item)
+        public static ICollection<T> AddIfNotContains<T>(this ICollection<T> @this, T item)
         {
             if (!@this.Contains(item))
             {
@@ -15,7 +15,7 @@ namespace Goldenacre.Extensions
             return @this;
         }
 
-        public static ICollection<T> AddElementIf<T>(this ICollection<T> @this, bool condition, T item)
+        public static ICollection<T> AddIf<T>(this ICollection<T> @this, bool condition, T item)
         {
             if (condition)
             {

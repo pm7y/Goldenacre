@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 // ReSharper disable CheckNamespace
 
@@ -61,7 +60,7 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Converts the specified DateTime to Local if it isn't already.
         /// </summary>
-        /// <param name="@this">The DateTime to convert.</param>
+        /// <param name="this">The DateTime to convert.</param>
         /// <param name="targetTimeZone">The target time zone to convert to. If null then the machine time zone is used.</param>
         /// <returns>A local DateTime.</returns>
         public static DateTime EnsureLocal(this DateTime @this, TimeZoneInfo targetTimeZone = null)
@@ -88,7 +87,7 @@ namespace Goldenacre.Extensions
         {
             if (@this.HasValue)
             {
-                return @this.Value.EnsureLocal();
+                return @this.Value.EnsureLocal(targetTimeZone);
             }
             return null;
         }
@@ -145,49 +144,6 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        ///     Weeks the of year.
-        /// </summary>
-        /// <param name="datetime">The datetime.</param>
-        /// <param name="weekrule">The weekrule.</param>
-        /// <param name="firstDayOfWeek">The first day of week.</param>
-        /// <returns></returns>
-        public static int WeekOfYear(this DateTime @this, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday,
-            CalendarWeekRule weekrule = CalendarWeekRule.FirstDay)
-        {
-            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(@this, weekrule, firstDayOfWeek);
-        }
-
-        /// <summary>
-        ///     Convert a DateTime to SQL Server formatted string with milliseconds: yyyy-MM-dd HH:mm:ss.fff
-        /// </summary>
-        /// <param name="dateTime">The DateTime to convert.</param>
-        /// <returns>A DateTime formatted as SQL Server string with milliseconds.</returns>
-        public static string ToSqlString(this DateTime @this)
-        {
-            return @this.ToString("yyyy-MM-dd HH:mm:ss.fff");
-        }
-
-        /// <summary>
-        ///     Convert a DateTime to SQL Server formatted string without milliseconds: yyyy-MM-dd HH:mm:ss
-        /// </summary>
-        /// <param name="dateTime">The DateTime to convert.</param>
-        /// <returns>A DateTime formatted as SQL Server string without milliseconds.</returns>
-        public static string ToSqlDateTimeString(this DateTime @this)
-        {
-            return @this.ToString("yyyy-MM-dd HH:mm:ss");
-        }
-
-        /// <summary>
-        ///     Convert a DateTime to SQL Server formatted date string: yyyy-MM-dd
-        /// </summary>
-        /// <param name="dateTime">The DateTime to convert.</param>
-        /// <returns>A DateTime formatted as SQL Server date string.</returns>
-        public static string ToSqlDateString(this DateTime @this)
-        {
-            return @this.ToString("yyyy-MM-dd");
-        }
-
-        /// <summary>
         ///     Convert a DateTime to a culture invariant date string: Thu 1st Jan 2015
         /// </summary>
         /// <param name="dateTime">The DateTime to convert.</param>
@@ -206,7 +162,7 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        ///     Convert a DateTime to a culture invariant date string: Thu 1st Jan 2015
+        ///     Convert a DateTime to a culture invariant date string: Thu 1st Jan 2015 13:34
         /// </summary>
         /// <param name="dateTime">The DateTime to convert.</param>
         /// <returns>A DateTime formatted as a culture invariant date string.</returns>

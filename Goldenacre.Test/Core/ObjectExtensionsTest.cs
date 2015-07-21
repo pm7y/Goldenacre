@@ -10,7 +10,81 @@ namespace Goldenacre.Test.Core
     public class ObjectExtensionsTest
     {
         [TestMethod]
-        public void TestConvertDateTimePropertiesToUtc()
+        public void Test_Object_ToUpperInvariant_when_valid()
+        {
+            object x = "x" as object;
+
+            var xs = x.ToUpperInvariant();
+
+            Assert.AreEqual("X", xs);
+        }
+
+        [TestMethod]
+        public void Test_Object_ToLowerInvariant_when_valid()
+        {
+            object y = "Y" as object;
+
+            var ys = y.ToLowerInvariant();
+
+            Assert.AreEqual("y", ys);
+        }
+
+        [TestMethod]
+        public void Test_EnsureBetween_when_valid()
+        {
+            int min = 1;
+            int max = 10;
+            int val = 5;
+
+            var result = val.EnsureBetween(min, max);
+
+            Assert.AreEqual(val, result);
+        }
+
+        [TestMethod]
+        public void Test_EnsureBetween_when_too_low()
+        {
+            int min = 1;
+            int max = 10;
+            int val = 0;
+
+            var result = val.EnsureBetween(min, max);
+
+            Assert.AreEqual(min, result);
+        }
+
+        [TestMethod]
+        public void Test_EnsureBetween_when_too_high()
+        {
+            int min = 1;
+            int max = 10;
+            int val = 11;
+
+            var result = val.EnsureBetween(min, max);
+
+            Assert.AreEqual(max, result);
+        }
+
+        [TestMethod]
+        public void Test_IsTruthy()
+        {
+            Assert.AreEqual(true, "1".IsTruthy());
+            Assert.AreEqual(true, "y".IsTruthy());
+            Assert.AreEqual(true, "yes".IsTruthy());
+            Assert.AreEqual(true, "tRuE".IsTruthy());
+            Assert.AreEqual(true, "+".IsTruthy());
+            Assert.AreEqual(true, 123.IsTruthy());
+
+            Assert.AreEqual(false, "".IsTruthy());
+            Assert.AreEqual(false, "0".IsTruthy());
+            Assert.AreEqual(false, "-1".IsTruthy());
+            Assert.AreEqual(false, "-".IsTruthy());
+            Assert.AreEqual(false, "false".IsTruthy());
+            Assert.AreEqual(false, "fAlse".IsTruthy());
+        }
+
+        [TestMethod]
+        public void Test_ConvertDateTimePropertiesToUtc_when_valid()
         {
             var o = new Child();
 

@@ -56,8 +56,8 @@ namespace Goldenacre.Test.Core
             var thenElapsed = then.Elapsed();
 
             Assert.IsTrue(nowElapsed.TotalSeconds < 1);
-            Assert.IsTrue(thenElapsed.TotalHours%24 == 0);
-            Assert.IsTrue(((int) thenElapsed.TotalHours) == 24);
+            Assert.IsTrue(thenElapsed.TotalHours % 24 < 1);
+            Assert.IsTrue(((int)thenElapsed.TotalHours) == 24);
         }
 
         [TestMethod]
@@ -141,26 +141,6 @@ namespace Goldenacre.Test.Core
         {
             Assert.IsFalse(new DateTime(2015, 1, 1).IsWeekend());
             Assert.IsTrue(new DateTime(2015, 1, 3).IsWeekend());
-        }
-
-        [TestMethod]
-        public void Test_datetime_week_of_year()
-        {
-            var date = new DateTime(1978, 02, 15).EnsureUtc();
-            var expected = 7;
-
-            Assert.AreEqual(expected, date.WeekOfYear());
-        }
-
-        [TestMethod]
-        public void Test_datetime_to_sql_string()
-        {
-            var dt = new DateTime(2015, 1, 11, 1, 1, 1);
-            dt = dt.AddMilliseconds(123);
-
-            Assert.AreEqual("2015-01-11", dt.ToSqlDateString());
-            Assert.AreEqual("2015-01-11 01:01:01", dt.ToSqlDateTimeString());
-            Assert.AreEqual("2015-01-11 01:01:01.123", dt.ToSqlString());
         }
 
         [TestMethod]

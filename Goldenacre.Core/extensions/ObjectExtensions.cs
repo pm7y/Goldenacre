@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -51,9 +52,10 @@ namespace Goldenacre.Extensions
 
             var s = Convert.ToString(@this);
 
-            if (s.IsNumeric())
+            decimal num;
+            if (s.IsNumeric() && (decimal.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, out num)))
             {
-                return true;
+                return num > 0;
             }
 
             if (!string.IsNullOrWhiteSpace(s))
@@ -78,11 +80,6 @@ namespace Goldenacre.Extensions
                 stream.Position = 0;
                 return (T) formatter.Deserialize(stream);
             }
-        }
-
-        public static bool IsIn<T>(this T @this, params T[] list)
-        {
-            return list.Contains(@this);
         }
 
         public static bool Between<T>(this T @this, T from, T to) where T : IComparable<T>

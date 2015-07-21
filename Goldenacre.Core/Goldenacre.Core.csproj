@@ -51,13 +51,11 @@
     <Compile Include="Extensions\ExceptionExtentions.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
-    <Compile Include="IRepository.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Security\Aes.cs" />
-    <Compile Include="ConvertMatrix.cs" />
     <Compile Include="DateRange.cs" />
-    <Compile Include="ImgLib.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Security\PasswordGenerator.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
@@ -71,7 +69,6 @@
     <Compile Include="StaticRandom.cs" />
     <Compile Include="Host.cs" />
     <Compile Include="Security\SymmetricEncryptionBase.cs" />
-    <Compile Include="TextLogWriter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

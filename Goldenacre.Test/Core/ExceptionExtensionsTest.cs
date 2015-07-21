@@ -20,7 +20,7 @@ namespace Goldenacre.Test.Core
             }
             catch (Exception ex)
             {
-                var t = ex.ToLogString("It's fucked!");
+                var t = ex.ToLogString("UhOh!");
             }
         }
     }

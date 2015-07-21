@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.DirectoryServices;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -12,39 +11,38 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Text;
 using System.Xml;
+using Goldenacre.Extensions;
 
 namespace Goldenacre.Core
 {
     public class Helper
     {
-        public static bool CurrentUserIsAdmin()
-        {
-            var currentIdentity = WindowsIdentity.GetCurrent();
-            return currentIdentity != null &&
-                   new WindowsPrincipal(currentIdentity).IsInRole(WindowsBuiltInRole.Administrator);
-        }
+        //public static void RestartCurrentProcessElevated(string[] args = null)
+        //{
+        //    var newArgs = new List<string>();
 
-        public static void RestartProcessElevated(string[] args = null)
-        {
-            var newArgs = new List<string>();
+        //    newArgs.AddRange(args);
+        //    newArgs.AddRange(Environment.GetCommandLineArgs());
 
-            newArgs.AddRange(args);
-            newArgs.AddRange(Environment.GetCommandLineArgs());
+        //    var exe = Assembly.GetEntryAssembly().Location;
 
-            var info = new ProcessStartInfo(Assembly.GetEntryAssembly().Location, string.Join(" ", newArgs))
-            {
-                Verb = "runas"
-            };
+        //    if (exe.ToLowerInvariant().EndsWith(".exe"))
+        //    {
+        //        var info = new ProcessStartInfo(exe, string.Join(" ", newArgs))
+        //        {
+        //            Verb = "runas"
+        //        };
 
-            var process = new Process
-            {
-                EnableRaisingEvents = true,
-                StartInfo = info
-            };
+        //        var process = new Process
+        //        {
+        //            EnableRaisingEvents = true,
+        //            StartInfo = info
+        //        };
 
-            process.Start();
-            process.WaitForExit();
-        }
+        //        process.Start();
+        //        process.WaitForExit();
+        //    }
+        //}
 
         public static string AppFolder()
         {
@@ -74,7 +72,7 @@ namespace Goldenacre.Core
 
                     using (var wait = result.AsyncWaitHandle)
                     {
-                        if (!wait.WaitOne(timeoutInSeconds*1000, false))
+                        if (!wait.WaitOne(timeoutInSeconds * 1000, false))
                         {
                             tcp.Close();
                         }
@@ -88,7 +86,7 @@ namespace Goldenacre.Core
                 //
             }
 
-            return (long) DateTime.UtcNow.Subtract(start).TotalMilliseconds;
+            return (long)DateTime.UtcNow.Subtract(start).TotalMilliseconds;
         }
 
         public static Color GenerateRandomColour()
@@ -113,16 +111,15 @@ namespace Goldenacre.Core
             return strHostName;
         }
 
-        public static string PrettyPrint(string xml)
+        public static string PrettyPrintXml(string xml)
         {
             var result = "";
 
-            var ms = new MemoryStream();
-            var w = new XmlTextWriter(ms, Encoding.Unicode);
-            var d = new XmlDocument();
-
-            try
+            using (var ms = new MemoryStream())
             {
+                var w = new XmlTextWriter(ms, Encoding.Unicode);
+                var d = new XmlDocument();
+
                 // Load the XmlDocument with the XML.
                 d.LoadXml(xml);
 
@@ -144,44 +141,13 @@ namespace Goldenacre.Core
                 var formattedXml = sr.ReadToEnd();
 
                 result = formattedXml;
-            }
-            catch (XmlException)
-            {
-            }
 
-            ms.Close();
-            w.Close();
+                w.Close();
+            }
 
             return result;
         }
 
-        public static StringCollection GetDomainList()
-        {
-            var domainList = new StringCollection();
 
-            try
-            {
-                // instantiate the active directory entry object
-                var en = new DirectoryEntry("WinNT:");
-
-                // check that there are child objects
-                // loop through the child objects
-                foreach (DirectoryEntry child in en.Children)
-                {
-                    // make sure the child object is a domain
-                    if ((child.SchemaClassName != null) && (child.SchemaClassName.ToUpper() == "DOMAIN"))
-                    {
-                        // add the domain to the collection
-                        domainList.Add(child.Name.ToUpper());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-
-            return domainList;
-        }
     }
 }

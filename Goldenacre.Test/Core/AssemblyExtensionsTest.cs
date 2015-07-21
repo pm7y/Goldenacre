@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using Goldenacre.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,6 +12,14 @@ namespace Goldenacre.Test.Core
     public class AssemblyExtensionsTest
     {
         [TestMethod]
+        public void Test_Assembly_Embedded_resource_image()
+        {
+            var img = Assembly.GetExecutingAssembly().GetEmbeddedResourceImage("tazmania.jpg");
+            var path = Path.GetTempFileName().Replace(".tmp", ".jpg");
+            img.Save(path);
+        }
+
+        [TestMethod]
         public void Test_Assembly_Embedded_resource_text()
         {
             var text = Assembly.GetExecutingAssembly().GetEmbeddedResourceText("This is an embedded resource.txt");
@@ -19,7 +28,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof (InvalidOperationException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void Test_Assembly_InvalidOperationException_when_embedded_resource_filename_is_invalid()
         {
             var text = Assembly.GetExecutingAssembly().GetEmbeddedResourceText("Does not exist.txt", true);
@@ -46,7 +55,7 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_Assembly_Compilation_DateTime_of_System_dll_is_valid()
         {
-            var dt = Assembly.GetAssembly(typeof (string)).GetCompilationDateTimeUtc();
+            var dt = Assembly.GetAssembly(typeof(string)).GetCompilationDateTimeUtc();
 
             Assert.AreNotEqual(DateTime.MinValue, dt);
 

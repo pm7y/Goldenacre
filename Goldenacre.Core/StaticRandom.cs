@@ -11,7 +11,7 @@ namespace Goldenacre.Core
     public static class StaticRandom
     {
         private static readonly Random Random = new Random();
-        private static readonly object MyLock = new object();
+        private static readonly object RandomLock = new object();
 
         /// <summary>
         ///     Returns a nonnegative random number.
@@ -19,7 +19,7 @@ namespace Goldenacre.Core
         /// <returns>A 32-bit signed integer greater than or equal to zero and less than Int32.MaxValue.</returns>
         public static int Next()
         {
-            lock (MyLock)
+            lock (RandomLock)
             {
                 return Random.Next();
             }
@@ -35,7 +35,7 @@ namespace Goldenacre.Core
         /// <exception cref="ArgumentOutOfRangeException">maxValue is less than zero.</exception>
         public static int Next(int max)
         {
-            lock (MyLock)
+            lock (RandomLock)
             {
                 return Random.Next(max);
             }
@@ -57,7 +57,7 @@ namespace Goldenacre.Core
         /// <exception cref="ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
         public static int Next(int min, int max)
         {
-            lock (MyLock)
+            lock (RandomLock)
             {
                 return Random.Next(min, max);
             }
@@ -69,7 +69,7 @@ namespace Goldenacre.Core
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
         public static double NextDouble()
         {
-            lock (MyLock)
+            lock (RandomLock)
             {
                 return Random.NextDouble();
             }
@@ -82,7 +82,7 @@ namespace Goldenacre.Core
         /// <exception cref="ArgumentNullException">buffer is a null reference (Nothing in Visual Basic).</exception>
         public static void NextBytes(byte[] buffer)
         {
-            lock (MyLock)
+            lock (RandomLock)
             {
                 Random.NextBytes(buffer);
             }

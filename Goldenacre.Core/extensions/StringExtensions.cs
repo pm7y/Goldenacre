@@ -57,7 +57,7 @@ namespace Goldenacre.Extensions
             return @this.Equals(value2, StringComparison.CurrentCulture);
         }
 
-        public static string TrimIfNotNullAndToLowerInvariant(this string @this)
+        public static string TrimToLowerInvariantIfNotNull(this string @this)
         {
             if (!string.IsNullOrEmpty(@this))
             {
@@ -78,16 +78,6 @@ namespace Goldenacre.Extensions
         public static bool ContainsAll(this string @this, params string[] values)
         {
             return values.All(one => @this.ToLowerInvariant().Contains(one.ToLowerInvariant()));
-        }
-
-        public static bool IsStrongPassword(this string @this)
-        {
-            var isStrong = Regex.IsMatch(@this, @"[\d]");
-            if (isStrong) isStrong = Regex.IsMatch(@this, @"[a-z]");
-            if (isStrong) isStrong = Regex.IsMatch(@this, @"[A-Z]");
-            if (isStrong) isStrong = Regex.IsMatch(@this, @"[\s~!@#\$%\^&\*\(\)\{\}\|\[\]\\:;'?,.`+=<>\/]");
-            if (isStrong) isStrong = @this.Length > 7;
-            return isStrong;
         }
 
         public static string ToPlural(this string @this, int count = 0)
@@ -130,9 +120,9 @@ namespace Goldenacre.Extensions
         }
 
         public static string SubstringToIndexOf(this string @this, string value,
-            StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
+            StringComparison comparison = StringComparison.CurrentCulture)
         {
-            var idx = @this.IndexOf(value, StringComparison.InvariantCultureIgnoreCase);
+            var idx = @this.IndexOf(value, comparison);
 
             if (idx > 0)
             {
@@ -169,7 +159,7 @@ namespace Goldenacre.Extensions
         {
             if (string.IsNullOrWhiteSpace(@this))
             {
-                throw new ArgumentNullException("@this");
+                throw new ArgumentNullException("this");
             }
 
             @this = @this.Trim();
@@ -198,7 +188,7 @@ namespace Goldenacre.Extensions
                     DataProtectionScope.LocalMachine));
         }
 
-        public static string Frmat(this string @this, params object[] args)
+        public static string Fmat(this string @this, params object[] args)
         {
             return string.Format(@this, args);
         }
@@ -222,140 +212,9 @@ namespace Goldenacre.Extensions
             return -1;
         }
 
-        /// <summary>
-        ///     Converts the string to the specified type, using the default value configured for the type.
-        /// </summary>
-        /// <typeparam name="T">Type the string will be converted to. The type must implement IConvertable.</typeparam>
-        /// <param name="original">The original string.</param>
-        /// <returns>The converted value.</returns>
-        public static T ConvertTo<T>(this string @this)
-        {
-            return ConvertTo(@this, CultureInfo.CurrentCulture, default(T));
-        }
-
-        /// <summary>
-        ///     Converts the string to the specified type, using the default value configured for the type.
-        /// </summary>
-        /// <typeparam name="T">Type the string will be converted to.</typeparam>
-        /// <param name="original">The original string.</param>
-        /// <param name="defaultValue">
-        ///     The default value to use in case the original string is null or empty, or can't be
-        ///     converted.
-        /// </param>
-        /// <returns>The converted value.</returns>
-        public static T ConvertTo<T>(this string @this, T defaultValue)
-        {
-            return ConvertTo(@this, CultureInfo.CurrentCulture, defaultValue);
-        }
-
-        /// <summary>
-        ///     Converts the string to the specified type, using the default value configured for the type.
-        /// </summary>
-        /// <typeparam name="T">Type the string will be converted to.</typeparam>
-        /// <param name="original">The original string.</param>
-        /// <param name="provider">Format provider used during the type conversion.</param>
-        /// <returns>The converted value.</returns>
-        public static T ConvertTo<T>(this string @this, IFormatProvider provider)
-        {
-            return ConvertTo(@this, provider, default(T));
-        }
-
-        /// <summary>
-        ///     Converts the string to the specified type.
-        /// </summary>
-        /// <typeparam name="T">Type the string will be converted to.</typeparam>
-        /// <param name="original">The original string.</param>
-        /// <param name="provider">Format provider used during the type conversion.</param>
-        /// <param name="defaultValue">
-        ///     The default value to use in case the original string is null or empty, or can't be
-        ///     converted.
-        /// </param>
-        /// <returns>The converted value.</returns>
-        /// <remarks>
-        ///     If an error occurs while converting the specified value to the requested type, the exception is caught and the
-        ///     default is returned. It is strongly recommended you
-        ///     do NOT use this method if it is important that conversion failures are not swallowed up.
-        ///     This method is intended to be used to convert string values to primatives, not for parsing, converting, or
-        ///     deserializing complex types.
-        /// </remarks>
-        public static T ConvertTo<T>(this string @this, IFormatProvider provider,
-            T defaultValue)
-        {
-            T result;
-            var type = typeof (T);
-
-            if (string.IsNullOrEmpty(@this)) result = defaultValue;
-            else
-            {
-                // need to get the underlying type if T is Nullable<>.
-
-                if (type.IsNullable())
-                {
-                    type = Nullable.GetUnderlyingType(type);
-                }
-
-                try
-                {
-                    // ChangeType doesn't work properly on Enums
-                    result = type.IsEnum
-                        ? (T) Enum.Parse(type, @this, true)
-                        : (T) Convert.ChangeType(@this, type, provider);
-                }
-                catch
-                    // HACK: what can we do to minimize or avoid raising exceptions as part of normal operation? custom string parsing (regex?) for well-known types? it would be best to know if you can convert to the desired type before you attempt to do so.
-                {
-                    result = defaultValue;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        ///     Indicates whether the current string matches the supplied wildcard pattern.  Behaves the same
-        ///     as VB's "Like" Operator.
-        /// </summary>
-        /// <param name="s">The string instance where the extension method is called</param>
-        /// <param name="wildcardPattern">The wildcard pattern to match.  Syntax matches VB's Like operator.</param>
-        /// <returns>true if the string matches the supplied pattern, false otherwise.</returns>
-        /// <remarks>
-        ///     "abc".IsLike("a*"); // true
-        ///     "Abc".IsLike("[A-Z][a-z][a-z]"); // true
-        ///     "abc123".IsLike("*###"); // true
-        ///     "hat".IsLike("?at"); // true
-        ///     "joe".IsLike("[!aeiou]*"); // true
-        ///     "joe".IsLike("?at"); // false
-        ///     "joe".IsLike("[A-Z][a-z][a-z]"); // false
-        /// </remarks>
-        public static bool IsLike(this string @this, string wildcardPattern)
-        {
-            if (@this == null || string.IsNullOrEmpty(wildcardPattern)) return false;
-            // turn into regex pattern, and match the whole string with ^$
-            var regexPattern = "^" + Regex.Escape(wildcardPattern) + "$";
-
-            // add support for ?, #, *, [], and [!]
-            regexPattern = regexPattern.Replace(@"\[!", "[^")
-                .Replace(@"\[", "[")
-                .Replace(@"\]", "]")
-                .Replace(@"\?", ".")
-                .Replace(@"\*", ".*")
-                .Replace(@"\#", @"\d");
-
-            bool result;
-            try
-            {
-                result = Regex.IsMatch(@this, regexPattern);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException(string.Format("Invalid pattern: {0}", wildcardPattern), ex);
-            }
-            return result;
-        }
-
         public static string RemoveAllWhitespace(this string @this)
         {
-            if (@this == null) throw new ArgumentNullException("@this");
+            if (@this == null) throw new ArgumentNullException("this");
 
             @this = @this.Replace("\t", string.Empty);
 
@@ -517,7 +376,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException("@this");
+                throw new ArgumentNullException("this");
             }
 
             byte[] salt;

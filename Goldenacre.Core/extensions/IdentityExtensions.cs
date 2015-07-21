@@ -18,9 +18,9 @@ namespace Goldenacre.Extensions
 
         public static string NameWithoutDomain(this IIdentity @this)
         {
-            var name = string.Empty;
+            var name = (string) null;
 
-            if (@this != null)
+            if (@this != null && @this.Name != null)
             {
                 name = @this.Name;
 
@@ -28,9 +28,11 @@ namespace Goldenacre.Extensions
                 {
                     name = name.Substring(name.LastIndexOf('\\') + 1);
                 }
+
+                name = name.Trim();
             }
 
-            return name.Trim();
+            return name;
         }
     }
 }

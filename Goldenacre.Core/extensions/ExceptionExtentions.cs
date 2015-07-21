@@ -17,15 +17,18 @@ namespace Goldenacre.Extensions
         /// <param name="ex">The exception to create the string from.</param>
         /// <param name="additionalMessage">Additional message to place at the top of the string, maybe be empty or null.</param>
         /// <returns></returns>
-        public static string ToLogString(this Exception @this, string additionalMessage = null)
+        public static string ToLogString(this Exception @this, string additionalMessage = null, bool includeDateTime = false)
         {
             var msg = new StringBuilder();
 
             msg.AppendLine(@this.GetType().FullName);
-            msg.AppendLine(DateTime.Now.ToSqlString());
+            if (includeDateTime)
+            {
+                msg.AppendLine(DateTime.Now.ToString("F"));
+            }
             msg.AppendLine("");
 
-            msg.AppendLineIfNotNullOrWhiteSpace(additionalMessage.Trim() + Environment.NewLine);
+            msg.AppendLineIfNotNullOrWhiteSpace((additionalMessage ?? string.Empty).Trim() + Environment.NewLine);
 
             var orgEx = @this;
 

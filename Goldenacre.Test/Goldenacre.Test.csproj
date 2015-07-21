@@ -41,9 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.XML" />
-    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -58,12 +56,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Core\HelperTest.cs" />
+    <Compile Include="Core\ByteArrayExtensionsTest.cs" />
+    <Compile Include="Core\AppDomainExtensionsTest.cs" />
     <Compile Include="Core\ExceptionExtensionsTest.cs" />
     <Compile Include="Core\ObjectExtensionsTest.cs" />
-    <Compile Include="EmptyTestClass.cs" />
     <Compile Include="Core\CollectionExtensionsTest.cs" />
     <Compile Include="Core\StringExtensionsTest.cs" />
-    <Compile Include="Core\SessionExtensionsTest.cs" />
     <Compile Include="Core\IdentityExtensionsTest.cs" />
     <Compile Include="Core\EnumerableExtensionsTest.cs" />
     <Compile Include="Core\DateTimeExtensionsTest.cs" />
@@ -84,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Test Resources\This is an embedded resource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Test Resources\tazmania.jpg" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
