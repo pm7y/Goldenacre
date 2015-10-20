@@ -40,7 +40,7 @@ namespace Goldenacre.Core
 
                     using (var wait = result.AsyncWaitHandle)
                     {
-                        if (!wait.WaitOne(timeoutInSeconds*1000, false))
+                        if (!wait.WaitOne(timeoutInSeconds * 1000, false))
                         {
                             tcp.Close();
                         }
@@ -54,7 +54,7 @@ namespace Goldenacre.Core
                 //
             }
 
-            return (long) DateTime.UtcNow.Subtract(start).TotalMilliseconds;
+            return (long)DateTime.UtcNow.Subtract(start).TotalMilliseconds;
         }
 
         public static Color GenerateRandomColour()
@@ -81,7 +81,7 @@ namespace Goldenacre.Core
 
         public static string PrettyPrintXml(string xml)
         {
-            var result = "";
+            var result = string.Empty;
 
             using (var ms = new MemoryStream())
             {

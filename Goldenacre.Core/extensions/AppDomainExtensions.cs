@@ -12,14 +12,14 @@ namespace Goldenacre.Extensions
         {
             var loadedAssemblies = @this.GetAssemblies();
 
-            return loadedAssemblies.Any(a => a.GetName().Name == assemblyName);
+            return loadedAssemblies.Any(a => a.GetName().Name.EqualsCI(assemblyName));
         }
 
         public static Assembly GetLoadedAssembly(this AppDomain @this, string assemblyName)
         {
             var loadedAssemblies = @this.GetAssemblies();
 
-            return loadedAssemblies.FirstOrDefault(a => a.GetName().Name == assemblyName);
+            return loadedAssemblies.FirstOrDefault(a => a.GetName().Name.EqualsCI(assemblyName));
         }
     }
 }

@@ -10,7 +10,7 @@ using Encoder = System.Drawing.Imaging.Encoder;
 
 // ReSharper disable CheckNamespace
 namespace Goldenacre.Extensions
-    // ReSharper restore CheckNamespace
+// ReSharper restore CheckNamespace
 {
     /// <summary>
     ///     This class contains static methods which can be used to manipulate images.
@@ -34,16 +34,16 @@ namespace Goldenacre.Extensions
                 float nPercentW = 0;
                 float nPercentH = 0;
 
-                nPercentW = (size.Width/(float) sourceWidth);
-                nPercentH = (size.Height/(float) sourceHeight);
+                nPercentW = (size.Width / (float)sourceWidth);
+                nPercentH = (size.Height / (float)sourceHeight);
 
                 if (nPercentH < nPercentW)
                     nPercent = nPercentH;
                 else
                     nPercent = nPercentW;
 
-                var destWidth = (int) (sourceWidth*nPercent);
-                var destHeight = (int) (sourceHeight*nPercent);
+                var destWidth = (int)(sourceWidth * nPercent);
+                var destHeight = (int)(sourceHeight * nPercent);
 
                 var b = new Bitmap(destWidth, destHeight);
                 using (var g = Graphics.FromImage(b))

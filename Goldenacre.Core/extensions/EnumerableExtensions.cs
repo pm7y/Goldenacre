@@ -19,6 +19,14 @@ namespace Goldenacre.Extensions
             return c;
         }
 
+        public static bool IsFirstElement<T>(this IEnumerable<T> @this, T element)
+            where T : class
+        {
+            var first = @this.FirstOrDefault();
+
+            return first != null && first.Equals(element);
+        }
+
         public static bool IsLastElement<T>(this IEnumerable<T> @this, T element)
             where T : class
         {

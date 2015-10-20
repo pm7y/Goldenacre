@@ -45,9 +45,9 @@ namespace Goldenacre.Extensions
                 return false;
             }
 
-            if (typeof (T) == typeof (bool))
+            if (typeof(T) == typeof(bool))
             {
-                return Convert.ToBoolean(Convert.ChangeType(@this, typeof (bool)));
+                return Convert.ToBoolean(Convert.ChangeType(@this, typeof(bool)));
             }
 
             var s = Convert.ToString(@this);
@@ -78,7 +78,7 @@ namespace Goldenacre.Extensions
                 var formatter = new BinaryFormatter();
                 formatter.Serialize(stream, @this);
                 stream.Position = 0;
-                return (T) formatter.Deserialize(stream);
+                return (T)formatter.Deserialize(stream);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Goldenacre.Extensions
         public static bool IsNullable<T>(this T @this)
         {
             if (@this == null) return true; // obvious
-            var type = typeof (T);
+            var type = typeof(T);
             if (!type.IsValueType) return true; // ref-type
             if (Nullable.GetUnderlyingType(type) != null) return true; // Nullable<T>
             return false; // value-type
@@ -113,7 +113,7 @@ namespace Goldenacre.Extensions
                         .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
                         .Where(
                             x =>
-                                (x.PropertyType == typeof (DateTime) || x.PropertyType == typeof (DateTime?)));
+                                (x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?)));
 
                 if (criteria != null)
                 {
@@ -122,9 +122,9 @@ namespace Goldenacre.Extensions
 
                 foreach (var property in properties)
                 {
-                    var dt = property.PropertyType == typeof (DateTime?)
-                        ? (DateTime?) property.GetValue(@this, null)
-                        : (DateTime) property.GetValue(@this, null);
+                    var dt = property.PropertyType == typeof(DateTime?)
+                        ? (DateTime?)property.GetValue(@this, null)
+                        : (DateTime)property.GetValue(@this, null);
 
                     if (dt != null && dt.Value.Kind == DateTimeKind.Unspecified)
                     {

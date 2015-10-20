@@ -11,7 +11,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null) throw new ArgumentNullException();
 
-            return new MemoryStream(@this) {Position = 0};
+            return new MemoryStream(@this) { Position = 0 };
         }
     }
 }

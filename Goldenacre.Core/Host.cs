@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Goldenacre.Extensions;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.DirectoryServices.ActiveDirectory;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using Goldenacre.Extensions;
-using Microsoft.Win32;
 
 namespace Goldenacre.Core
 {
@@ -77,17 +77,24 @@ namespace Goldenacre.Core
             var domainList = new List<string>();
             var ctx = new DirectoryContext(DirectoryContextType.Domain);
 
-            using (var currentDomain = Domain.GetDomain(ctx))
-            using (var forest = currentDomain.Forest)
+            try
             {
-                var domains = forest.Domains;
-
-                foreach (Domain d in domains)
+                using (var currentDomain = Domain.GetDomain(ctx))
+                using (var forest = currentDomain.Forest)
                 {
-                    domainList.AddIfNotContains(d.Name.ToLowerInvariant());
-                }
+                    var domains = forest.Domains;
 
-                return domainList.ToArray();
+                    foreach (Domain d in domains)
+                    {
+                        domainList.AddIfNotContains(d.Name.ToLowerInvariant());
+                    }
+
+                    return domainList.ToArray();
+                }
+            }
+            catch (ActiveDirectoryOperationException)
+            {
+                return null;
             }
         }
     }
