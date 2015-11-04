@@ -16,6 +16,7 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="this">The exception to create the string from.</param>
         /// <param name="additionalMessage">Additional message to place at the top of the string, maybe be empty or null.</param>
+        /// <param name="includeDateTime"></param>
         /// <returns></returns>
         public static string ToLogString(this Exception @this, string additionalMessage = null, bool includeDateTime = false)
         {

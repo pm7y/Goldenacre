@@ -24,7 +24,7 @@ namespace Goldenacre.Web
                     throw new InvalidOperationException("HttpContext not available");
                 }
 
-                return (_context = new HttpContextWrapper(HttpContext.Current));
+                return _context = new HttpContextWrapper(HttpContext.Current);
             }
         }
     }

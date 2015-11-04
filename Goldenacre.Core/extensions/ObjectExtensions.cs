@@ -53,7 +53,7 @@ namespace Goldenacre.Extensions
             var s = Convert.ToString(@this);
 
             decimal num;
-            if (s.IsNumeric() && (decimal.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, out num)))
+            if (s.IsNumeric() && decimal.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, out num))
             {
                 return num > 0;
             }
@@ -101,7 +101,7 @@ namespace Goldenacre.Extensions
         ///     This is useful after an object has been materialozed.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="o"></param>
+        /// <param name="this"></param>
         /// <param name="criteria"></param>
         public static void ConvertDateTimePropertiesToUtc<T>(this T @this,
             Expression<Func<PropertyInfo, bool>> criteria = null) where T : class
@@ -113,7 +113,7 @@ namespace Goldenacre.Extensions
                         .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
                         .Where(
                             x =>
-                                (x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?)));
+                                x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?));
 
                 if (criteria != null)
                 {

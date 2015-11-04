@@ -80,22 +80,18 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Converts the specified DateTime to Local if it isn't already.
         /// </summary>
-        /// <param name="dt">The DateTime to convert. If null then returns null.</param>
+        /// <param name="this">The DateTime to convert. If null then returns null.</param>
         /// <param name="targetTimeZone">The target time zone to convert to. If null then the machine time zone is used.</param>
         /// <returns>A local DateTime or null if specified DateTime is null.</returns>
         public static DateTime? EnsureLocal(this DateTime? @this, TimeZoneInfo targetTimeZone = null)
         {
-            if (@this.HasValue)
-            {
-                return @this.Value.EnsureLocal(targetTimeZone);
-            }
-            return null;
+            return @this?.EnsureLocal(targetTimeZone);
         }
 
         /// <summary>
         ///     Converts the specified DateTime to UTC if it isn't already. If it is Unspecified then it is assumed to be UTC.
         /// </summary>
-        /// <param name="dt">The DateTime to convert.</param>
+        /// <param name="this">The DateTime to convert.</param>
         /// <returns>A UTC DateTime.</returns>
         public static DateTime EnsureUtc(this DateTime @this)
         {
@@ -110,51 +106,49 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Converts the specified DateTime to UTC if it isn't already. If it is Unspecified then it is assumed to be UTC.
         /// </summary>
-        /// <param name="dt">The DateTime to convert.</param>
+        /// <param name="this">The DateTime to convert.</param>
         /// <returns>A UTC DateTime or null if specified DateTime is null.</returns>
         public static DateTime? EnsureUtc(this DateTime? @this)
         {
-            if (@this.HasValue)
-            {
-                return @this.Value.EnsureUtc();
-            }
-            return null;
+            return @this?.EnsureUtc();
         }
 
         /// <summary>
         ///     Indicates whether or not the specified DateTime is a weekend or not.
         /// </summary>
-        /// <param name="date">The DateTime to check.</param>
+        /// <param name="this">The DateTime to check.</param>
+        /// <param name="targetTimeZone"></param>
         /// <returns>True if DateTime is weekend.</returns>
         public static bool IsWeekend(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday) ||
-                    (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday));
+            return (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday) ||
+                   (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday);
         }
 
         /// <summary>
         ///     Indicates whether or not the specified DateTime is a weekend or not.
         /// </summary>
-        /// <param name="date">The DateTime to check.</param>
+        /// <param name="this">The DateTime to check.</param>
+        /// <param name="targetTimeZone"></param>
         /// <returns>True if DateTime is weekend.</returns>
         public static bool IsWeekday(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            return ((@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Saturday) &&
-                    (@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Sunday));
+            return (@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Saturday) &&
+                   (@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Sunday);
         }
 
         /// <summary>
         ///     Convert a DateTime to a culture invariant date string: Thu 1st Jan 2015
         /// </summary>
-        /// <param name="dateTime">The DateTime to convert.</param>
+        /// <param name="this">The DateTime to convert.</param>
         /// <returns>A DateTime formatted as a culture invariant date string.</returns>
         public static string ToNiceDateString(this DateTime @this)
         {
-            var suff = (@this.Day%10 == 1 && @this.Day != 11)
+            var suff = @this.Day%10 == 1 && @this.Day != 11
                 ? "st"
-                : (@this.Day%10 == 2 && @this.Day != 12)
+                : @this.Day%10 == 2 && @this.Day != 12
                     ? "nd"
-                    : (@this.Day%10 == 3 && @this.Day != 13)
+                    : @this.Day%10 == 3 && @this.Day != 13
                         ? "rd"
                         : "th";
 
@@ -164,15 +158,15 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Convert a DateTime to a culture invariant date string: Thu 1st Jan 2015 13:34
         /// </summary>
-        /// <param name="dateTime">The DateTime to convert.</param>
+        /// <param name="this">The DateTime to convert.</param>
         /// <returns>A DateTime formatted as a culture invariant date string.</returns>
         public static string ToNiceDateTimeString(this DateTime @this)
         {
-            var suff = (@this.Day%10 == 1 && @this.Day != 11)
+            var suff = @this.Day%10 == 1 && @this.Day != 11
                 ? "st"
-                : (@this.Day%10 == 2 && @this.Day != 12)
+                : @this.Day%10 == 2 && @this.Day != 12
                     ? "nd"
-                    : (@this.Day%10 == 3 && @this.Day != 13)
+                    : @this.Day%10 == 3 && @this.Day != 13
                         ? "rd"
                         : "th";
 

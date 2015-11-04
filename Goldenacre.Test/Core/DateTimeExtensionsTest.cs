@@ -52,7 +52,7 @@ namespace Goldenacre.Test.Core
 
             Assert.IsTrue(nowElapsed.TotalSeconds < 1);
             Assert.IsTrue(thenElapsed.TotalHours%24 < 1);
-            Assert.IsTrue(((int) thenElapsed.TotalHours) == 24);
+            Assert.IsTrue((int) thenElapsed.TotalHours == 24);
         }
 
         [TestMethod]

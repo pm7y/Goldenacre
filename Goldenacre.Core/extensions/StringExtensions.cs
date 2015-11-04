@@ -90,7 +90,7 @@ namespace Goldenacre.Extensions
             if (!string.IsNullOrEmpty(@this))
             {
                 decimal num;
-                return (decimal.TryParse(@this, NumberStyles.Any, CultureInfo.CurrentCulture, out num));
+                return decimal.TryParse(@this, NumberStyles.Any, CultureInfo.CurrentCulture, out num);
             }
             return false;
         }
@@ -100,7 +100,7 @@ namespace Goldenacre.Extensions
             if (!string.IsNullOrEmpty(@this))
             {
                 DateTime dt;
-                return (DateTime.TryParse(@this, out dt));
+                return DateTime.TryParse(@this, out dt);
             }
             return false;
         }
@@ -108,7 +108,7 @@ namespace Goldenacre.Extensions
         public static bool IsGuid(this string @this)
         {
             if (@this == null)
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException();
 
             var format = new Regex(
                 "^[A-Fa-f0-9]{32}$|" +
@@ -141,7 +141,7 @@ namespace Goldenacre.Extensions
         ///     Parses a string into an Enum
         /// </summary>
         /// <typeparam name="T">The type of the Enum</typeparam>
-        /// <param name="input">String value to parse</param>
+        /// <param name="this">String value to parse</param>
         /// <returns>The Enum corresponding to the stringExtensions</returns>
         public static T ToEnum<T>(this string @this)
         {
@@ -152,14 +152,14 @@ namespace Goldenacre.Extensions
         ///     Parses a string into an Enum
         /// </summary>
         /// <typeparam name="T">The type of the Enum</typeparam>
-        /// <param name="input">String value to parse</param>
+        /// <param name="this">String value to parse</param>
         /// <param name="ignorecase">Ignore the case of the string being parsed</param>
         /// <returns>The Enum corresponding to the stringExtensions</returns>
         public static T ToEnum<T>(this string @this, bool ignorecase)
         {
             if (string.IsNullOrWhiteSpace(@this))
             {
-                throw new ArgumentNullException("this");
+                throw new ArgumentNullException(nameof(@this));
             }
 
             @this = @this.Trim();
@@ -214,7 +214,7 @@ namespace Goldenacre.Extensions
 
         public static string RemoveAllWhitespace(this string @this)
         {
-            if (@this == null) throw new ArgumentNullException("this");
+            if (@this == null) throw new ArgumentNullException(nameof(@this));
 
             @this = @this.Replace("\t", string.Empty);
 
@@ -228,7 +228,7 @@ namespace Goldenacre.Extensions
 
         public static string TrimAndRemoveConsecutiveWhitespace(this string @this)
         {
-            if (@this == null) throw new ArgumentNullException("text");
+            if (@this == null) throw new ArgumentNullException();
 
             @this = @this.Replace("\t", SingleSpace).Trim();
 
@@ -271,7 +271,7 @@ namespace Goldenacre.Extensions
         ///     space delimited sentence into uppercase
         ///     and converts all others into lowercase.
         /// </summary>
-        /// <param name="input">The sentence to convert.</param>
+        /// <param name="this">The sentence to convert.</param>
         /// <param name="ignore">A list of words to ignore. Useful for abbreviations etc.</param>
         /// <returns>Pascal cased sentence.</returns>
         public static string ToPascalCase(this string @this, params string[] ignore)
@@ -333,7 +333,7 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Encodes the specified string to a HEX encoded MD5Hash.
         /// </summary>
-        /// <param name="input">The string to encode.</param>
+        /// <param name="this">The string to encode.</param>
         /// <returns>The encoded string.</returns>
         public static string ToHexMd5Hash(this string @this)
         {
@@ -357,7 +357,7 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Encodes the specified string to a Base64 encoded MD5Hash.
         /// </summary>
-        /// <param name="input">The string to encode.</param>
+        /// <param name="this">The string to encode.</param>
         /// <returns>The encoded string.</returns>
         public static string ToBase64Md5Hash(this string @this)
         {
@@ -376,7 +376,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException("this");
+                throw new ArgumentNullException(nameof(@this));
             }
 
             byte[] salt;

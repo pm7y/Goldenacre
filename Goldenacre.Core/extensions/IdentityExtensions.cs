@@ -8,19 +8,19 @@ namespace Goldenacre.Extensions
     {
         public static bool IsAuthenticated(this IPrincipal @this)
         {
-            return (@this != null && @this.Identity != null && @this.Identity.IsAuthenticated);
+            return @this?.Identity != null && @this.Identity.IsAuthenticated;
         }
 
         public static bool IsAuthenticated(this IIdentity @this)
         {
-            return (@this != null && @this.IsAuthenticated);
+            return @this != null && @this.IsAuthenticated;
         }
 
         public static string NameWithoutDomain(this IIdentity @this)
         {
             var name = (string) null;
 
-            if (@this != null && @this.Name != null)
+            if (@this?.Name != null)
             {
                 name = @this.Name;
 

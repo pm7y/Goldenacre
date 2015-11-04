@@ -25,22 +25,15 @@ namespace Goldenacre.Extensions
                 throw new ArgumentNullException();
             }
 
-            using (var bitmap = new Bitmap(@this.Clone() as Image))
+            using (var bitmap = new Bitmap((Image)@this.Clone()))
             {
                 var sourceWidth = bitmap.Width;
                 var sourceHeight = bitmap.Height;
 
-                float nPercent = 0;
-                float nPercentW = 0;
-                float nPercentH = 0;
+                var nPercentW = size.Width / (float)sourceWidth;
+                var nPercentH = size.Height / (float)sourceHeight;
 
-                nPercentW = (size.Width / (float)sourceWidth);
-                nPercentH = (size.Height / (float)sourceHeight);
-
-                if (nPercentH < nPercentW)
-                    nPercent = nPercentH;
-                else
-                    nPercent = nPercentW;
+                var nPercent = nPercentH < nPercentW ? nPercentH : nPercentW;
 
                 var destWidth = (int)(sourceWidth * nPercent);
                 var destHeight = (int)(sourceHeight * nPercent);
@@ -64,7 +57,7 @@ namespace Goldenacre.Extensions
                 throw new ArgumentNullException();
             }
 
-            using (var bitmap = new Bitmap(@this.Clone() as Image))
+            using (var bitmap = new Bitmap((Image)@this.Clone()))
             {
                 //create a blank bitmap the same size as original
                 var newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
@@ -106,7 +99,7 @@ namespace Goldenacre.Extensions
                 throw new ArgumentNullException();
             }
 
-            using (var bitmap = new Bitmap(@this.Clone() as Image))
+            using (var bitmap = new Bitmap((Image)@this.Clone()))
             {
                 compressionFactor = compressionFactor.EnsureBetween(0, 100);
 
@@ -121,7 +114,7 @@ namespace Goldenacre.Extensions
                     {
                         bitmap.Save(objStream, objCodecInfo, objEncoderParams);
 
-                        return new Bitmap(Image.FromStream(objStream).Clone() as Image);
+                        return new Bitmap((Image)Image.FromStream(objStream).Clone());
                     }
                 }
             }
@@ -130,7 +123,7 @@ namespace Goldenacre.Extensions
         /// <summary>
         ///     Adds either header or footer text to an image.
         /// </summary>
-        /// <param name="originalBitmap">Bitmap object to add text to.</param>
+        /// <param name="this">Bitmap object to add text to.</param>
         /// <param name="text">Text string to add.</param>
         /// <param name="textBgColour">The background colour of the text.</param>
         /// <param name="textColour">The colour of the text.</param>
@@ -145,18 +138,14 @@ namespace Goldenacre.Extensions
             bool addDateTime,
             bool placeTop)
         {
-            Rectangle rect;
-            var intX = 0;
-            int y;
-            int height;
-
+            const int intX = 0;
 
             if (@this == null)
             {
                 throw new ArgumentNullException();
             }
 
-            using (var bitmap = new Bitmap(@this.Clone() as Image))
+            using (var bitmap = new Bitmap((Image)@this.Clone()))
             {
                 var sb = new StringBuilder();
                 sb.Append(text);
@@ -170,6 +159,9 @@ namespace Goldenacre.Extensions
                         var fontHeight = Convert.ToInt32(font.GetHeight(graphics));
                         var width = originalSize.Width;
 
+                        Rectangle rect;
+                        int height;
+                        int y;
                         if (placeTop)
                         {
                             y = fontHeight + 2;
@@ -178,7 +170,7 @@ namespace Goldenacre.Extensions
                         }
                         else
                         {
-                            y = (bitmap.Height - (fontHeight + 2));
+                            y = bitmap.Height - (fontHeight + 2);
                             height = bitmap.Height - y;
                             rect = new Rectangle(intX, y, width, height);
                         }
@@ -191,19 +183,19 @@ namespace Goldenacre.Extensions
                         graphics.DrawRectangle(new Pen(textBgColour), rect);
                         graphics.FillRectangle(new SolidBrush(textBgColour), rect);
 
-                        graphics.DrawString(sb.ToString(), font, textColour, placeTop ? new PointF(2, 0) : new PointF(2, (originalSize.Height - height)));
+                        graphics.DrawString(sb.ToString(), font, textColour, placeTop ? new PointF(2, 0) : new PointF(2, originalSize.Height - height));
 
                         graphics.Save();
                     }
                 }
-                return new Bitmap(bitmap.Clone() as Image);
+                return new Bitmap((Image)bitmap.Clone());
             }
         }
 
         /// <summary>
         ///     Adds either header or footer text to an image.
         /// </summary>
-        /// <param name="originalBitmap">Bitmap object to add text to.</param>
+        /// <param name="this">Bitmap object to add text to.</param>
         /// <param name="text">Text string to add.</param>
         /// <returns>Returns an Image object.</returns>
         /// <remarks>This will add the specified text (white on black) to the bottom of the image.</remarks>

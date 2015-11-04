@@ -78,7 +78,7 @@ namespace Goldenacre.Extensions
                 {
                     if (stream != null)
                     {
-                        resourceImage = new Bitmap(Image.FromStream(stream).Clone() as Image);
+                        resourceImage = new Bitmap((Image)Image.FromStream(stream).Clone());
                     }
                 }
             }

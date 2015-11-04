@@ -77,7 +77,7 @@ namespace Goldenacre.Core.Security
                 return lBound;
             }
 
-            var xcludeRndBase = (uint.MaxValue - (uint.MaxValue % (uint)(uBound - lBound)));
+            var xcludeRndBase = uint.MaxValue - uint.MaxValue % (uint)(uBound - lBound);
 
             do
             {
@@ -134,7 +134,7 @@ namespace Goldenacre.Core.Security
                     }
                 }
 
-                if ((null != CharacterExclusions))
+                if (null != CharacterExclusions)
                 {
                     while (-1 != CharacterExclusions.IndexOf(nextCharacter))
                     {
