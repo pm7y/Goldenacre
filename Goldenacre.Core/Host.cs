@@ -77,8 +77,8 @@ namespace Goldenacre.Core
             var domainList = new List<string>();
             var ctx = new DirectoryContext(DirectoryContextType.Domain);
 
-            try
-            {
+            //try
+            //{
                 using (var currentDomain = Domain.GetDomain(ctx))
                 using (var forest = currentDomain.Forest)
                 {
@@ -91,11 +91,11 @@ namespace Goldenacre.Core
 
                     return domainList.ToArray();
                 }
-            }
-            catch (ActiveDirectoryOperationException)
-            {
-                return null;
-            }
+            //}
+            //catch (ActiveDirectoryOperationException)
+            //{
+            //    return null;
+            //}
         }
     }
 }

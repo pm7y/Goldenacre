@@ -159,7 +159,7 @@ namespace Goldenacre.Extensions
         {
             if (string.IsNullOrWhiteSpace(@this))
             {
-                throw new ArgumentNullException(nameof(@this));
+                throw new ArgumentNullException();
             }
 
             @this = @this.Trim();
@@ -214,7 +214,7 @@ namespace Goldenacre.Extensions
 
         public static string RemoveAllWhitespace(this string @this)
         {
-            if (@this == null) throw new ArgumentNullException(nameof(@this));
+            if (@this == null) throw new ArgumentNullException();
 
             @this = @this.Replace("\t", string.Empty);
 
@@ -376,7 +376,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException(nameof(@this));
+                throw new ArgumentNullException();
             }
 
             byte[] salt;

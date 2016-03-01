@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 // ReSharper disable CheckNamespace
 
@@ -23,6 +24,11 @@ namespace Goldenacre.Extensions
             }
 
             return @this;
+        }
+
+        public static ICollection<T> AddIf<T>(this ICollection<T> @this, Func<bool> condition, T item)
+        {
+            return AddIf<T>(@this, condition(), item);
         }
     }
 }

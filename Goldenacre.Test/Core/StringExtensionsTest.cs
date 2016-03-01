@@ -9,7 +9,7 @@ namespace Goldenacre.Test.Core
     public class StringExtensionsTest
     {
         [TestMethod]
-        public void TestToPascalCase()
+        public void Test_ToPascalCase()
         {
             Assert.AreEqual("     The Quick Brown Fox Jumped Over the Lazy Dog   ",
                 "     THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG   ".ToPascalCase());
@@ -33,7 +33,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        public void TestToLettersAndNumbersOnly()
+        public void Test_ToLettersAndNumbersOnly()
         {
             Assert.AreEqual("1", " 1 ".ToAlphaNumeric());
             Assert.AreEqual("OK", " ( OK ) ".ToAlphaNumeric());
@@ -41,7 +41,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        public void TestMd5Hash()
+        public void Test_Md5Hash()
         {
             Assert.AreEqual("ED076287532E86365E841E92BFC50D8C", "Hello World!".ToHexMd5Hash());
 
@@ -49,7 +49,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        public void TestIsNumeric()
+        public void Test_IsNumeric()
         {
             Assert.AreEqual(true, "1".IsNumeric());
             Assert.AreEqual(true, " 1 ".IsNumeric());

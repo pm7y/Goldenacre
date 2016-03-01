@@ -17,7 +17,15 @@ namespace Goldenacre.Core
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
 
             var directoryInfo = new FileInfo(new Uri(assembly.GetName().CodeBase).LocalPath).Directory;
-            return directoryInfo?.Parent?.FullName;
+            if (directoryInfo != null)
+            {
+                if (directoryInfo.Parent != null)
+                {
+                    return directoryInfo.Parent.FullName;
+                }
+            }
+
+            return null;
         }
 
         public static long Ping(string host, int port = 80, int timeoutInSeconds = 15)
@@ -60,7 +68,7 @@ namespace Goldenacre.Core
         {
             if ((ipAddress == null) || (ipAddress.Trim().Length <= 0))
             {
-                throw new ArgumentNullException(nameof(ipAddress));
+                throw new ArgumentNullException("ipAddress");
             }
 
             var ipEntry = Dns.GetHostEntry(ipAddress);

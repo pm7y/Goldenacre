@@ -77,6 +77,8 @@ namespace Goldenacre.Test.Core
 
             Assert.AreEqual(false, "".IsTruthy());
             Assert.AreEqual(false, "0".IsTruthy());
+            Assert.AreEqual(false, "n".IsTruthy());
+            Assert.AreEqual(false, "N".IsTruthy());
             Assert.AreEqual(false, "-1".IsTruthy());
             Assert.AreEqual(false, "-".IsTruthy());
             Assert.AreEqual(false, "false".IsTruthy());

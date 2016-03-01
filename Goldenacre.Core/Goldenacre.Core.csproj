@@ -51,7 +51,6 @@
     <Compile Include="Extensions\DataExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtentions.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
-    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Security\Aes.cs" />

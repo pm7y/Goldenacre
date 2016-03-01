@@ -54,12 +54,19 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_Image_compress()
         {
-            var img = Assembly.GetExecutingAssembly().GetEmbeddedResourceImage("tazmania.jpg");
+            using (var bigImg = Assembly.GetExecutingAssembly().GetEmbeddedResourceImage("tazmania.jpg"))
+            using (var smallImg = bigImg.Compress(25))
+            {
+                using (MemoryStream ms1 = new MemoryStream())
+                using (MemoryStream ms2 = new MemoryStream())
+                {
+                    bigImg.Save(ms1, System.Drawing.Imaging.ImageFormat.Tiff);
+                    smallImg.Save(ms2, System.Drawing.Imaging.ImageFormat.Tiff);
 
-            var newImg = img.Compress(25);
-
-            var path = Path.GetTempFileName().Replace(".tmp", ".jpg");
-            newImg.Save(path);
+                    // make sure the compressed one is actually smaller.
+                    Assert.IsTrue(ms2.Length < ms1.Length);
+                }
+            }
         }
 
         [TestMethod]

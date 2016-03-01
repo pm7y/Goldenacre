@@ -26,22 +26,6 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        public void Test_datetime_years_of_age()
-        {
-            var dob = new DateTime(1978, 2, 15);
-
-            Assert.AreEqual(37, dob.YearsOfAge());
-        }
-
-        [TestMethod]
-        public void Test_datetime_years_of_age_leap_year()
-        {
-            var dob = new DateTime(1952, 2, 29);
-
-            Assert.AreEqual(63, dob.YearsOfAge());
-        }
-
-        [TestMethod]
         public void Test_elapsed_timespan_since_datetime()
         {
             var now = DateTime.UtcNow;

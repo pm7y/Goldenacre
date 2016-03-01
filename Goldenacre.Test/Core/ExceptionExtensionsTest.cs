@@ -10,7 +10,7 @@ namespace Goldenacre.Test.Core
     public class ExceptionExtensionsTest
     {
         [TestMethod]
-        public void TestToLettersAndNumbersOnly()
+        public void Test_ToLettersAndNumbersOnly()
         {
             try
             {

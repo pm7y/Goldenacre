@@ -8,9 +8,15 @@ namespace Goldenacre.Core
         public DateTime From;
         public DateTime To;
 
-        public DateTime FromUtc => From.EnsureUtc();
+        public DateTime FromUtc
+        {
+            get { return From.EnsureUtc(); }
+        }
 
-        public DateTime ToUtc => To.EnsureUtc();
+        public DateTime ToUtc
+        {
+            get { return To.EnsureUtc(); }
+        }
 
         public static DateRange New(DateTime f, DateTime t)
         {

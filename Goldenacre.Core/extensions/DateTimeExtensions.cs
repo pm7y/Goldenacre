@@ -85,7 +85,7 @@ namespace Goldenacre.Extensions
         /// <returns>A local DateTime or null if specified DateTime is null.</returns>
         public static DateTime? EnsureLocal(this DateTime? @this, TimeZoneInfo targetTimeZone = null)
         {
-            return @this?.EnsureLocal(targetTimeZone);
+            return @this != null ? @this.Value.EnsureLocal(targetTimeZone) : (DateTime?) null;
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Goldenacre.Extensions
         /// <returns>A UTC DateTime or null if specified DateTime is null.</returns>
         public static DateTime? EnsureUtc(this DateTime? @this)
         {
-            return @this?.EnsureUtc();
+            return @this != null ? @this.Value.EnsureUtc() : (DateTime?) null;
         }
 
         /// <summary>

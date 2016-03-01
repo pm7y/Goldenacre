@@ -12,11 +12,14 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_add_element()
         {
-            var items = new List<string>().AddIfNotContains("xxx");
+            var items = new List<string>();
 
             items.AddIfNotContains("xxx");
+            items.AddIfNotContains("yyy");
+            items.AddIfNotContains("xxx");
+            items.AddIfNotContains("zzz");
 
-            Assert.IsTrue(items.Count == 1);
+            Assert.IsTrue(items.Count == 3);
         }
 
         [TestMethod]

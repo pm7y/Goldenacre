@@ -10,16 +10,18 @@ namespace Goldenacre.Extensions
     {
         public static bool IsAssemblyLoaded(this AppDomain @this, string assemblyName)
         {
-            var loadedAssemblies = @this.GetAssemblies();
+            var loadedAssemblies = @this.GetAssemblies()
+                .Any(a => a.GetName().Name.EqualsCI(assemblyName));
 
-            return loadedAssemblies.Any(a => a.GetName().Name.EqualsCI(assemblyName));
+            return loadedAssemblies;
         }
 
         public static Assembly GetLoadedAssembly(this AppDomain @this, string assemblyName)
         {
-            var loadedAssemblies = @this.GetAssemblies();
+            var loadedAssembly = @this.GetAssemblies()
+                .FirstOrDefault(a => a.GetName().Name.EqualsCI(assemblyName));
 
-            return loadedAssemblies.FirstOrDefault(a => a.GetName().Name.EqualsCI(assemblyName));
+            return loadedAssembly;
         }
     }
 }

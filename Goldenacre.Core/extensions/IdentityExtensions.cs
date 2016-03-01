@@ -8,7 +8,7 @@ namespace Goldenacre.Extensions
     {
         public static bool IsAuthenticated(this IPrincipal @this)
         {
-            return @this?.Identity != null && @this.Identity.IsAuthenticated;
+            return (@this != null ? @this.Identity : null) != null && @this.Identity.IsAuthenticated;
         }
 
         public static bool IsAuthenticated(this IIdentity @this)
@@ -20,7 +20,7 @@ namespace Goldenacre.Extensions
         {
             var name = (string) null;
 
-            if (@this?.Name != null)
+            if ((@this != null ? @this.Name : null) != null)
             {
                 name = @this.Name;
 

@@ -10,6 +10,16 @@ namespace Goldenacre.Extensions
 {
     public static class AssemblyExtensions
     {
+        public static string GetResourceName(this Assembly @this, string filename)
+        {
+            filename = filename.Trim().ToLowerInvariant();
+
+            var resourceNames = @this.GetManifestResourceNames();
+            var resourceName = resourceNames.FirstOrDefault(n => n.ToLowerInvariant().EndsWith(string.Concat(".", filename.ToLowerInvariant())));
+
+            return resourceName;
+        }
+
         /// <summary>
         ///     Gets the text from the specified assembly resource filename.
         /// </summary>
@@ -17,21 +27,19 @@ namespace Goldenacre.Extensions
         /// <param name="filename">The filename of the resource.</param>
         /// <param name="throwError"></param>
         /// <returns>The text contents of the resource file.</returns>
-        public static string GetEmbeddedResourceText(this Assembly @this, string filename, bool throwError = false)
+        public static string GetEmbeddedResourceText(this Assembly @this, string filename, bool throwErrorIfNotFound = false)
         {
             string resourceText = null;
 
             if (!string.IsNullOrWhiteSpace(filename))
             {
-                filename = filename.Trim().ToLowerInvariant();
-
-                var resourceName = @this.GetManifestResourceNames().FirstOrDefault(n => n.ToLowerInvariant().Contains(filename));
+                var resourceName = GetResourceName(@this, filename);
 
                 if (resourceName == null)
                 {
-                    if (throwError)
+                    if (throwErrorIfNotFound)
                     {
-                        throw new InvalidOperationException("The specified file resource was not found!");
+                        throw new InvalidOperationException("The specified resource was not found!");
                     }
                     return null;
                 }
@@ -47,7 +55,7 @@ namespace Goldenacre.Extensions
                     }
                 }
             }
-            else if (throwError)
+            else if (throwErrorIfNotFound)
             {
                 throw new ArgumentException("The specified filename was not valid!");
             }
@@ -55,21 +63,19 @@ namespace Goldenacre.Extensions
             return resourceText;
         }
 
-        public static Image GetEmbeddedResourceImage(this Assembly @this, string filename, bool throwError = false)
+        public static Image GetEmbeddedResourceImage(this Assembly @this, string filename, bool throwErrorIfNotFound = false)
         {
             Image resourceImage = null;
 
             if (!string.IsNullOrWhiteSpace(filename))
             {
-                filename = filename.Trim().ToLowerInvariant();
-
-                var resourceName = @this.GetManifestResourceNames().FirstOrDefault(n => n.ToLowerInvariant().Contains(filename));
+                var resourceName = GetResourceName(@this, filename);
 
                 if (resourceName == null)
                 {
-                    if (throwError)
+                    if (throwErrorIfNotFound)
                     {
-                        throw new InvalidOperationException("The specified file resource was not found!");
+                        throw new InvalidOperationException("The specified resource was not found!");
                     }
                     return null;
                 }
@@ -82,7 +88,7 @@ namespace Goldenacre.Extensions
                     }
                 }
             }
-            else if (throwError)
+            else if (throwErrorIfNotFound)
             {
                 throw new ArgumentException("The specified filename was not valid!");
             }
