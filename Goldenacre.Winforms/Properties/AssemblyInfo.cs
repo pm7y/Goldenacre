@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Goldenacre.Winforms")]
 [assembly:
     AssemblyDescription(
-        "A library of useful stuff, mostly extension methods, that I find myself writing over and over again.")]
+        "A library of useful stuff, mostly extension methods, that you find myself writing over and over again.")]
 #if DEBUG
 
 [assembly: AssemblyConfiguration("DEBUG")]
@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("RELEASE")]
 #endif
 
-[assembly: AssemblyCompany("Paul Mcilreavy")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Goldenacre.Winforms")]
 [assembly: AssemblyCopyright("Copyright © 2015")]
 [assembly: AssemblyTrademark("")]
@@ -43,5 +43,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.2.1.0")]
-[assembly: AssemblyFileVersion("1.2.1.0")]
+[assembly: AssemblyVersion("1.4.0.0")]
+[assembly: AssemblyFileVersion("1.4.0.0")]

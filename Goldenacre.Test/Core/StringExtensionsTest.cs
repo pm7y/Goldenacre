@@ -9,6 +9,20 @@ namespace Goldenacre.Test.Core
     public class StringExtensionsTest
     {
         [TestMethod]
+        public void Test_Truncate()
+        {
+            string long_string = "The quick brown fox jumps over the lazy dog.";
+
+            var truncated1 = long_string.Truncate(10, true);
+            var truncated2 = long_string.Truncate(10, false);
+            var truncated3 = long_string.Truncate(10, false);
+
+            Assert.AreEqual("The qui...", truncated1);
+            Assert.AreEqual("The quick ", truncated2);
+            Assert.AreEqual("The quick ", truncated3);
+        }
+
+        [TestMethod]
         public void Test_ToPascalCase()
         {
             Assert.AreEqual("     The Quick Brown Fox Jumped Over the Lazy Dog   ",

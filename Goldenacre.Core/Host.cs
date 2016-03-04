@@ -1,9 +1,7 @@
-﻿using Goldenacre.Extensions;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.DirectoryServices.ActiveDirectory;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 
@@ -31,6 +29,8 @@ namespace Goldenacre.Core
                    new WindowsPrincipal(currentIdentity).IsInRole(WindowsBuiltInRole.Administrator);
         }
 
+        #region Windows version checks
+
         public static bool IsWinXpOrHigher(this OperatingSystem @this)
         {
             return (@this.Platform == PlatformID.Win32NT)
@@ -55,6 +55,20 @@ namespace Goldenacre.Core
                    && ((@this.Version.Major > 6) || ((@this.Version.Major == 6) && (@this.Version.Minor >= 2)));
         }
 
+        public static bool IsWin81OrHigher(this OperatingSystem @this)
+        {
+            return (@this.Platform == PlatformID.Win32NT)
+                   && ((@this.Version.Major > 6) || ((@this.Version.Major == 6) && (@this.Version.Minor >= 3)));
+        }
+
+        public static bool IsWin10OrHigher(this OperatingSystem @this)
+        {
+            return (@this.Platform == PlatformID.Win32NT)
+                   && ((@this.Version.Major > 6) || ((@this.Version.Major == 10) && (@this.Version.Minor >= 0)));
+        }
+
+        #endregion Windows version checks
+
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public static string FriendlyOsName()
         {
@@ -72,30 +86,5 @@ namespace Goldenacre.Core
             return string.Empty;
         }
 
-        public static string[] Domains()
-        {
-            var domainList = new List<string>();
-            var ctx = new DirectoryContext(DirectoryContextType.Domain);
-
-            //try
-            //{
-                using (var currentDomain = Domain.GetDomain(ctx))
-                using (var forest = currentDomain.Forest)
-                {
-                    var domains = forest.Domains;
-
-                    foreach (Domain d in domains)
-                    {
-                        domainList.AddIfNotContains(d.Name.ToLowerInvariant());
-                    }
-
-                    return domainList.ToArray();
-                }
-            //}
-            //catch (ActiveDirectoryOperationException)
-            //{
-            //    return null;
-            //}
-        }
     }
 }

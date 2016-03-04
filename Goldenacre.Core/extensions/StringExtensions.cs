@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 // ReSharper disable CheckNamespace
 
@@ -164,14 +165,14 @@ namespace Goldenacre.Extensions
 
             @this = @this.Trim();
 
-            var t = typeof (T);
+            var t = typeof(T);
 
             if (!t.IsEnum)
             {
                 throw new ArgumentException("Not an enum value!");
             }
 
-            return (T) Enum.Parse(t, @this, ignorecase);
+            return (T)Enum.Parse(t, @this, ignorecase);
         }
 
         public static string DapiEncrypt(this string @this)
@@ -188,7 +189,7 @@ namespace Goldenacre.Extensions
                     DataProtectionScope.LocalMachine));
         }
 
-        public static string Fmat(this string @this, params object[] args)
+        public static string F(this string @this, params object[] args)
         {
             return string.Format(@this, args);
         }
@@ -288,7 +289,7 @@ namespace Goldenacre.Extensions
                 var objSb = new StringBuilder();
                 var leftSpace = new string(@this.TakeWhile(c => c == ' ').ToArray());
                 var rightSpace = new string(@this.Reverse().TakeWhile(c => c == ' ').ToArray());
-                var arrWords = @this.Trim().Split(new[] {' '}, StringSplitOptions.None);
+                var arrWords = @this.Trim().Split(new[] { ' ' }, StringSplitOptions.None);
 
                 foreach (var word in arrWords)
                 {
@@ -393,6 +394,22 @@ namespace Goldenacre.Extensions
             Buffer.BlockCopy(bytes, 0, inArray, 17, 32);
 
             return Convert.ToBase64String(inArray);
+        }
+
+        public static string Truncate(this string @this, int maxLength, bool appendEllipsis)
+        {
+            if (@this == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (appendEllipsis)
+            {
+                maxLength = Math.Max(0, maxLength - 3);
+                return string.Concat(@this.Substring(0, maxLength), "...");
+            }
+
+            return @this.Substring(0, maxLength);
         }
     }
 }

@@ -10,6 +10,9 @@ namespace Goldenacre.Extensions
 {
     public static class AssemblyExtensions
     {
+        /// <summary>
+        /// Get the full resource name path for a given filename.
+        /// </summary>
         public static string GetResourceName(this Assembly @this, string filename)
         {
             filename = filename.Trim().ToLowerInvariant();
@@ -25,7 +28,7 @@ namespace Goldenacre.Extensions
         /// </summary>
         /// <param name="this">The assembly to retrieve the resource from.</param>
         /// <param name="filename">The filename of the resource.</param>
-        /// <param name="throwError"></param>
+        /// <param name="throwErrorIfNotFound"></param>
         /// <returns>The text contents of the resource file.</returns>
         public static string GetEmbeddedResourceText(this Assembly @this, string filename, bool throwErrorIfNotFound = false)
         {
@@ -63,6 +66,13 @@ namespace Goldenacre.Extensions
             return resourceText;
         }
 
+        /// <summary>
+        ///     Gets the image from the specified assembly resource filename.
+        /// </summary>
+        /// <param name="this">The assembly to retrieve the resource from.</param>
+        /// <param name="filename">The filename of the resource.</param>
+        /// <param name="throwErrorIfNotFound"></param>
+        /// <returns>The text contents of the resource file.</returns>
         public static Image GetEmbeddedResourceImage(this Assembly @this, string filename, bool throwErrorIfNotFound = false)
         {
             Image resourceImage = null;

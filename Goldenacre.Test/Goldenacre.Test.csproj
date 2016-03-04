@@ -41,7 +41,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <Choose>
@@ -57,10 +56,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Core\HelperTest.cs" />
+    <Compile Include="Core\DummyIIdentity.cs" />
+    <Compile Include="Core\DummyIIdentityEmptyName.cs" />
+    <Compile Include="Core\DummyIIdentityNullName.cs" />
+    <Compile Include="Core\NetworkTest.cs" />
     <Compile Include="Core\ByteArrayExtensionsTest.cs" />
     <Compile Include="Core\AppDomainExtensionsTest.cs" />
     <Compile Include="Core\ExceptionExtensionsTest.cs" />
+    <Compile Include="Core\ImageExtensionsTest.cs" />
     <Compile Include="Core\ObjectExtensionsTest.cs" />
     <Compile Include="Core\CollectionExtensionsTest.cs" />
     <Compile Include="Core\StringExtensionsTest.cs" />

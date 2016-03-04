@@ -36,11 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity.Design" />
-    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.XML" />
@@ -52,23 +50,26 @@
     <Compile Include="Extensions\ExceptionExtentions.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="Extensions\XmlDocumentExtensions.cs" />
+    <Compile Include="GuardAgainst.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Security\Aes.cs" />
+    <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Security\SymmetricEncryption\Aes.cs" />
     <Compile Include="DateRange.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Security\PasswordGenerator.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="Network.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\Rijndael.cs" />
+    <Compile Include="Security\SymmetricEncryption\Rijndael.cs" />
     <Compile Include="StaticRandom.cs" />
     <Compile Include="Host.cs" />
-    <Compile Include="Security\SymmetricEncryptionBase.cs" />
+    <Compile Include="Security\SymmetricEncryption\SymmetricEncryptionBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

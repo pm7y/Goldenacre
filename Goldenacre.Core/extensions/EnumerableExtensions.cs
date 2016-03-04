@@ -9,16 +9,6 @@ namespace Goldenacre.Extensions
 {
     public static class EnumerableExtensions
     {
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> @this)
-        {
-            var c = new ObservableCollection<T>();
-            foreach (var e in @this)
-            {
-                c.Add(e);
-            }
-            return c;
-        }
-
         public static bool IsFirstElement<T>(this IEnumerable<T> @this, T element)
             where T : class
         {

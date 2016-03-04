@@ -3,14 +3,10 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Goldenacre.Core.Security
+namespace Goldenacre.Core.Security.SymmetricEncryption
 {
-    public class SymmetricEncryptionBase<T> where T : SymmetricAlgorithm, new()
+    public abstract class SymmetricEncryptionBase<T> where T : SymmetricAlgorithm, new()
     {
-        protected SymmetricEncryptionBase()
-        {
-            //    
-        }
 
         public static string Encrypt(string text, string password, string salt)
         {

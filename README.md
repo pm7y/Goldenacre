@@ -1,5 +1,5 @@
 # Goldenacre
-A library of useful stuff, mostly extension methods, that I find myself writing over and over again.
+A library of useful stuff, mostly extension methods, that you find yourself writing over and over again.
 
 ## Goldenacre.Core ##
 The main library. This has no depedencies on any other nuget packages.
