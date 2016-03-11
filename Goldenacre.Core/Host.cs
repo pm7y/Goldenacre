@@ -1,9 +1,8 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using Microsoft.Win32;
 
 namespace Goldenacre.Core
 {
@@ -14,7 +13,7 @@ namespace Goldenacre.Core
 
         public static long TickCount()
         {
-            return (long)GetTickCount64();
+            return (long) GetTickCount64();
         }
 
         public static TimeSpan UpTime()
@@ -27,6 +26,23 @@ namespace Goldenacre.Core
             var currentIdentity = WindowsIdentity.GetCurrent();
             return currentIdentity != null &&
                    new WindowsPrincipal(currentIdentity).IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
+        public static string FriendlyOsName()
+        {
+            var productName =
+                Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion")
+                    .GetValue("ProductName") as string;
+            var csdVersion =
+                Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue("CSDVersion")
+                    as string;
+            if (productName != string.Empty)
+            {
+                return (productName.StartsWith("Microsoft") ? string.Empty : "Microsoft ") + productName +
+                       (csdVersion != string.Empty ? " " + csdVersion : string.Empty);
+            }
+            return string.Empty;
         }
 
         #region Windows version checks
@@ -68,23 +84,5 @@ namespace Goldenacre.Core
         }
 
         #endregion Windows version checks
-
-        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-        public static string FriendlyOsName()
-        {
-            var productName =
-                Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion")
-                    .GetValue("ProductName") as string;
-            var csdVersion =
-                Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue("CSDVersion")
-                    as string;
-            if (productName != string.Empty)
-            {
-                return (productName.StartsWith("Microsoft") ? string.Empty : "Microsoft ") + productName +
-                       (csdVersion != string.Empty ? " " + csdVersion : string.Empty);
-            }
-            return string.Empty;
-        }
-
     }
 }

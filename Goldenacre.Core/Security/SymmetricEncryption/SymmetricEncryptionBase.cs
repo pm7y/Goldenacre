@@ -7,7 +7,6 @@ namespace Goldenacre.Core.Security.SymmetricEncryption
 {
     public abstract class SymmetricEncryptionBase<T> where T : SymmetricAlgorithm, new()
     {
-
         public static string Encrypt(string text, string password, string salt)
         {
             using (var rgb = new Rfc2898DeriveBytes(password, Encoding.Unicode.GetBytes(salt)))

@@ -11,7 +11,7 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_Truncate()
         {
-            string long_string = "The quick brown fox jumps over the lazy dog.";
+            var long_string = "The quick brown fox jumps over the lazy dog.";
 
             var truncated1 = long_string.Truncate(10, true);
             var truncated2 = long_string.Truncate(10, false);

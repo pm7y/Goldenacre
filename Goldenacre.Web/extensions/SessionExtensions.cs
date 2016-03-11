@@ -1,6 +1,5 @@
 using System;
 using System.Web;
-using System.Web.Mvc;
 using System.Web.SessionState;
 
 // ReSharper disable CheckNamespace
@@ -25,24 +24,6 @@ namespace Goldenacre.Extensions
                 @this.Clear();
                 @this.Abandon();
             }
-        }
-
-        public static T GetData<T>(this TempDataDictionary @this, string key)
-        {
-            if (@this.ContainsKey(key))
-            {
-                return (T) @this[key];
-            }
-            return default(T);
-        }
-
-        public static void SetData(this TempDataDictionary @this, string key, object value)
-        {
-            if (!@this.ContainsKey(key))
-            {
-                @this.Add(key, null);
-            }
-            @this[key] = value;
         }
 
         /// <summary>

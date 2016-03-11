@@ -24,5 +24,4 @@ namespace Goldenacre.Extensions
             return loadedAssembly;
         }
     }
-
 }

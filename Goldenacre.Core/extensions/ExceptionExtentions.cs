@@ -18,7 +18,8 @@ namespace Goldenacre.Extensions
         /// <param name="additionalMessage">Additional message to place at the top of the string, maybe be empty or null.</param>
         /// <param name="includeDateTime"></param>
         /// <returns></returns>
-        public static string ToLogString(this Exception @this, string additionalMessage = null, bool includeDateTime = false)
+        public static string ToLogString(this Exception @this, string additionalMessage = null,
+            bool includeDateTime = false)
         {
             var msg = new StringBuilder();
 

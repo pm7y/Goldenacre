@@ -37,6 +37,5 @@ namespace Goldenacre.Core.Extensions
 
             return result;
         }
-
     }
 }

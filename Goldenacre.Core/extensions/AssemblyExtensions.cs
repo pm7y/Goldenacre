@@ -11,14 +11,16 @@ namespace Goldenacre.Extensions
     public static class AssemblyExtensions
     {
         /// <summary>
-        /// Get the full resource name path for a given filename.
+        ///     Get the full resource name path for a given filename.
         /// </summary>
         public static string GetResourceName(this Assembly @this, string filename)
         {
             filename = filename.Trim().ToLowerInvariant();
 
             var resourceNames = @this.GetManifestResourceNames();
-            var resourceName = resourceNames.FirstOrDefault(n => n.ToLowerInvariant().EndsWith(string.Concat(".", filename.ToLowerInvariant())));
+            var resourceName =
+                resourceNames.FirstOrDefault(
+                    n => n.ToLowerInvariant().EndsWith(string.Concat(".", filename.ToLowerInvariant())));
 
             return resourceName;
         }
@@ -30,7 +32,8 @@ namespace Goldenacre.Extensions
         /// <param name="filename">The filename of the resource.</param>
         /// <param name="throwErrorIfNotFound"></param>
         /// <returns>The text contents of the resource file.</returns>
-        public static string GetEmbeddedResourceText(this Assembly @this, string filename, bool throwErrorIfNotFound = false)
+        public static string GetEmbeddedResourceText(this Assembly @this, string filename,
+            bool throwErrorIfNotFound = false)
         {
             string resourceText = null;
 
@@ -73,7 +76,8 @@ namespace Goldenacre.Extensions
         /// <param name="filename">The filename of the resource.</param>
         /// <param name="throwErrorIfNotFound"></param>
         /// <returns>The text contents of the resource file.</returns>
-        public static Image GetEmbeddedResourceImage(this Assembly @this, string filename, bool throwErrorIfNotFound = false)
+        public static Image GetEmbeddedResourceImage(this Assembly @this, string filename,
+            bool throwErrorIfNotFound = false)
         {
             Image resourceImage = null;
 
@@ -94,7 +98,7 @@ namespace Goldenacre.Extensions
                 {
                     if (stream != null)
                     {
-                        resourceImage = new Bitmap((Image)Image.FromStream(stream).Clone());
+                        resourceImage = new Bitmap((Image) Image.FromStream(stream).Clone());
                     }
                 }
             }

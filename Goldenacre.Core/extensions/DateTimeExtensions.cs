@@ -172,6 +172,5 @@ namespace Goldenacre.Extensions
 
             return string.Format("{0:ddd d}{1} {0:MMM yyyy} {0:HH:mm}", @this, suff);
         }
-
     }
 }

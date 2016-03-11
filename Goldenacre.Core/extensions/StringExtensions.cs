@@ -6,7 +6,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 
 // ReSharper disable CheckNamespace
 
@@ -165,14 +164,14 @@ namespace Goldenacre.Extensions
 
             @this = @this.Trim();
 
-            var t = typeof(T);
+            var t = typeof (T);
 
             if (!t.IsEnum)
             {
                 throw new ArgumentException("Not an enum value!");
             }
 
-            return (T)Enum.Parse(t, @this, ignorecase);
+            return (T) Enum.Parse(t, @this, ignorecase);
         }
 
         public static string DapiEncrypt(this string @this)
@@ -289,7 +288,7 @@ namespace Goldenacre.Extensions
                 var objSb = new StringBuilder();
                 var leftSpace = new string(@this.TakeWhile(c => c == ' ').ToArray());
                 var rightSpace = new string(@this.Reverse().TakeWhile(c => c == ' ').ToArray());
-                var arrWords = @this.Trim().Split(new[] { ' ' }, StringSplitOptions.None);
+                var arrWords = @this.Trim().Split(new[] {' '}, StringSplitOptions.None);
 
                 foreach (var word in arrWords)
                 {

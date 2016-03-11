@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace Goldenacre.Core.Interfaces
 {
     /// <summary>
-    /// A repository interface which includes key.
+    ///     A repository interface which includes key.
     /// </summary>
     /// <typeparam name="TDomainObject"></typeparam>
     /// <typeparam name="TKey"></typeparam>
@@ -28,5 +28,4 @@ namespace Goldenacre.Core.Interfaces
         void Delete(IEnumerable<TPrimaryKey> keys);
         void Delete(IEnumerable<TDomainObject> entity);
     }
-
 }

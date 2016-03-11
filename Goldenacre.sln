@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goldenacre.Core", "Goldenacre.Core\Goldenacre.Core.csproj", "{4F871F65-750D-46A7-9F4A-7F0D160C5B05}"
 EndProject
@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Goldenacre.Core.nuspec = Goldenacre.Core.nuspec
 		Goldenacre.Web.nuspec = Goldenacre.Web.nuspec
 		Goldenacre.Winforms.nuspec = Goldenacre.Winforms.nuspec
-		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject

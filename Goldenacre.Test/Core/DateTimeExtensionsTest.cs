@@ -63,27 +63,27 @@ namespace Goldenacre.Test.Core
         //[TestMethod]
         //public void Test_datetime_ensure_local()
         //{
-            //Context.WriteLine("jhjhj");
+        //Context.WriteLine("jhjhj");
 
-            //var localNow = DateTime.Now;
-            //var utcNow = localNow.ToUniversalTime();
-            //var unspecifiedNow = DateTime.SpecifyKind(localNow.ToUniversalTime(), DateTimeKind.Unspecified);
+        //var localNow = DateTime.Now;
+        //var utcNow = localNow.ToUniversalTime();
+        //var unspecifiedNow = DateTime.SpecifyKind(localNow.ToUniversalTime(), DateTimeKind.Unspecified);
 
-            //var localNowNull = new DateTime?(localNow);
-            //var utcNowNull = new DateTime?(utcNow);
-            //var unspecifiedNowNull = new DateTime?(unspecifiedNow);
+        //var localNowNull = new DateTime?(localNow);
+        //var utcNowNull = new DateTime?(utcNow);
+        //var unspecifiedNowNull = new DateTime?(unspecifiedNow);
 
-            //var newYearUtc = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            //var tz = TimeZoneInfo.FindSystemTimeZoneById("E. Australia Standard Time");
-            //var brisLocal = new DateTime(2000, 1, 1, 10, 0, 0, DateTimeKind.Local);
+        //var newYearUtc = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        //var tz = TimeZoneInfo.FindSystemTimeZoneById("E. Australia Standard Time");
+        //var brisLocal = new DateTime(2000, 1, 1, 10, 0, 0, DateTimeKind.Local);
 
-            //Assert.AreEqual(localNow, utcNow.EnsureLocal());
-            //Assert.AreEqual(localNow, unspecifiedNow.EnsureLocal());
+        //Assert.AreEqual(localNow, utcNow.EnsureLocal());
+        //Assert.AreEqual(localNow, unspecifiedNow.EnsureLocal());
 
-            //Assert.AreEqual(localNowNull, utcNowNull.EnsureLocal());
-            //Assert.AreEqual(localNowNull, unspecifiedNowNull.EnsureLocal());
+        //Assert.AreEqual(localNowNull, utcNowNull.EnsureLocal());
+        //Assert.AreEqual(localNowNull, unspecifiedNowNull.EnsureLocal());
 
-            //Assert.AreEqual(brisLocal, newYearUtc.EnsureLocal(tz));
+        //Assert.AreEqual(brisLocal, newYearUtc.EnsureLocal(tz));
         //}
 
         [TestMethod]
@@ -176,7 +176,7 @@ namespace Goldenacre.Test.Core
             var doesNotContain2 = DateRange.New(now.AddDays(5), now.AddDays(6));
             var doesNotContain3 = DateRange.New(now.AddDays(-1), now.AddDays(1));
             var doesNotContain4 = DateRange.New(now.AddDays(1), now.AddDays(3));
-            
+
             Assert.IsFalse(r.Contains(doesNotContain1));
             Assert.IsFalse(r.Contains(doesNotContain2));
             Assert.IsFalse(r.Contains(doesNotContain3));

@@ -15,7 +15,8 @@ namespace Goldenacre.Core
             }
         }
 
-        public static void ArgumentOutOfRange<T>(T argument, T min, T max, string argumentName = null) where T : IComparable<T>
+        public static void ArgumentOutOfRange<T>(T argument, T min, T max, string argumentName = null)
+            where T : IComparable<T>
         {
             if (!argument.IsBetween(min, max))
             {
@@ -25,7 +26,8 @@ namespace Goldenacre.Core
             }
         }
 
-        public static void ArgumentInvalid<T>(T argument, Func<T, bool> isValid, string argumentName = null) where T : IComparable<T>
+        public static void ArgumentInvalid<T>(T argument, Func<T, bool> isValid, string argumentName = null)
+            where T : IComparable<T>
         {
             if (!isValid(argument))
             {

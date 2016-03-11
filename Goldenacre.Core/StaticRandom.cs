@@ -2,9 +2,8 @@
 
 namespace Goldenacre.Core
 {
-
     /// <summary>
-    /// A static wrapper around System.Random.
+    ///     A static wrapper around System.Random.
     /// </summary>
     public static class StaticRandom
     {

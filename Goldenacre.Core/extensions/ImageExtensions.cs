@@ -9,6 +9,7 @@ using System.Text;
 using Encoder = System.Drawing.Imaging.Encoder;
 
 // ReSharper disable CheckNamespace
+
 namespace Goldenacre.Extensions
 // ReSharper restore CheckNamespace
 {
@@ -25,18 +26,18 @@ namespace Goldenacre.Extensions
                 throw new ArgumentNullException();
             }
 
-            using (var bitmap = new Bitmap((Image)@this.Clone()))
+            using (var bitmap = new Bitmap((Image) @this.Clone()))
             {
                 var sourceWidth = bitmap.Width;
                 var sourceHeight = bitmap.Height;
 
-                var nPercentW = size.Width / (float)sourceWidth;
-                var nPercentH = size.Height / (float)sourceHeight;
+                var nPercentW = size.Width/(float) sourceWidth;
+                var nPercentH = size.Height/(float) sourceHeight;
 
                 var nPercent = nPercentH < nPercentW ? nPercentH : nPercentW;
 
-                var destWidth = (int)(sourceWidth * nPercent);
-                var destHeight = (int)(sourceHeight * nPercent);
+                var destWidth = (int) (sourceWidth*nPercent);
+                var destHeight = (int) (sourceHeight*nPercent);
 
                 var b = new Bitmap(destWidth, destHeight);
                 using (var g = Graphics.FromImage(b))
@@ -57,7 +58,7 @@ namespace Goldenacre.Extensions
                 throw new ArgumentNullException();
             }
 
-            using (var bitmap = new Bitmap((Image)@this.Clone()))
+            using (var bitmap = new Bitmap((Image) @this.Clone()))
             {
                 //create a blank bitmap the same size as original
                 var newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
@@ -84,7 +85,8 @@ namespace Goldenacre.Extensions
 
                         //draw the original image on the new image
                         //using the grayscale color matrix
-                        g.DrawImage(bitmap, new Rectangle(0, 0, bitmap.Width, bitmap.Height), 0, 0, bitmap.Width, bitmap.Height, GraphicsUnit.Pixel, attributes);
+                        g.DrawImage(bitmap, new Rectangle(0, 0, bitmap.Width, bitmap.Height), 0, 0, bitmap.Width,
+                            bitmap.Height, GraphicsUnit.Pixel, attributes);
 
                         return newBitmap;
                     }
@@ -99,7 +101,7 @@ namespace Goldenacre.Extensions
                 throw new ArgumentNullException();
             }
 
-            using (var bitmap = new Bitmap((Image)@this.Clone()))
+            using (var bitmap = new Bitmap((Image) @this.Clone()))
             {
                 compressionFactor = compressionFactor.EnsureBetween(0, 100);
 
@@ -114,7 +116,7 @@ namespace Goldenacre.Extensions
                     {
                         bitmap.Save(objStream, objCodecInfo, objEncoderParams);
 
-                        return new Bitmap((Image)Image.FromStream(objStream).Clone());
+                        return new Bitmap((Image) Image.FromStream(objStream).Clone());
                     }
                 }
             }
@@ -145,7 +147,7 @@ namespace Goldenacre.Extensions
                 throw new ArgumentNullException();
             }
 
-            using (var bitmap = new Bitmap((Image)@this.Clone()))
+            using (var bitmap = new Bitmap((Image) @this.Clone()))
             {
                 var sb = new StringBuilder();
                 sb.Append(text);
@@ -183,12 +185,13 @@ namespace Goldenacre.Extensions
                         graphics.DrawRectangle(new Pen(textBgColour), rect);
                         graphics.FillRectangle(new SolidBrush(textBgColour), rect);
 
-                        graphics.DrawString(sb.ToString(), font, textColour, placeTop ? new PointF(2, 0) : new PointF(2, originalSize.Height - height));
+                        graphics.DrawString(sb.ToString(), font, textColour,
+                            placeTop ? new PointF(2, 0) : new PointF(2, originalSize.Height - height));
 
                         graphics.Save();
                     }
                 }
-                return new Bitmap((Image)bitmap.Clone());
+                return new Bitmap((Image) bitmap.Clone());
             }
         }
 
@@ -213,7 +216,10 @@ namespace Goldenacre.Extensions
         {
             return
                 ImageCodecInfo.GetImageEncoders()
-                    .FirstOrDefault(t => t.MimeType.ToUpper(CultureInfo.CurrentCulture).Equals(mimeType.ToUpper(CultureInfo.CurrentCulture)));
+                    .FirstOrDefault(
+                        t =>
+                            t.MimeType.ToUpper(CultureInfo.CurrentCulture)
+                                .Equals(mimeType.ToUpper(CultureInfo.CurrentCulture)));
         }
     }
 }

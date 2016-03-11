@@ -77,7 +77,7 @@ namespace Goldenacre.Core.Security
                 return lBound;
             }
 
-            var xcludeRndBase = uint.MaxValue - uint.MaxValue % (uint)(uBound - lBound);
+            var xcludeRndBase = uint.MaxValue - uint.MaxValue%(uint) (uBound - lBound);
 
             do
             {
@@ -85,7 +85,7 @@ namespace Goldenacre.Core.Security
                 urndnum = BitConverter.ToUInt32(rndnum, 0);
             } while (urndnum >= xcludeRndBase);
 
-            return (int)(urndnum % (uBound - lBound)) + lBound;
+            return (int) (urndnum%(uBound - lBound)) + lBound;
         }
 
         private char GetRandomCharacter()
@@ -108,7 +108,7 @@ namespace Goldenacre.Core.Security
         {
             var pwdLength = GetCryptographicRandomNumber(MinimumLength, MaximumLength);
 
-            var pwdBuffer = new StringBuilder { Capacity = MaximumLength };
+            var pwdBuffer = new StringBuilder {Capacity = MaximumLength};
             var lastCharacter = '\n';
 
             for (var i = 0; i < pwdLength; i++)

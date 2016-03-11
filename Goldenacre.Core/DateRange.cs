@@ -26,15 +26,17 @@ namespace Goldenacre.Core
         /// <returns></returns>
         public static DateRange New(DateTime fromUtc, DateTime toUtc)
         {
-            if (fromUtc.Kind != DateTimeKind.Utc) throw new ArgumentException("The from date should be specified as UTC.");
+            if (fromUtc.Kind != DateTimeKind.Utc)
+                throw new ArgumentException("The from date should be specified as UTC.");
             if (toUtc.Kind != DateTimeKind.Utc) throw new ArgumentException("The to date should be specified as UTC.");
-            if (fromUtc.CompareTo(toUtc) == 1) throw new ArgumentException("The from date must not be before the to date.");
+            if (fromUtc.CompareTo(toUtc) == 1)
+                throw new ArgumentException("The from date must not be before the to date.");
 
-            return new DateRange { FromUtc = fromUtc, ToUtc = toUtc };
+            return new DateRange {FromUtc = fromUtc, ToUtc = toUtc};
         }
 
         /// <summary>
-        /// Check to see if the ranges intersect each other.
+        ///     Check to see if the ranges intersect each other.
         /// </summary>
         /// <param name="range">The range to check against.</param>
         /// <returns>True if they intersect.</returns>
@@ -54,13 +56,13 @@ namespace Goldenacre.Core
             //     =====          ===
             //
             if (range.FromUtc >= FromUtc && range.ToUtc <= ToUtc) return true;
-            
+
             // otherwise it doesn't intersect
             return false;
         }
 
         /// <summary>
-        /// Check to see if the range is entirely contained inside the other.
+        ///     Check to see if the range is entirely contained inside the other.
         /// </summary>
         /// <param name="range">The range to check against.</param>
         /// <returns>True if it is contained within the range.</returns>

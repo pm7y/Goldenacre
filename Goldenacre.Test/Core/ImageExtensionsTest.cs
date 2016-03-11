@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using Goldenacre.Extensions;
@@ -26,11 +27,11 @@ namespace Goldenacre.Test.Core
             using (var bigImg = Assembly.GetExecutingAssembly().GetEmbeddedResourceImage("tazmania.jpg"))
             using (var smallImg = bigImg.Compress(25))
             {
-                using (MemoryStream ms1 = new MemoryStream())
-                using (MemoryStream ms2 = new MemoryStream())
+                using (var ms1 = new MemoryStream())
+                using (var ms2 = new MemoryStream())
                 {
-                    bigImg.Save(ms1, System.Drawing.Imaging.ImageFormat.Tiff);
-                    smallImg.Save(ms2, System.Drawing.Imaging.ImageFormat.Tiff);
+                    bigImg.Save(ms1, ImageFormat.Tiff);
+                    smallImg.Save(ms2, ImageFormat.Tiff);
 
                     // make sure the compressed one is actually smaller.
                     Assert.IsTrue(ms2.Length < ms1.Length);
