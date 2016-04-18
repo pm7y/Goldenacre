@@ -1,11 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿
+#pragma warning disable 1573
 
 // ReSharper disable CheckNamespace
 
 namespace Goldenacre.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Forms;
+
+    public static class ApplicationExtensions
+    {
+        public static Form RootForm(this Application app)
+        {
+            return Application.OpenForms.Cast<Form>().FirstOrDefault(f => f != null && !f.IsDisposed && !f.Disposing && f.Owner == null && f.Parent == null && f.ParentForm == null && f.TopLevelControl == null && f.Visible);
+        }
+    }
+
     public static class ControlExtensions
     {
         private static readonly object _invokeLock = new object();

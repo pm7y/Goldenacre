@@ -1,11 +1,13 @@
-﻿using System;
-using Goldenacre.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-// ReSharper disable UnusedVariable
+﻿ // ReSharper disable UnusedVariable
 
 namespace Goldenacre.Test.Core
 {
+    using System;
+
+    using Goldenacre.Extensions;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AppDomainExtensionsTest
     {

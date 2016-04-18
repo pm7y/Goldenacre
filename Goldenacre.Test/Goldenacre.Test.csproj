@@ -42,6 +42,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -56,18 +57,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Core\DummyIIdentity.cs" />
-    <Compile Include="Core\DummyIIdentityEmptyName.cs" />
-    <Compile Include="Core\DummyIIdentityNullName.cs" />
+    <Compile Include="Core\HostTest.cs" />
+    <Compile Include="Test Types\DummyIIdentity.cs" />
+    <Compile Include="Test Types\DummyIIdentityEmptyName.cs" />
+    <Compile Include="Test Types\DummyIIdentityNullName.cs" />
     <Compile Include="Core\NetworkTest.cs" />
     <Compile Include="Core\ByteArrayExtensionsTest.cs" />
     <Compile Include="Core\AppDomainExtensionsTest.cs" />
     <Compile Include="Core\ExceptionExtensionsTest.cs" />
-    <Compile Include="Core\ImageExtensionsTest.cs" />
     <Compile Include="Core\ObjectExtensionsTest.cs" />
     <Compile Include="Core\CollectionExtensionsTest.cs" />
     <Compile Include="Core\StringExtensionsTest.cs" />
-    <Compile Include="Core\IdentityExtensionsTest.cs" />
     <Compile Include="Core\DateTimeExtensionsTest.cs" />
     <Compile Include="Core\AssemblyExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

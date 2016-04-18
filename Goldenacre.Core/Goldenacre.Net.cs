@@ -1,8 +1,8 @@
-﻿using System;
-using System.Net.Sockets;
-
-namespace Goldenacre.Core
+﻿namespace Goldenacre.Core
 {
+    using System;
+    using System.Net.Sockets;
+
     public static class Network
     {
         /// <summary>
@@ -13,6 +13,7 @@ namespace Goldenacre.Core
         /// <param name="host">The url or ip to check.</param>
         /// <param name="port">The port to connect to.</param>
         /// <param name="timeoutInSeconds">Give up if no response after this many seconds.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public static long Ping(string host, int port = 80, int timeoutInSeconds = 15)
         {
             var start = DateTime.UtcNow;
@@ -26,7 +27,7 @@ namespace Goldenacre.Core
 
                     using (var wait = result.AsyncWaitHandle)
                     {
-                        if (!wait.WaitOne(timeoutInSeconds*1000, false))
+                        if (!wait.WaitOne((int)TimeSpan.FromSeconds(timeoutInSeconds).TotalMilliseconds, false))
                         {
                             tcp.Close();
                         }
@@ -35,7 +36,7 @@ namespace Goldenacre.Core
                     }
                 }
 
-                duration = (long) DateTime.UtcNow.Subtract(start).TotalMilliseconds;
+                duration = (long)DateTime.UtcNow.Subtract(start).TotalMilliseconds;
             }
             catch
             {

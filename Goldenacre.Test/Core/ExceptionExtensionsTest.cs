@@ -1,11 +1,13 @@
-﻿using System;
-using Goldenacre.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-// ReSharper disable UnusedVariable
+﻿ // ReSharper disable UnusedVariable
 
 namespace Goldenacre.Test.Core
 {
+    using System;
+
+    using Goldenacre.Extensions;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class ExceptionExtensionsTest
     {
@@ -16,7 +18,7 @@ namespace Goldenacre.Test.Core
             {
                 var x = 0;
 
-                var asd = 110/x;
+                var asd = 110 / x;
             }
             catch (Exception ex)
             {

@@ -1,11 +1,13 @@
-﻿using System;
-using Goldenacre.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-// ReSharper disable UnusedVariable
+﻿ // ReSharper disable UnusedVariable
 
 namespace Goldenacre.Test.Core
 {
+    using System;
+
+    using Goldenacre.Extensions;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class ObjectExtensionsTest
     {
@@ -112,14 +114,18 @@ namespace Goldenacre.Test.Core
         private class Parent
         {
             public DateTime Prop1 { get; set; }
+
             public DateTime? Prop2 { get; set; }
+
             public DateTime? Prop3 { get; set; }
         }
 
         private class Child : Parent
         {
             public DateTime PropA { get; set; }
+
             public DateTime? PropB { get; set; }
+
             public DateTime? PropC { get; set; }
         }
     }

@@ -1,14 +1,16 @@
-﻿using System;
-using System.Globalization;
-using System.Threading;
-using Goldenacre.Core;
-using Goldenacre.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-// ReSharper disable UnusedVariable
+﻿ // ReSharper disable UnusedVariable
 
 namespace Goldenacre.Test.Core
 {
+    using System;
+    using System.Globalization;
+    using System.Threading;
+
+    using Goldenacre.Core;
+    using Goldenacre.Extensions;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class DateTimeExtensionsTest
     {
@@ -36,8 +38,8 @@ namespace Goldenacre.Test.Core
             var thenElapsed = then.Elapsed();
 
             Assert.IsTrue(nowElapsed.TotalSeconds < 1);
-            Assert.IsTrue(thenElapsed.TotalHours%24 < 1);
-            Assert.IsTrue((int) thenElapsed.TotalHours == 24);
+            Assert.IsTrue(thenElapsed.TotalHours % 24 < 1);
+            Assert.IsTrue((int)thenElapsed.TotalHours == 24);
         }
 
         [TestMethod]
@@ -190,7 +192,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Test_daterange_does_except_local_fromDate()
         {
             var fromLocal = DateTime.Now.AddDays(-1);
@@ -199,7 +201,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Test_daterange_does_except_local_toDate()
         {
             var toLocal = DateTime.Now.AddDays(1);
@@ -208,7 +210,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Test_daterange_does_except_unspecified_fromDate()
         {
             var fromLocal = DateTime.SpecifyKind(DateTime.Now.AddDays(-1), DateTimeKind.Unspecified);
@@ -217,7 +219,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Test_daterange_does_except_unspecified_toDate()
         {
             var toUnspecified = DateTime.SpecifyKind(DateTime.UtcNow.AddDays(1), DateTimeKind.Unspecified);

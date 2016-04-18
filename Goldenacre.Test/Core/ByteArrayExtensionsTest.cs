@@ -1,12 +1,14 @@
-﻿using System;
-using System.Text;
-using Goldenacre.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-// ReSharper disable UnusedVariable
+﻿ // ReSharper disable UnusedVariable
 
 namespace Goldenacre.Test.Core
 {
+    using System;
+    using System.Text;
+
+    using Goldenacre.Extensions;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class ByteArrayExtensionsTest
     {
@@ -32,7 +34,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void Test_ByteArray_ToMemoryStream_when_null()
         {
             byte[] bytes = null;

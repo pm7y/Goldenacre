@@ -23,6 +23,8 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,41 +38,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity.Design" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\AppDomainExtensions.cs" />
-    <Compile Include="Extensions\CollectionExtensions.cs" />
-    <Compile Include="Extensions\DataExtensions.cs" />
-    <Compile Include="Extensions\ExceptionExtentions.cs" />
-    <Compile Include="Extensions\ByteArrayExtensions.cs" />
-    <Compile Include="Extensions\StringBuilderExtensions.cs" />
-    <Compile Include="Extensions\XmlDocumentExtensions.cs" />
-    <Compile Include="GuardAgainst.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Security\SymmetricEncryption\Aes.cs" />
-    <Compile Include="DateRange.cs" />
-    <Compile Include="Extensions\ImageExtensions.cs" />
-    <Compile Include="Security\PasswordGenerator.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Extensions\IdentityExtensions.cs" />
-    <Compile Include="Extensions\AssemblyExtensions.cs" />
-    <Compile Include="Network.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Goldenacre.Extensions.cs" />
+    <Compile Include="Goldenacre.GuardAgainst.cs" />
+    <Compile Include="Goldenacre.Interfaces.cs" />
+    <Compile Include="Goldenacre.DateRange.cs" />
+    <Compile Include="Goldenacre.Net.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\SymmetricEncryption\Rijndael.cs" />
-    <Compile Include="StaticRandom.cs" />
-    <Compile Include="Host.cs" />
-    <Compile Include="Security\SymmetricEncryption\SymmetricEncryptionBase.cs" />
+    <Compile Include="Goldenacre.SymmetricEncryption.cs" />
+    <Compile Include="Goldenacre.Host.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

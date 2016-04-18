@@ -1,31 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-
-namespace Goldenacre.Core.Interfaces
+﻿// ReSharper disable CheckNamespace
+namespace Goldenacre.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    public interface IUnitOfWork : IDisposable
+    {
+        void SaveChanges();
+    }
+
     /// <summary>
-    ///     A repository interface which includes key.
+    ///     A repository pattern interface which includes key.
     /// </summary>
     /// <typeparam name="TDomainObject"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public interface IRepository<TDomainObject, TPrimaryKey>
-        where TDomainObject : class
-        where TPrimaryKey : struct
+    /// <typeparam name="TPrimaryKey"></typeparam>
+    public interface IRepository<TDomainObject, in TPrimaryKey>
+        where TDomainObject : class where TPrimaryKey : struct
     {
         IQueryable<TDomainObject> Get(Expression<Func<TDomainObject, bool>> filter = null);
+
         TDomainObject GetOne(TPrimaryKey key);
 
         void Insert(TDomainObject entity);
+
         void Insert(IEnumerable<TDomainObject> entity);
 
         void Update(TDomainObject entity);
+
         void Update(IEnumerable<TDomainObject> entity);
 
         void Delete(TPrimaryKey key);
+
         void Delete(TDomainObject entity);
+
         void Delete(IEnumerable<TPrimaryKey> keys);
+
         void Delete(IEnumerable<TDomainObject> entity);
     }
 }

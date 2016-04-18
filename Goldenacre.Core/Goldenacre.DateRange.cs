@@ -1,12 +1,23 @@
-﻿using System;
-using Goldenacre.Extensions;
-
-namespace Goldenacre.Core
+﻿namespace Goldenacre.Core
 {
+    using System;
+
+    public interface IDateRange
+    {
+        DateTime FromUtc { get; }
+
+        DateTime ToUtc { get; }
+
+        bool Intersects(DateRange range);
+
+        bool Contains(DateRange range);
+
+    }
+
     /// <summary>
     ///     A simple DateRange class representing a from and to date in UTC.
     /// </summary>
-    public struct DateRange
+    public struct DateRange : IDateRange
     {
         /// <summary>
         ///     The start of the date range.
@@ -27,12 +38,24 @@ namespace Goldenacre.Core
         public static DateRange New(DateTime fromUtc, DateTime toUtc)
         {
             if (fromUtc.Kind != DateTimeKind.Utc)
+            {
                 throw new ArgumentException("The from date should be specified as UTC.");
-            if (toUtc.Kind != DateTimeKind.Utc) throw new ArgumentException("The to date should be specified as UTC.");
+            }
+            if (toUtc.Kind != DateTimeKind.Utc)
+            {
+                throw new ArgumentException("The to date should be specified as UTC.");
+            }
             if (fromUtc.CompareTo(toUtc) == 1)
+            {
                 throw new ArgumentException("The from date must not be before the to date.");
+            }
 
-            return new DateRange {FromUtc = fromUtc, ToUtc = toUtc};
+            return new DateRange { FromUtc = fromUtc, ToUtc = toUtc };
+        }
+
+        private bool IsBetween(DateTime dateTime, DateTime from, DateTime to)
+        {
+            return dateTime.CompareTo(from) >= 0 && dateTime.CompareTo(to) <= 0;
         }
 
         /// <summary>
@@ -45,17 +68,26 @@ namespace Goldenacre.Core
             // There are 3 ways ranges can intersect:
             // 1:     =====
             //     =====
-            if (range.FromUtc.IsBetween(FromUtc, ToUtc)) return true;
+            if (this.IsBetween(range.FromUtc, this.FromUtc, this.ToUtc))
+            {
+                return true;
+            }
 
             //
             // 2:  =====
             //        =====
-            if (range.ToUtc.IsBetween(FromUtc, ToUtc)) return true;
+            if (this.IsBetween(range.ToUtc, this.FromUtc, this.ToUtc))
+            {
+                return true;
+            }
 
             // 3:  =====    or   =====
             //     =====          ===
             //
-            if (range.FromUtc >= FromUtc && range.ToUtc <= ToUtc) return true;
+            if (range.FromUtc >= this.FromUtc && range.ToUtc <= this.ToUtc)
+            {
+                return true;
+            }
 
             // otherwise it doesn't intersect
             return false;
@@ -71,7 +103,10 @@ namespace Goldenacre.Core
             //     =====    or   =====
             //     =====          ===
             //
-            if (range.FromUtc >= FromUtc && range.ToUtc <= ToUtc) return true;
+            if (range.FromUtc >= this.FromUtc && range.ToUtc <= this.ToUtc)
+            {
+                return true;
+            }
 
             // otherwise it doesn't contain
             return false;
