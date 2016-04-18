@@ -17,34 +17,6 @@ namespace Goldenacre.Extensions
     using System.Text;
     using System.Text.RegularExpressions;
 
-    #region AppDomain Extensions
-
-    public static class AppDomainExtensions
-    {
-        public static bool IsAssemblyLoaded(this AppDomain @this, string assemblyName)
-        {
-            var loadedAssemblies = @this.GetAssemblies().Any(a => a.GetName().Name.EqualsCI(assemblyName));
-
-            return loadedAssemblies;
-        }
-
-        public static bool IsAssemblyLoaded(this AppDomain @this, AssemblyName assemblyName)
-        {
-            var loadedAssemblies = @this.GetAssemblies().Any(a => a.GetName().FullName == assemblyName.FullName);
-
-            return loadedAssemblies;
-        }
-
-        public static Assembly GetLoadedAssembly(this AppDomain @this, string assemblyName)
-        {
-            var loadedAssembly = @this.GetAssemblies().FirstOrDefault(a => a.GetName().Name.EqualsCI(assemblyName));
-
-            return loadedAssembly;
-        }
-    }
-
-    #endregion AppDomain Extensions
-
     #region Assembly Extensions
 
     public static class AssemblyExtensions
@@ -127,15 +99,18 @@ namespace Goldenacre.Extensions
                 {
                     if (stream != null)
                     {
-                        if (stream is MemoryStream)
+                        var mstream = stream as MemoryStream;
+                        if (mstream != null)
                         {
-                            resourceBytes = ((MemoryStream)stream).ToArray();
+                            resourceBytes = mstream.ToArray();
                         }
-
-                        using (var memoryStream = new MemoryStream())
+                        else
                         {
-                            stream.CopyTo(memoryStream);
-                            resourceBytes = memoryStream.ToArray();
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                stream.CopyTo(memoryStream);
+                                resourceBytes = memoryStream.ToArray();
+                            }
                         }
                     }
                 }
@@ -266,19 +241,6 @@ namespace Goldenacre.Extensions
     public static class DateTimeExtensions
     {
         public static readonly DateTime EpochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-        /// <summary>
-        ///     The years of age of a person given their DoB.
-        /// </summary>
-        public static int YearsOfAge(this DateTime @this)
-        {
-            if (DateTime.Today.Month < @this.Month || DateTime.Today.Month == @this.Month && DateTime.Today.Day < @this.Day)
-            {
-                return DateTime.Today.Year - @this.Year - 1;
-            }
-
-            return DateTime.Today.Year - @this.Year;
-        }
 
         /// <summary>
         ///     The elapsed timespan since the given datetime.

@@ -63,7 +63,6 @@
     <Compile Include="Test Types\DummyIIdentityNullName.cs" />
     <Compile Include="Core\NetworkTest.cs" />
     <Compile Include="Core\ByteArrayExtensionsTest.cs" />
-    <Compile Include="Core\AppDomainExtensionsTest.cs" />
     <Compile Include="Core\ExceptionExtensionsTest.cs" />
     <Compile Include="Core\ObjectExtensionsTest.cs" />
     <Compile Include="Core\CollectionExtensionsTest.cs" />

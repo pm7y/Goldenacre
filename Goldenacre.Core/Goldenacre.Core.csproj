@@ -46,7 +46,6 @@
     <Compile Include="Goldenacre.DateRange.cs" />
     <Compile Include="Goldenacre.Net.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Goldenacre.SymmetricEncryption.cs" />
     <Compile Include="Goldenacre.Host.cs" />
   </ItemGroup>
   <ItemGroup />
