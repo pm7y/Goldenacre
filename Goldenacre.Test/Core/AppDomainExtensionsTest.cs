@@ -1,4 +1,4 @@
-﻿ // ReSharper disable UnusedVariable
+﻿// ReSharper disable UnusedVariable
 
 namespace Goldenacre.Test.Core
 {

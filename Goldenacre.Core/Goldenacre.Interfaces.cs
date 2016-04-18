@@ -1,4 +1,5 @@
 ﻿// ReSharper disable CheckNamespace
+
 namespace Goldenacre.Core
 {
     using System;

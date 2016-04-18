@@ -11,7 +11,6 @@
         bool Intersects(DateRange range);
 
         bool Contains(DateRange range);
-
     }
 
     /// <summary>

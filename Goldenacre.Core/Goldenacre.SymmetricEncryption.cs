@@ -1,4 +1,5 @@
 ﻿// ReSharper disable CheckNamespace
+
 namespace Goldenacre.Core
 {
     using System;
@@ -17,8 +18,8 @@ namespace Goldenacre.Core
             {
                 using (var algorithm = new T())
                 {
-                    var rgbKey = rgb.GetBytes(algorithm.KeySize);// >> 3);
-                    var rgbIv = rgb.GetBytes(algorithm.BlockSize);// >> 3);
+                    var rgbKey = rgb.GetBytes(algorithm.KeySize); // >> 3);
+                    var rgbIv = rgb.GetBytes(algorithm.BlockSize); // >> 3);
 
                     using (var transform = algorithm.CreateEncryptor(rgbKey, rgbIv))
                     using (var buffer = new MemoryStream())
@@ -44,8 +45,8 @@ namespace Goldenacre.Core
             {
                 using (var algorithm = new T())
                 {
-                    var rgbKey = rgb.GetBytes(algorithm.KeySize);// >> 3);
-                    var rgbIv = rgb.GetBytes(algorithm.BlockSize);// >> 3);
+                    var rgbKey = rgb.GetBytes(algorithm.KeySize); // >> 3);
+                    var rgbIv = rgb.GetBytes(algorithm.BlockSize); // >> 3);
 
                     using (var transform = algorithm.CreateDecryptor(rgbKey, rgbIv))
                     {
