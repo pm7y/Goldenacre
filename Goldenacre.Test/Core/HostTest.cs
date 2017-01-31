@@ -36,7 +36,7 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_UpTime()
         {
-            var result = Host.UpTime();
+            var result = Host.Uptime();
 
             Assert.IsTrue(result.TotalMilliseconds > 0);
         }

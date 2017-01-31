@@ -1,7 +1,4 @@
-﻿// ReSharper disable CheckNamespace
-// ReSharper disable MergeConditionalExpression
-
-namespace Goldenacre.Extensions
+﻿namespace Goldenacre.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -17,44 +14,69 @@ namespace Goldenacre.Extensions
     using System.Text;
     using System.Text.RegularExpressions;
 
+    using Goldenacre.Core;
+
     #region Assembly Extensions
 
     public static class AssemblyExtensions
     {
         /// <summary>
-        ///     Get the full resource name path for a given filename.
+        ///     Get the full resource name path for a given resourceFileName.
         /// </summary>
-        public static string GetResourceName(this Assembly @this, string filename)
+        public static string GetFullResourcePathForFileName(this Assembly @this, string resourceFileName)
         {
-            filename = filename.Trim().ToLowerInvariant();
+            if (@this == null)
+            {
+                throw new ArgumentNullException(nameof(@this), Goldenacre_Resources.ArgumentCannotBeNull);
+            }
+
+            resourceFileName = resourceFileName.Trim().ToUpperInvariant();
 
             var resourceNames = @this.GetManifestResourceNames();
-            var resourceName = resourceNames.FirstOrDefault(n => n.ToLowerInvariant().EndsWith(string.Concat(".", filename.ToLowerInvariant())));
+            
+            var resourceName = resourceNames.FirstOrDefault(n => n.ToUpperInvariant().EndsWith(string.Concat(".", resourceFileName.ToUpperInvariant()), StringComparison.OrdinalIgnoreCase));
 
             return resourceName;
         }
 
         /// <summary>
-        ///     Gets the text from the specified assembly resource filename.
+        /// Gets the text from the specified assembly resource resourceFileName.
         /// </summary>
         /// <param name="this">The assembly to retrieve the resource from.</param>
-        /// <param name="filename">The filename of the resource.</param>
-        /// <param name="throwErrorIfNotFound"></param>
-        /// <returns>The text contents of the resource file.</returns>
+        /// <param name="fileName">The resourceFileName of the resource.</param>
+        /// <returns>
+        /// The text contents of the resource file.
+        /// </returns>
+        public static string GetEmbeddedResourceText(this Assembly @this, string fileName)
+        {
+            return GetEmbeddedResourceText(@this, fileName, false);
+        }
+
+        /// <summary>
+        /// Gets the text from the specified assembly resource resourceFileName.
+        /// </summary>
+        /// <param name="this">The assembly to retrieve the resource from.</param>
+        /// <param name="fileName">The resourceFileName of the resource.</param>
+        /// <param name="throwErrorIfNotFound">if set to <c>true</c> [throw error if not found].</param>
+        /// <returns>
+        /// The text contents of the resource file.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException"></exception>
+        /// <exception cref="System.ArgumentException">fileName</exception>
         [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
-        public static string GetEmbeddedResourceText(this Assembly @this, string filename, bool throwErrorIfNotFound = false)
+        public static string GetEmbeddedResourceText(this Assembly @this, string fileName, bool throwErrorIfNotFound)
         {
             string resourceText = null;
 
-            if (!string.IsNullOrWhiteSpace(filename))
+            if (!string.IsNullOrWhiteSpace(fileName))
             {
-                var resourceName = GetResourceName(@this, filename);
+                var resourceName = GetFullResourcePathForFileName(@this, fileName);
 
                 if (resourceName == null)
                 {
                     if (throwErrorIfNotFound)
                     {
-                        throw new InvalidOperationException("The specified resource was not found!");
+                        throw new InvalidOperationException(Goldenacre_Resources.SpecifiedResourceNotFound);
                     }
                     return null;
                 }
@@ -72,25 +94,47 @@ namespace Goldenacre.Extensions
             }
             else if (throwErrorIfNotFound)
             {
-                throw new ArgumentException("The specified filename was not valid!");
+                throw new ArgumentException(Goldenacre_Resources.ArgumentIsNotValid, "fileName");
             }
 
             return resourceText;
         }
 
-        public static byte[] GetEmbeddedResourceBytes(this Assembly @this, string filename, bool throwErrorIfNotFound = false)
+        /// <summary>
+        /// Gets the embedded resource bytes.
+        /// </summary>
+        /// <param name="this">The assembly.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns></returns>
+        /// <exception cref="System.InvalidOperationException"></exception>
+        /// <exception cref="System.ArgumentException">fileName</exception>
+        public static byte[] GetEmbeddedResourceBytes(this Assembly @this, string fileName)
+        {
+            return GetEmbeddedResourceBytes(@this, fileName, false);
+        }
+
+        /// <summary>
+        /// Gets the embedded resource bytes.
+        /// </summary>
+        /// <param name="this">The assembly.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="throwErrorIfNotFound">if set to <c>true</c> [throw error if not found].</param>
+        /// <returns></returns>
+        /// <exception cref="System.InvalidOperationException"></exception>
+        /// <exception cref="System.ArgumentException">fileName</exception>
+        public static byte[] GetEmbeddedResourceBytes(this Assembly @this, string fileName, bool throwErrorIfNotFound)
         {
             byte[] resourceBytes = null;
 
-            if (!string.IsNullOrWhiteSpace(filename))
+            if (!string.IsNullOrWhiteSpace(fileName))
             {
-                var resourceName = GetResourceName(@this, filename);
+                var resourceName = GetFullResourcePathForFileName(@this, fileName);
 
                 if (resourceName == null)
                 {
                     if (throwErrorIfNotFound)
                     {
-                        throw new InvalidOperationException("The specified resource was not found!");
+                        throw new InvalidOperationException(Goldenacre_Resources.SpecifiedResourceNotFound);
                     }
                     return null;
                 }
@@ -117,7 +161,7 @@ namespace Goldenacre.Extensions
             }
             else if (throwErrorIfNotFound)
             {
-                throw new ArgumentException("The specified filename was not valid!");
+                throw new ArgumentException(Goldenacre_Resources.ArgumentIsNotValid, "fileName");
             }
 
             return resourceBytes;
@@ -187,26 +231,12 @@ namespace Goldenacre.Extensions
     {
         public static MemoryStream ToMemoryStream(this byte[] @this)
         {
-            if (@this == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             return new MemoryStream(@this) { Position = 0 };
         }
 
-        public static T[] ForEachAssign<T>(this T[] @this, Func<int, T, T> func)
+        public static T[] Map<T>(this T[] @this, Func<int, T, T> func)
         {
-            if (@this == null)
-            {
-                throw new ArgumentNullException();
-            }
-            if (func == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            for (var i = 0; i < @this.Length; i++)
+		    for (var i = 0; i < @this.Length; i++)
             {
                 @this[i] = func(i, @this[i]);
             }
@@ -214,17 +244,8 @@ namespace Goldenacre.Extensions
             return @this;
         }
 
-        public static T[] ForEachAssign<T>(this T[] @this, Func<T, T> func)
+        public static T[] Map<T>(this T[] @this, Func<T, T> func)
         {
-            if (@this == null)
-            {
-                throw new ArgumentNullException();
-            }
-            if (func == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             for (var i = 0; i < @this.Length; i++)
             {
                 @this[i] = func(@this[i]);
@@ -410,11 +431,11 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "@this");
             }
             if (action == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "action");
             }
 
             foreach (var element in @this)
@@ -427,11 +448,11 @@ namespace Goldenacre.Extensions
         {
             if (source == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "source");
             }
             if (action == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "action");
             }
 
             var index = 0;
@@ -491,19 +512,19 @@ namespace Goldenacre.Extensions
 
             if (!string.IsNullOrWhiteSpace(@this.StackTrace))
             {
-                msg.AppendLine("");
+                msg.AppendLine(string.Empty);
                 msg.AppendLine(@this.StackTrace.Trim());
             }
 
             if (@this.TargetSite != null)
             {
-                msg.AppendLine("");
+                msg.AppendLine(string.Empty);
                 if (@this.TargetSite.DeclaringType != null)
                 {
                     msg.Append(@this.TargetSite.DeclaringType.FullName);
                 }
                 msg.Append(@this.TargetSite.Name);
-                msg.AppendLine("");
+                msg.AppendLine(string.Empty);
             }
             return msg.ToString().Trim();
         }
@@ -515,16 +536,6 @@ namespace Goldenacre.Extensions
 
     public static class ObjectExtensions
     {
-        public static string ToUpperInvariant<T>(this T @this) where T : class
-        {
-            return @this.ToString().ToUpperInvariant();
-        }
-
-        public static string ToLowerInvariant<T>(this T @this) where T : class
-        {
-            return @this.ToString().ToLowerInvariant();
-        }
-
         public static T EnsureBetween<T>(this T @this, T min, T max) where T : IComparable<T>
         {
             if (@this.CompareTo(min) < 0)
@@ -562,7 +573,8 @@ namespace Goldenacre.Extensions
 
             if (!string.IsNullOrWhiteSpace(s))
             {
-                return s.EqualsAnyCI("true", "1", "y", "yes", "ok", "+");
+                return s.EqualsAnyCI(
+                    Goldenacre_Resources.TruthyStrings.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
             }
 
             return false;
@@ -573,7 +585,7 @@ namespace Goldenacre.Extensions
             return (Convert.ToUInt32(@this) & Convert.ToUInt32(matchTo)) != 0;
         }
 
-        public static T DeepClone<T>(this T @this) where T : ISerializable
+        public static T SerializedClone<T>(this T @this) where T : ISerializable
         {
             using (var stream = new MemoryStream())
             {
@@ -608,8 +620,8 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        ///     Calls DateTime.SpecifyKind on all DateTime or DateTime? properties and changed to UTC.
-        ///     This is useful after an object has been materialozed.
+        ///     Calls DateTime.SpecifyKind on all DateTime or DateTime? properties and changes to UTC.
+        ///     This is useful after an object has been materialized from the database.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
@@ -729,55 +741,37 @@ namespace Goldenacre.Extensions
         // ReSharper disable once InconsistentNaming
         public static bool EqualsAnyCS(this string @this, params string[] input)
         {
-            return input.Any(s => s.Equals(@this, StringComparison.CurrentCulture));
+            return input.Any(s => s.Equals(@this, StringComparison.Ordinal));
         }
 
         // ReSharper disable once InconsistentNaming
         public static bool EqualsAnyCS(this string @this, IEnumerable<string> input)
         {
-            return input.Any(s => s.Equals(@this, StringComparison.CurrentCulture));
+            return input.Any(s => s.Equals(@this, StringComparison.Ordinal));
         }
 
         // ReSharper disable once InconsistentNaming
         public static bool EqualsAnyCI(this string @this, params string[] input)
         {
-            return input.Any(s => s.Equals(@this, StringComparison.InvariantCultureIgnoreCase));
+            return input.Any(s => s.Equals(@this, StringComparison.OrdinalIgnoreCase));
         }
 
         // ReSharper disable once InconsistentNaming
         public static bool EqualsCI(this string @this, IEnumerable<string> input)
         {
-            return input.Any(s => s.Equals(@this, StringComparison.InvariantCultureIgnoreCase));
+            return input.Any(s => s.Equals(@this, StringComparison.OrdinalIgnoreCase));
         }
 
         // ReSharper disable once InconsistentNaming
         public static bool EqualsCI(this string @this, string value2)
         {
-            return @this.Equals(value2, StringComparison.InvariantCultureIgnoreCase);
+            return @this.Equals(value2, StringComparison.OrdinalIgnoreCase);
         }
 
         // ReSharper disable once InconsistentNaming
         public static bool EqualsCS(this string @this, string value2)
         {
-            return @this.Equals(value2, StringComparison.CurrentCulture);
-        }
-
-        public static string TrimToLowerInvariantIfNotNull(this string @this)
-        {
-            if (!string.IsNullOrEmpty(@this))
-            {
-                return @this.Trim().ToLowerInvariant();
-            }
-            return @this;
-        }
-
-        public static string TrimIfNotNull(this string @this)
-        {
-            if (!string.IsNullOrEmpty(@this))
-            {
-                return @this.Trim();
-            }
-            return @this;
+            return @this.Equals(value2, StringComparison.Ordinal);
         }
 
         public static bool ContainsAll(this string @this, params string[] values)
@@ -859,7 +853,7 @@ namespace Goldenacre.Extensions
         {
             if (string.IsNullOrWhiteSpace(@this))
             {
-                throw new ArgumentNullException();
+                throw new ArgumentException(Goldenacre_Resources.StringArgumentCannotBeNullOrEmpty, "@this");
             }
 
             @this = @this.Trim();
@@ -868,15 +862,10 @@ namespace Goldenacre.Extensions
 
             if (!t.IsEnum)
             {
-                throw new ArgumentException("Not an enum value!");
+                throw new ArgumentException(Goldenacre_Resources.SpecifiedArgumentIsNotAnEnum);
             }
 
             return (T)Enum.Parse(t, @this, ignorecase);
-        }
-
-        public static string F(this string @this, params object[] args)
-        {
-            return string.Format(@this, args);
         }
 
         public static int NthIndexOf(this string @this, string match, int occurrence)
@@ -901,7 +890,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "@this");
             }
 
             @this = @this.Replace("\t", string.Empty);
@@ -918,7 +907,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "@this");
             }
 
             @this = @this.Replace("\t", SingleSpace).Trim();
@@ -1047,9 +1036,8 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "@this");
             }
-
             var md5Hasher = new MD5CryptoServiceProvider();
             var hashedDataBytes = md5Hasher.ComputeHash(Encoding.Default.GetBytes(@this));
 
@@ -1060,7 +1048,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "@this");
             }
 
             byte[] salt;
@@ -1083,7 +1071,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "@this");
             }
 
             if (appendEllipsis)
@@ -1099,7 +1087,7 @@ namespace Goldenacre.Extensions
         {
             if (@this == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, "@this");
             }
 
             return @this.Select(Convert.ToByte).ToArray();

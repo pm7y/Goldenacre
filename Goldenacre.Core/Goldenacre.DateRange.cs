@@ -2,57 +2,67 @@
 {
     using System;
 
-    public interface IDateRange
-    {
-        DateTime FromUtc { get; }
-
-        DateTime ToUtc { get; }
-
-        bool Intersects(DateRange range);
-
-        bool Contains(DateRange range);
-    }
-
     /// <summary>
-    ///     A simple DateRange class representing a from and to date in UTC.
+    ///     A simple DateRange class representing a from and to date range in UTC.
     /// </summary>
-    public struct DateRange : IDateRange
+    public struct DateRange : IEquatable<DateRange>
     {
         /// <summary>
-        ///     The start of the date range.
+        /// The start of the date range as a UTC DateTime.
         /// </summary>
         public DateTime FromUtc { get; private set; }
 
         /// <summary>
-        ///     The end of the date range
+        /// The end of the date range as a UTC DateTime.
         /// </summary>
         public DateTime ToUtc { get; private set; }
 
         /// <summary>
-        ///     Create a new instance of the DateRange object.
+        /// The start of the date range as a local DateTime.
         /// </summary>
-        /// <param name="fromUtc"></param>
-        /// <param name="toUtc"></param>
+        public DateTime FromLocal => this.FromUtc.ToLocalTime();
+
+        /// <summary>
+        /// The end of the date range as a local DateTime.
+        /// </summary>
+        public DateTime ToLocal => this.ToUtc.ToLocalTime();
+
+        /// <summary>
+        /// Create a new instance of the DateRange object.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
         /// <returns></returns>
-        public static DateRange New(DateTime fromUtc, DateTime toUtc)
+        /// <exception cref="System.ArgumentException">
+        /// </exception>
+        /// <exception cref="ArgumentException">DateTimeKind.Unspecified is not supported.;from
+        /// or
+        /// DateTimeKind.Unspecified is not supported.;to
+        /// or
+        /// The from date must not be before the to date.</exception>
+        public static DateRange New(DateTime from, DateTime to)
         {
-            if (fromUtc.Kind != DateTimeKind.Utc)
+            if (from.Kind == DateTimeKind.Unspecified || to.Kind == DateTimeKind.Unspecified)
             {
-                throw new ArgumentException("The from date should be specified as UTC.");
-            }
-            if (toUtc.Kind != DateTimeKind.Utc)
-            {
-                throw new ArgumentException("The to date should be specified as UTC.");
-            }
-            if (fromUtc.CompareTo(toUtc) == 1)
-            {
-                throw new ArgumentException("The from date must not be before the to date.");
+                throw new ArgumentException(Goldenacre_Resources.DateTimeKindUnspecifiedIsNotSupported);
             }
 
-            return new DateRange { FromUtc = fromUtc, ToUtc = toUtc };
+            if (from.CompareTo(to) == 1)
+            {
+                throw new ArgumentException(Goldenacre_Resources.FromDateMustNotBeBeforeToDate);
+            }
+
+            return new DateRange { FromUtc = from.ToUniversalTime(), ToUtc = to.ToUniversalTime() };
         }
 
-        private bool IsBetween(DateTime dateTime, DateTime from, DateTime to)
+        /// <summary>
+        /// Determines whether the specified date time is between start and end specified.
+        /// </summary>
+        /// <param name="dateTime">The date time.</param>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
+        /// <returns></returns>
+        private static bool IsBetween(DateTime dateTime, DateTime from, DateTime to)
         {
             return dateTime.CompareTo(from) >= 0 && dateTime.CompareTo(to) <= 0;
         }
@@ -67,7 +77,7 @@
             // There are 3 ways ranges can intersect:
             // 1:     =====
             //     =====
-            if (this.IsBetween(range.FromUtc, this.FromUtc, this.ToUtc))
+            if (IsBetween(range.FromUtc, this.FromUtc, this.ToUtc))
             {
                 return true;
             }
@@ -75,7 +85,7 @@
             //
             // 2:  =====
             //        =====
-            if (this.IsBetween(range.ToUtc, this.FromUtc, this.ToUtc))
+            if (IsBetween(range.ToUtc, this.FromUtc, this.ToUtc))
             {
                 return true;
             }
@@ -109,6 +119,72 @@
 
             // otherwise it doesn't contain
             return false;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return this.FromUtc.GetHashCode() + this.ToUtc.GetHashCode();
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+        /// </returns>
+        public bool Equals(DateRange other)
+        {
+            return this.FromUtc.CompareTo(other.FromUtc) == 0 && this.ToUtc.CompareTo(other.ToUtc) == 0;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is DateRange))
+            {
+                return false;
+            }
+
+            return this.Equals((DateRange)obj);
+        }
+
+        /// <summary>
+        /// Implements the operator ==.
+        /// </summary>
+        /// <param name="dateRange1">The date range1.</param>
+        /// <param name="dateRange2">The date range2.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator ==(DateRange dateRange1, DateRange dateRange2)
+        {
+            return dateRange1.Equals(dateRange2);
+        }
+
+        /// <summary>
+        /// Implements the operator !=.
+        /// </summary>
+        /// <param name="dateRange1">The date range1.</param>
+        /// <param name="dateRange2">The date range2.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator !=(DateRange dateRange1, DateRange dateRange2)
+        {
+            return !dateRange1.Equals(dateRange2);
         }
     }
 }

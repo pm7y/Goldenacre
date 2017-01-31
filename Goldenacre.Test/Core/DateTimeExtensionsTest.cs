@@ -192,8 +192,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Test_daterange_does_except_local_fromDate()
+        public void Test_daterange_excepts_local_fromDate()
         {
             var fromLocal = DateTime.Now.AddDays(-1);
 
@@ -201,8 +200,7 @@ namespace Goldenacre.Test.Core
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Test_daterange_does_except_local_toDate()
+        public void Test_daterange_excepts_local_toDate()
         {
             var toLocal = DateTime.Now.AddDays(1);
 

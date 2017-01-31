@@ -12,7 +12,7 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_ping()
         {
-            var ms = Network.Ping("google.com", 80, 5);
+            var ms = Network.Ping("www.jings.io", 80, 5000);
 
             Assert.IsTrue(ms >= 0);
         }

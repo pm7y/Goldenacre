@@ -12,26 +12,6 @@ namespace Goldenacre.Test.Core
     public class ObjectExtensionsTest
     {
         [TestMethod]
-        public void Test_Object_ToUpperInvariant_when_valid()
-        {
-            object x = "x";
-
-            var xs = x.ToUpperInvariant();
-
-            Assert.AreEqual("X", xs);
-        }
-
-        [TestMethod]
-        public void Test_Object_ToLowerInvariant_when_valid()
-        {
-            object y = "Y";
-
-            var ys = y.ToLowerInvariant();
-
-            Assert.AreEqual("y", ys);
-        }
-
-        [TestMethod]
         public void Test_EnsureBetween_when_valid()
         {
             var min = 1;

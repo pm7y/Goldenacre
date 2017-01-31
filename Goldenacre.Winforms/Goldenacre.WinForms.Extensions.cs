@@ -43,7 +43,7 @@ namespace Goldenacre.Extensions
         }
 
         /// <summary>
-        ///     Get all the parent control of the specific control.
+        ///     Get all the parent controls of the specific control.
         /// </summary>
         /// <param name="@this">The specified control to return the parents of.</param>
         public static IEnumerable<Control> ParentHierarchy(this Control @this)

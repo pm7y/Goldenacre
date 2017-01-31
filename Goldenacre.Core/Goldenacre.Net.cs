@@ -13,9 +13,10 @@
         /// </summary>
         /// <param name="host">The url or ip to check.</param>
         /// <param name="port">The port to connect to.</param>
-        /// <param name="timeoutInSeconds">Give up if no response after this many seconds.</param>
+        /// <param name="timeoutInMilliseconds">Give up if no response after this many seconds.</param>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
-        public static long Ping(string host, int port = 80, int timeoutInSeconds = 15)
+        public static long Ping(string host, int port, int timeoutInMilliseconds)
         {
             var start = DateTime.UtcNow;
             long duration = -1;
@@ -28,7 +29,7 @@
 
                     using (var wait = result.AsyncWaitHandle)
                     {
-                        if (!wait.WaitOne((int)TimeSpan.FromSeconds(timeoutInSeconds).TotalMilliseconds, false))
+                        if (!wait.WaitOne((int)TimeSpan.FromMilliseconds(timeoutInMilliseconds).TotalMilliseconds, false))
                         {
                             tcp.Close();
                         }

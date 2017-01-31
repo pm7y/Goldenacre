@@ -20,9 +20,13 @@ namespace Goldenacre.Core
     public interface IRepository<TDomainObject, in TPrimaryKey>
         where TDomainObject : class where TPrimaryKey : struct
     {
-        IQueryable<TDomainObject> Get(Expression<Func<TDomainObject, bool>> filter = null);
+        IQueryable<TDomainObject> GetItems();
 
-        TDomainObject GetOne(TPrimaryKey key);
+        IQueryable<TDomainObject> GetItems(Expression<Func<TDomainObject, bool>> filter);
+
+        TDomainObject GetItem(TPrimaryKey key);
+
+        TDomainObject GetItem(Expression<Func<TDomainObject, bool>> filter);
 
         void Insert(TDomainObject entity);
 
