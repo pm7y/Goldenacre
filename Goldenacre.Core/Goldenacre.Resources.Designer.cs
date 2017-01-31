@@ -178,7 +178,7 @@ namespace Goldenacre.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to true,1,y,tes,ok,+.
+        ///   Looks up a localized string similar to true,1,y,yes,ok,+.
         /// </summary>
         internal static string TruthyStrings {
             get {

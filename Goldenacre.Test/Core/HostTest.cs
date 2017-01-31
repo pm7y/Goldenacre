@@ -10,6 +10,7 @@ namespace Goldenacre.Test.Core
     public class HostTest
     {
         [TestMethod]
+        [Ignore]
         public void Test_CurrentUserIsAdmin()
         {
             var result = Host.CurrentUserIsAdmin();
