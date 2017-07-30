@@ -3,67 +3,70 @@
 namespace Goldenacre.Core
 {
     using System;
-    using System.Globalization;
 
     public static class GuardAgainst
     {
-		/// <summary>
-		/// Determines whether [is in range] [the specified item].
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="item">The item.</param>
-		/// <param name="from">From.</param>
-		/// <param name="to">To.</param>
-		/// <returns>
-		///   <c>true</c> if [is in range] [the specified item]; otherwise, <c>false</c>.
-		/// </returns>
-		private static bool IsInRange<T>(T item, T from, T to) where T : IComparable<T>
+        public static void ArgumentNull<T>(T argument, string argumentName) where T : class
+        {
+            if (argument == null)
+            {
+                throw new ArgumentNullException(argumentName);
+            }
+        }
+
+        public static void ArgumentLessThanMinimum<T>(T argument, T minimum, string argumentName = null) where T : IComparable<T>
+        {
+            if (argument.IsLessThan(minimum))
+            {
+                throw new ArgumentOutOfRangeException(argumentName);
+            }
+        }
+
+        public static void ArgumentMoreThanMaximum<T>(T argument, T maximum, string argumentName = null) where T : IComparable<T>
+        {
+            if (argument.IsMoreThan(maximum))
+            {
+                throw new ArgumentOutOfRangeException(argumentName);
+            }
+        }
+
+        public static void ArgumentOutOfRange<T>(T argument, T minimum, T maximum, string argumentName = null) where T : IComparable<T>
+        {
+            if (!argument.IsInRange(minimum, maximum))
+            {
+                throw new ArgumentOutOfRangeException(argumentName);
+            }
+        }
+
+        public static void ArgumentInvalid(bool invalid, string argumentName = null)
+        {
+            if (invalid)
+            {
+                throw new ArgumentException(default(string), argumentName);
+            }
+        }
+
+        public static void ArgumentInvalid<T>(Func<bool> invalid, string argumentName = null)
+        {
+            if (invalid())
+            {
+                throw new ArgumentException(default(string), argumentName);
+            }
+        }
+
+        private static bool IsInRange<T>(this T item, T from, T to) where T : IComparable<T>
         {
             return item.CompareTo(from) >= 0 && item.CompareTo(to) <= 0;
         }
 
-		public static void ArgumentBeingNull<T>(T argument, string argumentName = null) where T : class
+        private static bool IsLessThan<T>(this T item, T value) where T : IComparable<T>
         {
-            if (argument == null)
-            {
-                if (string.IsNullOrWhiteSpace(argumentName))
-                {
-                    throw new ArgumentNullException(Goldenacre_Resources.SpecifiedArgumentCannotBeNull);
-                }
-
-                throw new ArgumentNullException(string.Format(CultureInfo.CurrentUICulture, Goldenacre_Resources.ArgumentCannotBeNull, argumentName));
-            }
+            return item.CompareTo(value) < 0;
         }
 
-        public static void ArgumentBeingOutOfRange<T>(T argument, T min, T max, string argumentName = null) where T : IComparable<T>
+        private static bool IsMoreThan<T>(this T item, T value) where T : IComparable<T>
         {
-            if (!IsInRange(argument, min, max))
-            {
-                if (string.IsNullOrWhiteSpace(argumentName))
-                {
-                    throw new ArgumentOutOfRangeException(Goldenacre_Resources.SpecifiedArgumentIsNotWithinTheAllowedRange);
-                }
-
-                throw new ArgumentOutOfRangeException(string.Format(CultureInfo.CurrentUICulture, Goldenacre_Resources.ArgumentIsNotWithinTheAllowedRange, argumentName));
-            }
-        }
-
-        public static void ArgumentBeingInvalid<T>(T argument, Func<T, bool> isValid, string argumentName = null) where T : IComparable<T>
-        {
-            if (isValid == null)
-            {
-                throw new ArgumentNullException(Goldenacre_Resources.ArgumentCannotBeNull, nameof(isValid));
-            }
-
-            if (!isValid(argument))
-            {
-                if (string.IsNullOrWhiteSpace(argumentName))
-                {
-                    throw new ArgumentException(Goldenacre_Resources.SpecifiedArgumentIsNotValid);
-                }
-
-                throw new ArgumentException(string.Format(CultureInfo.CurrentUICulture, Goldenacre_Resources.ArgumentIsNotValid, argumentName));
-            }
+            return item.CompareTo(value) > 0;
         }
     }
 }

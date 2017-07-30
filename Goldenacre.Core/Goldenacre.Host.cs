@@ -22,7 +22,7 @@
         {
             var currentIdentity = WindowsIdentity.GetCurrent();
 
-            if (currentIdentity == null || currentIdentity.IsAnonymous || currentIdentity.IsGuest || !currentIdentity.IsAuthenticated)
+            if (currentIdentity.IsAnonymous || currentIdentity.IsGuest || !currentIdentity.IsAuthenticated)
             {
                 return false;
             }

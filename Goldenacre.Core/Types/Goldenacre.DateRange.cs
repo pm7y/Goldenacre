@@ -44,12 +44,12 @@
         {
             if (from.Kind == DateTimeKind.Unspecified || to.Kind == DateTimeKind.Unspecified)
             {
-                throw new ArgumentException(Goldenacre_Resources.DateTimeKindUnspecifiedIsNotSupported);
+                throw new ArgumentException("DateTimeKind.Unspecified is not supported.");
             }
 
             if (from.CompareTo(to) == 1)
             {
-                throw new ArgumentException(Goldenacre_Resources.FromDateMustNotBeBeforeToDate);
+                throw new ArgumentException("The from date must not be before the to date.");
             }
 
             return new DateRange { FromUtc = from.ToUniversalTime(), ToUtc = to.ToUniversalTime() };

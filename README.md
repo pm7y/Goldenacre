@@ -1,5 +1,5 @@
 # Goldenacre
-A library of useful stuff, mostly extension methods, that you find yourself writing over and over again.
+My library of useful stuff, mostly extension methods, that I find myself writing over and over again.
 
 There are two projects:
 - The Core library, which only references the System dll.
