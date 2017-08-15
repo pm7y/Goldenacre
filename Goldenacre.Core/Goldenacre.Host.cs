@@ -3,7 +3,6 @@
     using System;
     using System.Runtime.InteropServices;
     using System.Security.Principal;
-
     using Microsoft.Win32;
 
     public static class Host
@@ -41,7 +40,8 @@
 
                 if (!string.IsNullOrWhiteSpace(productName))
                 {
-                    return (productName.StartsWith("Microsoft") ? string.Empty : "Microsoft ") + productName + (csdVersion != string.Empty ? " " + csdVersion : string.Empty);
+                    return (productName.StartsWith("Microsoft") ? string.Empty : "Microsoft ") + productName +
+                           (csdVersion != string.Empty ? " " + csdVersion : string.Empty);
                 }
             }
             return string.Empty;

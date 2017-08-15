@@ -5,7 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using Goldenacre.Core;
 
     public static class AssemblyExtensions
     {
@@ -22,19 +21,20 @@
             resourceFileName = resourceFileName.Trim().ToUpperInvariant();
 
             var resourceNames = @this.GetManifestResourceNames();
-            
-            var resourceName = resourceNames.FirstOrDefault(n => n.ToUpperInvariant().EndsWith(string.Concat(".", resourceFileName.ToUpperInvariant()), StringComparison.OrdinalIgnoreCase));
+
+            var resourceName = resourceNames.FirstOrDefault(n => n.ToUpperInvariant()
+                .EndsWith(string.Concat(".", resourceFileName.ToUpperInvariant()), StringComparison.OrdinalIgnoreCase));
 
             return resourceName;
         }
 
         /// <summary>
-        /// Gets the text from the specified assembly resource resourceFileName.
+        ///     Gets the text from the specified assembly resource resourceFileName.
         /// </summary>
         /// <param name="this">The assembly to retrieve the resource from.</param>
         /// <param name="fileName">The resourceFileName of the resource.</param>
         /// <returns>
-        /// The text contents of the resource file.
+        ///     The text contents of the resource file.
         /// </returns>
         public static string GetEmbeddedResourceText(this Assembly @this, string fileName)
         {
@@ -42,13 +42,13 @@
         }
 
         /// <summary>
-        /// Gets the text from the specified assembly resource resourceFileName.
+        ///     Gets the text from the specified assembly resource resourceFileName.
         /// </summary>
         /// <param name="this">The assembly to retrieve the resource from.</param>
         /// <param name="fileName">The resourceFileName of the resource.</param>
         /// <param name="throwErrorIfNotFound">if set to <c>true</c> [throw error if not found].</param>
         /// <returns>
-        /// The text contents of the resource file.
+        ///     The text contents of the resource file.
         /// </returns>
         /// <exception cref="System.InvalidOperationException"></exception>
         /// <exception cref="System.ArgumentException">fileName</exception>
@@ -90,7 +90,7 @@
         }
 
         /// <summary>
-        /// Gets the embedded resource bytes.
+        ///     Gets the embedded resource bytes.
         /// </summary>
         /// <param name="this">The assembly.</param>
         /// <param name="fileName">Name of the file.</param>
@@ -103,7 +103,7 @@
         }
 
         /// <summary>
-        /// Gets the embedded resource bytes.
+        ///     Gets the embedded resource bytes.
         /// </summary>
         /// <param name="this">The assembly.</param>
         /// <param name="fileName">Name of the file.</param>

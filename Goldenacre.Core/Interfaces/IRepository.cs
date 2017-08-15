@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-
-namespace Goldenacre.Core
+﻿namespace Goldenacre.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+
     /// <summary>
     ///     A repository pattern interface which includes key.
     /// </summary>
     /// <typeparam name="TDomainObject"></typeparam>
     /// <typeparam name="TPrimaryKey"></typeparam>
     public interface IRepository<TDomainObject, in TPrimaryKey>
-        where TDomainObject : class 
+        where TDomainObject : class
         where TPrimaryKey : struct
     {
         IQueryable<TDomainObject> GetItems();

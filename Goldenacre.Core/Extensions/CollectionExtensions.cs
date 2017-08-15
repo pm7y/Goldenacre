@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace Goldenacre.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class CollectionExtensions
     {
         public static ICollection<T> AddIfNotContains<T>(this ICollection<T> @this, T item)

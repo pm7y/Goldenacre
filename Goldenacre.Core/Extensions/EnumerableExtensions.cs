@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Goldenacre.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class EnumerableExtensions
     {
         public static bool IsFirstElement<T>(this IEnumerable<T> @this, T element) where T : class
@@ -20,7 +20,8 @@ namespace Goldenacre.Extensions
             return last != null && last.Equals(element);
         }
 
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> @this, Func<TSource, TKey> keySelector)
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> @this,
+            Func<TSource, TKey> keySelector)
         {
             var seenKeys = new HashSet<TKey>();
             return @this.Where(element => seenKeys.Add(keySelector(element)));

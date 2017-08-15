@@ -1,8 +1,8 @@
-using System;
-using System.Text;
-
 namespace Goldenacre.Extensions
 {
+    using System;
+    using System.Text;
+
     public static class StringBuilderExtensions
     {
         public static StringBuilder AppendIfNotNullOrWhiteSpace(this StringBuilder @this, string text)

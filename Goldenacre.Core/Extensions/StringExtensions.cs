@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
-using Goldenacre.Core;
-
 namespace Goldenacre.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     public static class StringExtensions
     {
         private const string SingleSpace = " ";
@@ -90,13 +89,15 @@ namespace Goldenacre.Extensions
 
             var format =
                 new Regex(
-                    "^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" + "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$");
+                    "^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
+                    "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$");
             var match = format.Match(@this);
 
             return match.Success;
         }
 
-        public static string SubstringToIndexOf(this string @this, string value, StringComparison comparison = StringComparison.CurrentCulture)
+        public static string SubstringToIndexOf(this string @this, string value,
+            StringComparison comparison = StringComparison.CurrentCulture)
         {
             var idx = @this.IndexOf(value, comparison);
 
@@ -155,7 +156,8 @@ namespace Goldenacre.Extensions
             var i = 1;
             var index = 0;
 
-            while (i <= occurrence && (index = @this.IndexOf(match, index + 1, StringComparison.InvariantCultureIgnoreCase)) != -1)
+            while (i <= occurrence && (index =
+                       @this.IndexOf(match, index + 1, StringComparison.InvariantCultureIgnoreCase)) != -1)
             {
                 if (i == occurrence)
                 {
@@ -209,7 +211,8 @@ namespace Goldenacre.Extensions
             for (var i = 0; i < @this.Length - 1; i++)
             {
                 result.Append(@this[i]);
-                if (countSinceLastSpace > 2 && @this[i] != ' ' && @this[i] != '-' && (char.IsUpper(@this[i + 1]) || !char.IsDigit(@this[i]) && char.IsDigit(@this[i + 1])))
+                if (countSinceLastSpace > 2 && @this[i] != ' ' && @this[i] != '-' &&
+                    (char.IsUpper(@this[i + 1]) || !char.IsDigit(@this[i]) && char.IsDigit(@this[i + 1])))
                 {
                     result.Append(' ');
                     countSinceLastSpace = 0;
@@ -274,7 +277,8 @@ namespace Goldenacre.Extensions
                     }
                 }
 
-                strReturn = leftSpace + objSb.ToString().Replace(" The ", " the ").Replace(" And ", " and ").Replace(" A ", " a ").Replace(" To ", " to ").Trim() + rightSpace;
+                strReturn = leftSpace + objSb.ToString().Replace(" The ", " the ").Replace(" And ", " and ")
+                                .Replace(" A ", " a ").Replace(" To ", " to ").Trim() + rightSpace;
             }
 
             return strReturn;

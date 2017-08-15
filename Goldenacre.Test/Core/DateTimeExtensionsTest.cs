@@ -5,10 +5,8 @@ namespace Goldenacre.Test.Core
     using System;
     using System.Globalization;
     using System.Threading;
-
     using Goldenacre.Core;
     using Goldenacre.Extensions;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

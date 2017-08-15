@@ -6,9 +6,7 @@ namespace Goldenacre.Test.Core
     using System.Drawing;
     using System.IO;
     using System.Reflection;
-
     using Goldenacre.Extensions;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

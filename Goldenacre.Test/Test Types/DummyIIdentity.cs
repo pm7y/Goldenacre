@@ -5,28 +5,10 @@ namespace Goldenacre.Test.Test_Types
 
     internal class DummyIIdentity : IIdentity
     {
-        public string AuthenticationType
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string AuthenticationType => throw new NotImplementedException();
 
-        public bool IsAuthenticated
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsAuthenticated => true;
 
-        public string Name
-        {
-            get
-            {
-                return @"BIGCORP\joe.bloggs";
-            }
-        }
+        public string Name => @"BIGCORP\joe.bloggs";
     }
 }

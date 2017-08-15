@@ -3,7 +3,6 @@
 namespace Goldenacre.Test.Core
 {
     using Goldenacre.Extensions;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -26,17 +25,24 @@ namespace Goldenacre.Test.Core
         [TestMethod]
         public void Test_ToPascalCase()
         {
-            Assert.AreEqual("     The Quick Brown Fox Jumped Over the Lazy Dog   ", "     THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG   ".ToPascalCase());
+            Assert.AreEqual("     The Quick Brown Fox Jumped Over the Lazy Dog   ",
+                "     THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG   ".ToPascalCase());
 
-            Assert.AreEqual("     The Quick Brown Fox Jumped Over the (VERY) Lazy Dog   ", "     THE QUICK BROWN FOX JUMPED OVER THE (VERY) LAZY DOG   ".ToPascalCase("VERY"));
+            Assert.AreEqual("     The Quick Brown Fox Jumped Over the (VERY) Lazy Dog   ",
+                "     THE QUICK BROWN FOX JUMPED OVER THE (VERY) LAZY DOG   ".ToPascalCase("VERY"));
 
-            Assert.AreEqual("     The SUPER Quick Brown Fox Jumped Over the EXTREMELY Lazy Dog   ", "     THE SUPER QUICK BROWN FOX JUMPED OVER THE EXTREMELY LAZY DOG   ".ToPascalCase("EXTREMELY", "SUPER"));
+            Assert.AreEqual("     The SUPER Quick Brown Fox Jumped Over the EXTREMELY Lazy Dog   ",
+                "     THE SUPER QUICK BROWN FOX JUMPED OVER THE EXTREMELY LAZY DOG   ".ToPascalCase("EXTREMELY",
+                    "SUPER"));
 
-            Assert.AreEqual("The Quick Brown Fox Jumped Over the Lazy Dog", "THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG".ToPascalCase());
+            Assert.AreEqual("The Quick Brown Fox Jumped Over the Lazy Dog",
+                "THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG".ToPascalCase());
 
-            Assert.AreEqual("The Quick Brown Fox Jumped Over the Lazy Dog", "The Quick Brown Fox Jumped Over the Lazy DOG".ToPascalCase());
+            Assert.AreEqual("The Quick Brown Fox Jumped Over the Lazy Dog",
+                "The Quick Brown Fox Jumped Over the Lazy DOG".ToPascalCase());
 
-            Assert.AreEqual("The Quick Brown Fox Jumped Over the 2nd Lazy Dog", "The Quick Brown Fox Jumped Over the 2ND Lazy DOG".ToPascalCase());
+            Assert.AreEqual("The Quick Brown Fox Jumped Over the 2nd Lazy Dog",
+                "The Quick Brown Fox Jumped Over the 2ND Lazy DOG".ToPascalCase());
 
             Assert.AreEqual("A", "A".ToPascalCase());
         }

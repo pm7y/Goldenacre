@@ -4,9 +4,7 @@ namespace Goldenacre.Test.Core
 {
     using System;
     using System.Text;
-
     using Goldenacre.Extensions;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

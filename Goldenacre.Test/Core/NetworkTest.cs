@@ -3,7 +3,6 @@
 namespace Goldenacre.Test.Core
 {
     using Goldenacre.Core;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

@@ -14,7 +14,8 @@ namespace Goldenacre.Core
             }
         }
 
-        public static void ArgumentLessThanMinimum<T>(T argument, T minimum, string argumentName = null) where T : IComparable<T>
+        public static void ArgumentLessThanMinimum<T>(T argument, T minimum, string argumentName = null)
+            where T : IComparable<T>
         {
             if (argument.IsLessThan(minimum))
             {
@@ -22,7 +23,8 @@ namespace Goldenacre.Core
             }
         }
 
-        public static void ArgumentMoreThanMaximum<T>(T argument, T maximum, string argumentName = null) where T : IComparable<T>
+        public static void ArgumentMoreThanMaximum<T>(T argument, T maximum, string argumentName = null)
+            where T : IComparable<T>
         {
             if (argument.IsMoreThan(maximum))
             {
@@ -30,7 +32,8 @@ namespace Goldenacre.Core
             }
         }
 
-        public static void ArgumentOutOfRange<T>(T argument, T minimum, T maximum, string argumentName = null) where T : IComparable<T>
+        public static void ArgumentOutOfRange<T>(T argument, T minimum, T maximum, string argumentName = null)
+            where T : IComparable<T>
         {
             if (!argument.IsInRange(minimum, maximum))
             {

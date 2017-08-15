@@ -1,8 +1,8 @@
-using System;
-using System.IO;
-
 namespace Goldenacre.Extensions
 {
+    using System;
+    using System.IO;
+
     public static class ArrayExtensions
     {
         public static MemoryStream ToMemoryStream(this byte[] @this)

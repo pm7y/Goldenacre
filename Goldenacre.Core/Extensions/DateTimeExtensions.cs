@@ -1,7 +1,7 @@
-using System;
-
 namespace Goldenacre.Extensions
 {
+    using System;
+
     public static class DateTimeExtensions
     {
         public static readonly DateTime EpochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -105,7 +105,8 @@ namespace Goldenacre.Extensions
         /// <returns>True if DateTime is weekend.</returns>
         public static bool IsWeekend(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            return (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday) || (@this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday);
+            return @this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Saturday ||
+                   @this.EnsureLocal(targetTimeZone).DayOfWeek == DayOfWeek.Sunday;
         }
 
         /// <summary>
@@ -116,7 +117,8 @@ namespace Goldenacre.Extensions
         /// <returns>True if DateTime is weekend.</returns>
         public static bool IsWeekday(this DateTime @this, TimeZoneInfo targetTimeZone = null)
         {
-            return (@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Saturday) && (@this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Sunday);
+            return @this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Saturday &&
+                   @this.EnsureLocal(targetTimeZone).DayOfWeek != DayOfWeek.Sunday;
         }
 
         /// <summary>
@@ -126,7 +128,13 @@ namespace Goldenacre.Extensions
         /// <returns>A DateTime formatted as a culture invariant date string.</returns>
         public static string ToNiceDateString(this DateTime @this)
         {
-            var suff = @this.Day % 10 == 1 && @this.Day != 11 ? "st" : @this.Day % 10 == 2 && @this.Day != 12 ? "nd" : @this.Day % 10 == 3 && @this.Day != 13 ? "rd" : "th";
+            var suff = @this.Day % 10 == 1 && @this.Day != 11
+                ? "st"
+                : @this.Day % 10 == 2 && @this.Day != 12
+                    ? "nd"
+                    : @this.Day % 10 == 3 && @this.Day != 13
+                        ? "rd"
+                        : "th";
 
             return string.Format("{0:ddd d}{1} {0:MMM yyyy}", @this, suff);
         }
@@ -138,7 +146,13 @@ namespace Goldenacre.Extensions
         /// <returns>A DateTime formatted as a culture invariant date string.</returns>
         public static string ToNiceDateTimeString(this DateTime @this)
         {
-            var suff = @this.Day % 10 == 1 && @this.Day != 11 ? "st" : @this.Day % 10 == 2 && @this.Day != 12 ? "nd" : @this.Day % 10 == 3 && @this.Day != 13 ? "rd" : "th";
+            var suff = @this.Day % 10 == 1 && @this.Day != 11
+                ? "st"
+                : @this.Day % 10 == 2 && @this.Day != 12
+                    ? "nd"
+                    : @this.Day % 10 == 3 && @this.Day != 13
+                        ? "rd"
+                        : "th";
 
             return string.Format("{0:ddd d}{1} {0:MMM yyyy} {0:HH:mm}", @this, suff);
         }

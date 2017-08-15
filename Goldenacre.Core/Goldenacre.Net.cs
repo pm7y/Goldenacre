@@ -43,7 +43,8 @@
 
                     using (var wait = result.AsyncWaitHandle)
                     {
-                        if (!wait.WaitOne((int)TimeSpan.FromMilliseconds(timeoutInMilliseconds).TotalMilliseconds, false))
+                        if (!wait.WaitOne((int)TimeSpan.FromMilliseconds(timeoutInMilliseconds).TotalMilliseconds,
+                            false))
                         {
                             tcp.Close();
                         }

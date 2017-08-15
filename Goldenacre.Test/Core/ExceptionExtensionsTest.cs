@@ -3,9 +3,7 @@
 namespace Goldenacre.Test.Core
 {
     using System;
-
     using Goldenacre.Extensions;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

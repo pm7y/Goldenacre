@@ -1,15 +1,14 @@
-using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using Goldenacre.Core;
-
 namespace Goldenacre.Extensions
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Formatters.Binary;
+
     public static class ObjectExtensions
     {
         public static T EnsureBetween<T>(this T @this, T min, T max) where T : IComparable<T>
@@ -49,7 +48,7 @@ namespace Goldenacre.Extensions
 
             if (!string.IsNullOrWhiteSpace(s))
             {
-                return s.EqualsAnyCI("true,1,y,yes,ok,+".Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries));
+                return s.EqualsAnyCI("true", ",", "1", "y", "yes", "ok", "+");
             }
 
             return false;
@@ -101,11 +100,14 @@ namespace Goldenacre.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>
         /// <param name="criteria"></param>
-        public static void ConvertDateTimePropertiesToUtc<T>(this T @this, Expression<Func<PropertyInfo, bool>> criteria = null) where T : class
+        public static void ConvertDateTimePropertiesToUtc<T>(this T @this,
+            Expression<Func<PropertyInfo, bool>> criteria = null) where T : class
         {
             if (@this != null)
             {
-                var properties = @this.GetType().GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance).Where(x => x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?));
+                var properties = @this.GetType()
+                    .GetProperties(BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.Instance)
+                    .Where(x => x.PropertyType == typeof(DateTime) || x.PropertyType == typeof(DateTime?));
 
                 if (criteria != null)
                 {
@@ -114,7 +116,9 @@ namespace Goldenacre.Extensions
 
                 foreach (var property in properties)
                 {
-                    var dt = property.PropertyType == typeof(DateTime?) ? (DateTime?)property.GetValue(@this, null) : (DateTime)property.GetValue(@this, null);
+                    var dt = property.PropertyType == typeof(DateTime?)
+                        ? (DateTime?)property.GetValue(@this, null)
+                        : (DateTime)property.GetValue(@this, null);
 
                     if (dt != null && dt.Value.Kind == DateTimeKind.Unspecified)
                     {
