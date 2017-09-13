@@ -63,5 +63,30 @@ namespace Goldenacre.Extensions
                 index++;
             }
         }
+
+        /// <summary>
+        /// Batches the source IEnumerable with the specified batch size.
+        /// </summary>
+        /// <param name="source">The source Enumerable.</param>
+        /// <param name="batchSize">Size of the batch.</param>
+        public static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> source, int batchSize)
+        {
+            using (var enumerator = source.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    yield return YieldBatchElements(enumerator, batchSize - 1);
+                }
+            }
+        }
+
+        private static IEnumerable<T> YieldBatchElements<T>(IEnumerator<T> source, int batchSize)
+        {
+            yield return source.Current;
+            for (var i = 0; i < batchSize && source.MoveNext(); i++)
+            {
+                yield return source.Current;
+            }
+        }
     }
 }
