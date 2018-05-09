@@ -47,7 +47,6 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
-    <Compile Include="Goldenacre.GuardAgainst.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
